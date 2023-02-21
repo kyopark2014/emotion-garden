@@ -4,33 +4,24 @@ import io
 import os
 import time
 import base64
+from multiprocessing import Process
 
 s3 = boto3.client('s3')
 
 def parse_response(query_response):    
     response_dict = json.loads(query_response)
     return response_dict["generated_images"], response_dict["prompt"]
-    
-def lambda_handler(event, context):
-    print(event)
 
-    # txt = "astronaut on a horse",        
-    txt = event['text']
-    print("text: ", txt)
+urls = []
 
-    endpoint = os.environ.get('endpoint')
-    print("endpoint: ", endpoint)
-
-    mybucket = os.environ.get('bucket')
-    print("bucket: ", mybucket)
-
-    mykey = 'img_'+time.strftime("%Y%m%d-%H%M%S")+'.jpeg'  
+def stable_diffusion(num, txt, mybucket, endpoint):
+    mykey = 'img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(num)+'.jpeg'  
     print('key: ', mykey)
 
     domain = os.environ.get('domain')  
     url = "https://"+domain+'/'+mykey
     print("url: ", url)
-            
+
     payload = {        
         "prompt": txt,
         "width": 768,
@@ -58,8 +49,38 @@ def lambda_handler(event, context):
         buffer = io.BytesIO(img_str) 
 
         s3.upload_fileobj(buffer, mybucket, mykey, ExtraArgs={"ContentType": "image/jpeg"})
-                    
+
+        urls.push(url)
+
+def lambda_handler(event, context):
+    print(event)
+
+    # txt = "astronaut on a horse",        
+    txt = event['text']
+    print("text: ", txt)
+
+    mybucket = os.environ.get('bucket')
+    print("bucket: ", mybucket)
+
+    endpoint = os.environ.get('endpoint')
+    print("endpoint: ", endpoint)
+            
+    start = int(time.time())
+                
+    procs = []    
+    for num in range(1,4): # 3 processes
+        print('num:', num)
+        proc = Process(target=stable_diffusion, args=(num, txt, mybucket, endpoint,))
+        procs.append(proc)
+        proc.start()
+        
+    for proc in procs:
+        proc.join()
+
+    print("***run time(sec) :", int(time.time()) - start)
+
+    statusCode = 200     
     return {
         'statusCode': statusCode,
-        'body': url
+        'body': json.dumps(urls)
     }

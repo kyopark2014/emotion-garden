@@ -59,7 +59,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda')),
-      timeout: cdk.Duration.seconds(60),
+      timeout: cdk.Duration.seconds(120),
       environment: {
         bucket: s3Bucket.bucketName,
         endpoint: endpoint,
