@@ -1,0 +1,49 @@
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Enter your text</title>
+    <script type="application/javascript">
+        function sendFile(file) {
+            const uri = "https://d1kpgkk8y8p43t.cloudfront.net/text2image";
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("POST", uri, true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert(xhr.responseText); // handle response.
+                }
+            };
+
+            var blob = new Blob([text], {type: 'application/json'});
+            xhr.send(blob);
+        }
+
+        window.onload = () => {
+            var form = document.forms.myform;
+            form.elements.button.onclick = function(){
+                var text = form.elements.prompt.text[0];
+                if(text){
+                    sendFile(text);
+
+                    console.log(text);
+                    // previewImg.src = URL.createObjectURL(file)
+                }else{
+                    alert("No prompt.");
+                }
+            };
+        }
+    </script>
+</head>
+<body>
+    <h1>Emotion Garden</h1>
+    <h4>Upload your text for stable diffusion</h4>
+    <div>
+        <form id="myform">
+            <input type="text" name="prompt">
+            <input type="button" name="button" value="Send">
+        </form>
+    </div>
+    <img id="previewImg" width="600" alt="Preview}" />
+    <h4>A stable diffusion image will be generated from your picture and then served in CloudFront.</h4>
+</body>
+</html>
