@@ -3,8 +3,8 @@
   <meta charset="UTF-8">
   <title>Enter your text</title>
     <script type="application/javascript">
-        function sendFile(file) {
-            const uri = "https://d1kpgkk8y8p43t.cloudfront.net/text2image";
+        function sendFile(text) {
+            const uri = "https://luz2fg2x1j.execute-api.ap-northeast-2.amazonaws.com/dev/text2image";
             const xhr = new XMLHttpRequest();
 
             xhr.open("POST", uri, true);
@@ -14,18 +14,22 @@
                 }
             };
 
-            var blob = new Blob([text], {type: 'application/json'});
+            var request = {"text":text}
+            console.log("request: " + JSON.stringify(request));
+
+            var blob = new Blob([request], {type: 'application/json'});
             xhr.send(blob);
         }
 
         window.onload = () => {
             var form = document.forms.myform;
             form.elements.button.onclick = function(){
-                var text = form.elements.prompt.text[0];
+                var text = form.elements.prompt.value;
+                console.log("input: "+text);
+
                 if(text){
                     sendFile(text);
-
-                    console.log(text);
+                    
                     // previewImg.src = URL.createObjectURL(file)
                 }else{
                     alert("No prompt.");
@@ -39,7 +43,7 @@
     <h4>Upload your text for stable diffusion</h4>
     <div>
         <form id="myform">
-            <input type="text" name="prompt">
+            <input type="text" name="prompt" autofocus>
             <input type="button" name="button" value="Send">
         </form>
     </div>

@@ -12,15 +12,8 @@ def parse_response(query_response):
     response_dict = json.loads(query_response)
     return response_dict["generated_images"], response_dict["prompt"]
 
-urls = []
-
-def stable_diffusion(num, txt, mybucket, endpoint):
-    mykey = 'img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(num)+'.jpeg'  
-    print('key: ', mykey)
-
-    domain = os.environ.get('domain')  
-    url = "https://"+domain+'/'+mykey
-    print("url: ", url)
+def stable_diffusion(num, txt, mybucket, fname, endpoint):
+    mykey = fname+'_'+str(num)+'.jpeg'  
 
     payload = {        
         "prompt": txt,
@@ -50,12 +43,9 @@ def stable_diffusion(num, txt, mybucket, endpoint):
 
         s3.upload_fileobj(buffer, mybucket, mykey, ExtraArgs={"ContentType": "image/jpeg"})
 
-        urls.push(url)
-
 def lambda_handler(event, context):
     print(event)
 
-    # txt = "astronaut on a horse",        
     txt = event['text']
     print("text: ", txt)
 
@@ -64,20 +54,28 @@ def lambda_handler(event, context):
 
     endpoint = os.environ.get('endpoint')
     print("endpoint: ", endpoint)
-            
+
+    fname = 'img_'+time.strftime("%Y%m%d-%H%M%S")
+    print('fname: ', fname)
+
+    domain = os.environ.get('domain')  
+                
     start = int(time.time())
                 
     procs = []    
-    for num in range(1,4): # 3 processes
+    urls = []
+    for num in range(1,3): # 2 processes
         print('num:', num)
-        proc = Process(target=stable_diffusion, args=(num, txt, mybucket, endpoint,))
+        proc = Process(target=stable_diffusion, args=(num, txt, mybucket, fname, endpoint,))
+        urls.append("https://"+domain+'/'+fname+'_'+str(num)+'.jpeg')    
         procs.append(proc)
         proc.start()
         
     for proc in procs:
         proc.join()
-
+        
     print("***run time(sec) :", int(time.time()) - start)
+    print("urls: ", urls)
 
     statusCode = 200     
     return {
