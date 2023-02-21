@@ -4,25 +4,36 @@
   <title>Enter your text</title>
     <script type="application/javascript">
         function sendFile(text) {
-            const uri = "https://luz2fg2x1j.execute-api.ap-northeast-2.amazonaws.com/dev/text2image";
+            const uri = "https://d35nzkzf9ys6wm.cloudfront.net/text2image";
             const xhr = new XMLHttpRequest();
 
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    alert(xhr.responseText); // handle response.
+                    //alert(); // handle response.
+
+                    response = JSON.parse(xhr.responseText);
+                    console.log("response: " + response);
+                    result = JSON.parse(response.body);
+                    console.log("result: " + result);
+                    
+
+                    console.log("result1: " + JSON.stringify(result[0]));
+                    console.log("result2: " + JSON.stringify(result[1]));
+
+                    previewImg1.src = result[0];
+                    previewImg2.src = result[1];
+
                 }
             };
 
-            var request = {"text":text}
-            console.log("request: " + JSON.stringify(request));
+            var requestObj = {"text":text}
+            console.log("request: " + JSON.stringify(requestObj));
 
-            var blob = new Blob([request], {type: 'application/json'});
+            var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
 
-            result = xhr.send(blob);
-            console.log("result: " + JSON.stringify(result));
+            xhr.send(blob);            
 
-            return result
         }
 
         window.onload = () => {
@@ -32,10 +43,7 @@
                 console.log("input: "+text);
 
                 if(text){
-                    res = sendFile(text);
-                    console.log("result: " + JSON.stringify(res));
-
-                    // previewImg.src = URL.createObjectURL(file)
+                    sendFile(text);
                 }else{
                     alert("No prompt.");
                 }
@@ -52,7 +60,8 @@
             <input type="button" name="button" value="Send">
         </form>
     </div>
-    <img id="previewImg" width="600" alt="Preview}" />
-    <h4>A stable diffusion image will be generated from your text and then served in CloudFront.</h4>
+    <img id="previewImg1" width="400" alt="Preview}" />
+    <img id="previewImg2" width="400" alt="Preview}" />
+    <h4>stable diffusion images will be generated from your text and then served in CloudFront.</h4>
 </body>
 </html>

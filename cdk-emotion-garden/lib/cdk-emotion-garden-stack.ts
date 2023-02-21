@@ -7,6 +7,9 @@ import * as cloudFront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as apiGateway from 'aws-cdk-lib/aws-apigateway';
+import * as s3Deploy from "aws-cdk-lib/aws-s3-deployment";
+
+const debug = false;
 
 export class CdkEmotionGardenStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -24,17 +27,25 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       publicReadAccess: false,
       versioned: false,
     });
-    new cdk.CfnOutput(this, 'bucketName', {
-      value: s3Bucket.bucketName,
-      description: 'The nmae of bucket',
-    });
-    new cdk.CfnOutput(this, 's3Arn', {
-      value: s3Bucket.bucketArn,
-      description: 'The arn of s3',
-    });
-    new cdk.CfnOutput(this, 's3Path', {
-      value: 's3://'+s3Bucket.bucketName,
-      description: 'The path of s3',
+    if(debug) {
+      new cdk.CfnOutput(this, 'bucketName', {
+        value: s3Bucket.bucketName,
+        description: 'The nmae of bucket',
+      });
+      new cdk.CfnOutput(this, 's3Arn', {
+        value: s3Bucket.bucketArn,
+        description: 'The arn of s3',
+      });
+      new cdk.CfnOutput(this, 's3Path', {
+        value: 's3://'+s3Bucket.bucketName,
+        description: 'The path of s3',
+      });
+    }
+
+    // copy web application files into s3 bucket
+    new s3Deploy.BucketDeployment(this, "upload-HTML-stable-diffusion", {
+      sources: [s3Deploy.Source.asset("../html")],
+      destinationBucket: s3Bucket,
     });
 
     // cloudfront
@@ -105,6 +116,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       endpointTypes: [apiGateway.EndpointType.REGIONAL],
       deployOptions: {
         stageName: stage,
+
+        // logging for debug
+        loggingLevel: apiGateway.MethodLoggingLevel.INFO, 
+        dataTraceEnabled: true,
       },
     });  
 
@@ -128,18 +143,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       ]
     }); 
 
-    // cloudfront setting for api gateway    
-    distribution.addBehavior("/upload", new origins.RestApiOrigin(api), {
-      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
-      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,  
-      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-    });     
-
-    new cdk.CfnOutput(this, 'WebUrl', {
-      value: 'https://'+distribution.domainName+'/text2image.html',
-      description: 'The web url of request for text2image',
-    }); 
-
     new cdk.CfnOutput(this, 'apiUrl-emotion-garden', {
       value: api.url,
       description: 'The url of API Gateway',
@@ -148,5 +151,23 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       value: "curl -X POST "+api.url+'text2image -H "Content-Type: application/json" -d \'{"text":"astronaut on a horse"}\'',
       description: 'Curl commend of API Gateway',
     }); 
+
+    // cloudfront setting for api gateway    
+  /*  distribution.addBehavior("/text2image", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,  
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });     
+
+     */
+    new cdk.CfnOutput(this, 'WebUrl', {
+      value: 'https://'+distribution.domainName+'/text2image.html',
+      description: 'The web url of request for text2image',
+    });
+
+    new cdk.CfnOutput(this, 'UpdateCommend', {
+      value: 'aws s3 cp ../html/text2image.html '+'s3://'+s3Bucket.bucketName,
+      description: 'The url of file upload',
+    });  
   }
 }
