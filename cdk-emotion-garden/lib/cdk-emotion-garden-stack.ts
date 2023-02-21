@@ -16,7 +16,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     const endpoint = "jumpstart-example-infer-model-txt2img-s-2023-02-10-11-24-04-069";
 
     // s3 
-    const s3Bucket = new s3.Bucket(this, "gg-depolyment-storage",{
+    const s3Bucket = new s3.Bucket(this, "emotion-garden-storage",{
       // bucketName: bucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -38,7 +38,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
 
     // cloudfront
-    const distribution = new cloudFront.Distribution(this, 'cloudfront', {
+    const distribution = new cloudFront.Distribution(this, 'cloudfront-emotion-garden', {
       defaultBehavior: {
         origin: new origins.S3Origin(s3Bucket),
         allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
@@ -47,15 +47,15 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       },
       priceClass: cloudFront.PriceClass.PRICE_CLASS_200,  
     });
-    new cdk.CfnOutput(this, 'distributionDomainName', {
+    new cdk.CfnOutput(this, 'distributionDomainName-emotion-garden', {
       value: distribution.domainName,
       description: 'The domain name of the Distribution',
     }); 
 
     // Lambda for stable diffusion 
-    const mlLambda = new lambda.Function(this, 'lambda-stable-diffusion', {
+    const mlLambda = new lambda.Function(this, 'lambda-emotion-garden', {
       description: 'lambda for stable diffusion',
-      functionName: 'lambda-stable-diffusion',
+      functionName: 'lambda-emotion-garden',
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda')),
@@ -87,8 +87,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     mlLambda.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
     
     // role
-    const role = new iam.Role(this, "api-role", {
-      roleName: "ApiRole",
+    const role = new iam.Role(this, "api-role-emotion-garden", {
+      roleName: "api-role-emotion-garden",
       assumedBy: new iam.ServicePrincipal("apigateway.amazonaws.com")
     });
     role.addToPolicy(new iam.PolicyStatement({
@@ -100,8 +100,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     }); 
     
     // API Gateway
-    const api = new apiGateway.RestApi(this, 'api-stable-diffusion', {
-      description: 'API Gateway',
+    const api = new apiGateway.RestApi(this, 'api-emotion-garden', {
+      description: 'API Gateway for emotion garden',
       endpointTypes: [apiGateway.EndpointType.REGIONAL],
       deployOptions: {
         stageName: stage,
@@ -127,11 +127,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         }
       ]
     }); 
-    new cdk.CfnOutput(this, 'apiUrl', {
+    new cdk.CfnOutput(this, 'apiUrl-emotion-garden', {
       value: api.url,
       description: 'The url of API Gateway',
     }); 
-    new cdk.CfnOutput(this, 'curlUrl', {
+    new cdk.CfnOutput(this, 'curlUr-emotion-gardenl', {
       value: "curl -X POST "+api.url+'text2image -H "Content-Type: application/json" -d \'{"text":"astronaut on a horse"}\'',
       description: 'Curl commend of API Gateway',
     }); 
