@@ -18,7 +18,11 @@
             console.log("request: " + JSON.stringify(request));
 
             var blob = new Blob([request], {type: 'application/json'});
-            xhr.send(blob);
+
+            result = xhr.send(blob);
+            console.log("result: " + JSON.stringify(result));
+
+            return result
         }
 
         window.onload = () => {
@@ -28,8 +32,9 @@
                 console.log("input: "+text);
 
                 if(text){
-                    sendFile(text);
-                    
+                    res = sendFile(text);
+                    console.log("result: " + JSON.stringify(res));
+
                     // previewImg.src = URL.createObjectURL(file)
                 }else{
                     alert("No prompt.");

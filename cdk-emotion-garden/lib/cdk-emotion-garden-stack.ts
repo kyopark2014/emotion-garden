@@ -128,16 +128,17 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       ]
     }); 
 
-    distribution.addBehavior("/text2image", new origins.RestApiOrigin(api), {
+    // cloudfront setting for api gateway    
+    distribution.addBehavior("/upload", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,  
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-    });    
+    });     
 
     new cdk.CfnOutput(this, 'WebUrl', {
       value: 'https://'+distribution.domainName+'/text2image.html',
       description: 'The web url of request for text2image',
-    });
+    }); 
 
     new cdk.CfnOutput(this, 'apiUrl-emotion-garden', {
       value: api.url,
