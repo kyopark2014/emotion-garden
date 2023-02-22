@@ -13,7 +13,9 @@ const debug = false;
 const stage = "dev"; 
 const endpoints = [
   "jumpstart-example-infer-model-txt2img-s-2023-02-22-08-48-06-775",
-  "jumpstart-example-infer-model-txt2img-s-2023-02-10-11-24-04-069"
+  "jumpstart-example-infer-model-txt2img-s-2023-02-10-11-24-04-069",
+  "jumpstart-example-infer-model-txt2img-s-2023-02-22-16-57-45-428",
+  "jumpstart-example-infer-model-txt2img-s-2023-02-22-16-57-45-428",
 ]
 const nproc = 2;
 
