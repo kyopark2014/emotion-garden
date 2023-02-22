@@ -1,5 +1,10 @@
 # Emotion Garden
 
+전체적인 Architecture는 아래와 같습니다. 
+
+<img width="716" alt="image" src="https://user-images.githubusercontent.com/52392004/220714782-1dc0a2e8-de35-4f53-8ebb-9b2a915a749b.png">
+
+
 ## Parallel Processing
 
 ```python
