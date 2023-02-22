@@ -21,8 +21,9 @@ print("urls: ", urls)
 
 a portrait of a korean woman that is a representation of korean culture, buenos aires, fantasy, intricate, highly detailed, digital painting, artstation, concept art, smooth, sharp focus, illustration, art by artgerm and greg rutkowski and alphonse mucha
 
+<img width="816" alt="image" src="https://user-images.githubusercontent.com/52392004/220712066-6f3522db-a62b-400f-a839-611200cdddd4.png">
 
-<img width="825" alt="image" src="https://user-images.githubusercontent.com/52392004/220710074-7054c429-0d71-469b-b295-1702465cdf20.png">
+
 
 
 
