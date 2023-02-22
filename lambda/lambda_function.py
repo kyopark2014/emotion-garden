@@ -14,6 +14,7 @@ def parse_response(query_response):
 
 def stable_diffusion(num, txt, mybucket, fname, endpoint):
     mykey = fname+'_'+str(num)+'.jpeg'  
+    start = int(time.time())
 
     print("endpoint: ", endpoint)
 
@@ -44,7 +45,9 @@ def stable_diffusion(num, txt, mybucket, fname, endpoint):
         buffer = io.BytesIO(img_str) 
 
         s3.upload_fileobj(buffer, mybucket, mykey, ExtraArgs={"ContentType": "image/jpeg"})
-
+        
+        print("---> run time(sec): ", int(time.time()) - start)
+    
 def lambda_handler(event, context):
     print(event)
 
@@ -79,7 +82,7 @@ def lambda_handler(event, context):
     for proc in procs:
         proc.join()
         
-    print("***run time(sec) :", int(time.time()) - start)
+    print("total run time(sec): ", int(time.time()) - start)
     print("urls: ", urls)
 
     statusCode = 200     
