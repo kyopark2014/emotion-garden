@@ -15,6 +15,8 @@ def parse_response(query_response):
 def stable_diffusion(num, txt, mybucket, fname, endpoint):
     mykey = fname+'_'+str(num)+'.jpeg'  
 
+    print("endpoint: ", endpoint)
+
     payload = {        
         "prompt": txt,
         "width": 768,
@@ -46,14 +48,17 @@ def stable_diffusion(num, txt, mybucket, fname, endpoint):
 def lambda_handler(event, context):
     print(event)
 
+    endpoints = json.loads(os.environ.get('endpoints'))
+    print("endpoints: ", endpoints)
+
+    nproc = int(os.environ.get('nproc'))
+    print("nproc: ", nproc)
+
     txt = event['text']
     print("text: ", txt)
 
     mybucket = os.environ.get('bucket')
     print("bucket: ", mybucket)
-
-    endpoint = os.environ.get('endpoint')
-    print("endpoint: ", endpoint)
 
     fname = 'img_'+time.strftime("%Y%m%d-%H%M%S")
     print('fname: ', fname)
@@ -64,9 +69,9 @@ def lambda_handler(event, context):
                 
     procs = []    
     urls = []
-    for num in range(1,3): # 2 processes
+    for num in range(0,nproc): # 2 processes
         print('num:', num)
-        proc = Process(target=stable_diffusion, args=(num, txt, mybucket, fname, endpoint,))
+        proc = Process(target=stable_diffusion, args=(num, txt, mybucket, fname, endpoints[num],))
         urls.append("https://"+domain+'/'+fname+'_'+str(num)+'.jpeg')    
         procs.append(proc)
         proc.start()

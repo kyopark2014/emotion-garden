@@ -10,13 +10,16 @@ import * as apiGateway from 'aws-cdk-lib/aws-apigateway';
 import * as s3Deploy from "aws-cdk-lib/aws-s3-deployment";
 
 const debug = false;
+const stage = "dev"; 
+const endpoints = [
+  "jumpstart-example-infer-model-txt2img-s-2023-02-22-08-48-06-775",
+  "jumpstart-example-infer-model-txt2img-s-2023-02-10-11-24-04-069"
+]
+const nproc = 2;
 
 export class CdkEmotionGardenStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-
-    const stage = "dev"; 
-    const endpoint = "jumpstart-example-infer-model-txt2img-s-2023-02-10-11-24-04-069";
 
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage",{
@@ -58,6 +61,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       },
       priceClass: cloudFront.PriceClass.PRICE_CLASS_200,  
     });
+
     new cdk.CfnOutput(this, 'distributionDomainName-emotion-garden', {
       value: distribution.domainName,
       description: 'The domain name of the Distribution',
@@ -73,8 +77,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(120),
       environment: {
         bucket: s3Bucket.bucketName,
-        endpoint: endpoint,
-        domain: distribution.domainName
+        endpoints: JSON.stringify(endpoints),
+        //domain: distribution.domainName
+        domain: "d1a0soheyg076e.cloudfront.net",
+        nproc: String(nproc)
       }
     });     
 
@@ -88,12 +94,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         statements: [SageMakerPolicy],
       }),
     );
-    // version
-    const version = mlLambda.currentVersion;
-    const alias = new lambda.Alias(this, 'LambdaAlias', {
-      aliasName: stage,
-      version,
-    }); 
     // permission for api Gateway
     mlLambda.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
     
@@ -147,27 +147,26 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       value: api.url,
       description: 'The url of API Gateway',
     }); 
-    new cdk.CfnOutput(this, 'curlUr-emotion-gardenl', {
+    new cdk.CfnOutput(this, 'curlUrl-emotion-gardenl', {
       value: "curl -X POST "+api.url+'text2image -H "Content-Type: application/json" -d \'{"text":"astronaut on a horse"}\'',
       description: 'Curl commend of API Gateway',
     }); 
 
     // cloudfront setting for api gateway    
-  /*  distribution.addBehavior("/text2image", new origins.RestApiOrigin(api), {
+    distribution.addBehavior("/text2image", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,  
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-    });     
+    });    
 
-     */
     new cdk.CfnOutput(this, 'WebUrl', {
-      value: 'https://'+distribution.domainName+'/text2image.html',
+      value: 'https://'+distribution.domainName+'/text2image.html',      
       description: 'The web url of request for text2image',
     });
 
     new cdk.CfnOutput(this, 'UpdateCommend', {
       value: 'aws s3 cp ../html/text2image.html '+'s3://'+s3Bucket.bucketName,
       description: 'The url of file upload',
-    });  
+    });
   }
 }
