@@ -24,10 +24,9 @@ print("urls: ", urls)
 
 #### 사용 예 
 
-a portrait of a korean woman that is a representation of korean culture, buenos aires, fantasy, intricate, highly detailed, digital painting, artstation, concept art, smooth, sharp focus, illustration, art by artgerm and greg rutkowski and alphonse mucha
+ukrainian girl with blue and yellow clothes near big ruined building, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art, 8 k
 
-<img width="816" alt="image" src="https://user-images.githubusercontent.com/52392004/220712066-6f3522db-a62b-400f-a839-611200cdddd4.png">
-
+<img width="820" alt="image" src="https://user-images.githubusercontent.com/52392004/220715225-8aff9878-da15-4034-8cb6-c78d31527e49.png">
 
 
 
