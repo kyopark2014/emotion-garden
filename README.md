@@ -1,12 +1,11 @@
 # Emotion Garden
 
-## Single Processing
-
-1개의 추천이미지를 만듧니다.
-
 ## Parallel Processing
 
-10개의 추천이미지를 만듧니다.
+
+<img width="825" alt="image" src="https://user-images.githubusercontent.com/52392004/220710074-7054c429-0d71-469b-b295-1702465cdf20.png">
+
+
 
 ## Reference
 
