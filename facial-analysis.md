@@ -16,6 +16,21 @@
 
 <img width="426" alt="image" src="https://user-images.githubusercontent.com/52392004/220785305-856f63d1-0553-4a57-bef0-6a28fc078dcc.png">
 
+### 결과로 얻을 수 있는 값들
+
+사진 업로드후에 아래와 같은 응답을 얻을 수 있습니다. 
+
+- AgeRange: "Low": 25, "High": 35
+- Smile: T/F
+- Eyeglasses T/F
+- Sunglasses T/F
+- Gender Male/Female
+- Beard T/F
+- Mustache T/F
+- EyesOpen T/F
+- MouthOpen T/F
+- Emotions: HAPPY, SURPRISED, CALM, ANGRY, FEAR, CONFUSED, DISGUSTED, SAD
+
 ## Request
 
 ```java
