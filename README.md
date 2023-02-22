@@ -35,8 +35,8 @@ ukrainian girl with blue and yellow clothes near big ruined building, concept ar
 
 [[Python] 병렬처리(Multiprocessing)를 통한 연산속도 개선](https://yganalyst.github.io/data_handling/memo_17_parallel/)
 
-[Running On-Demand P instances](https://ap-northeast-1.console.aws.amazon.com/servicequotas/home/services/ec2/quotas/L-417A185B)
+[Running On-Demand P instances](https://ap-northeast-2.console.aws.amazon.com/servicequotas/home/services/ec2/quotas/L-417A185B)
 
-[ml.p3.2xlarge for endpoint usage](https://ap-northeast-1.console.aws.amazon.com/servicequotas/home/services/sagemaker/quotas/L-1623D0BE)
+[ml.p3.2xlarge for endpoint usage](https://ap-northeast-2.console.aws.amazon.com/servicequotas/home/services/sagemaker/quotas/L-1623D0BE)
 
 [AI Art 모델인 Stable Diffusion을 쉽고 편리하게 이용하기](https://github.com/kyopark2014/stable-diffusion-api-server)
