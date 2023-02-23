@@ -4,7 +4,11 @@
 
 ## Facial Analytis
 
-emotion을 분석하는 API는 아래와 같습니다. Contents-Type과 이미지를 넣어서 https post 방식으로 아래 서버에 전달합니다.
+Emotion을 분석하는 API는 아래와 같습니다. 
+
+![image](https://user-images.githubusercontent.com/52392004/220984943-6299c008-b778-408c-b4a6-e975a720f45f.png)
+
+Contents-Type과 이미지를 넣어서 https post 방식으로 아래 서버에 전달합니다.
 
 ```java
 https://d1a0soheyg076e.cloudfront.net/emotion
