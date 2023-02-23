@@ -176,7 +176,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     // Lambda - emotion
     const lambdaEmotion = new lambda.Function(this, "lambdaEmotion", {
       runtime: lambda.Runtime.NODEJS_16_X, 
-      functionName: "lambda-for-emotion",
+      functionName: "lambda-emotion",
       code: lambda.Code.fromAsset("../lambda-emotion"), 
       handler: "index.handler", 
       timeout: cdk.Duration.seconds(10),

@@ -22,13 +22,13 @@ exports.handler = async (event, context) => {
 
     const uuid = uuidv4();
     
-    let filename = 'profile/'+uuid+'.jpeg';
-    console.log('filename = '+filename);
+    const fileName = 'profile/'+uuid+'.jpeg';
+    console.log('fileName = '+fileName);
     
     try {
         const destparams = {
             Bucket: bucketName, 
-            Key: filename,
+            Key: fileName,
             Body: body,
             ContentType: contentType
         };
@@ -43,38 +43,76 @@ exports.handler = async (event, context) => {
     } 
     
     try {
+        console.log('**start emotion detection');
         const rekognition = new aws.Rekognition();
         const rekognitionParams = {
             Image: {
                 S3Object: {
                     Bucket: bucketName,
-                    Name: filename
+                    Name: fileName
                 },
             },
+            Attributes: ['ALL']
         }
         console.log('rekognitionParams = '+JSON.stringify(rekognitionParams))
 
-        let data = await rekognition.detectFaces(rekognitionParams).promise();
-        console.log('data: '+JSON.stringify(data));
+        const data = await rekognition.detectFaces(rekognitionParams).promise();
+        // console.log('data: '+JSON.stringify(data));
 
+        const profile = data['FaceDetails'][0];
 
+        const ageRange = profile['AgeRange'];
+        // console.log('ageRange: '+JSON.stringify(ageRange));
+        const smile = profile['Smile']['Value'];
+        // console.log('smile: ', smile);
+        const eyeglasses = profile['Eyeglasses']['Value'];
+        // console.log('smile: ', smile);
+        const sunglasses = profile['Sunglasses']['Value'];
+        // console.log('sunglasses: ', sunglasses);
+        const gender = profile['Gender']['Value'];
+        // console.log('gender: ', gender);
+        const beard = profile['Beard']['Value'];
+        // console.log('beard: ', beard);
+        const mustache = profile['Mustache']['Value'];
+        // console.log('mustache: ', mustache);
+        const eyesOpen = profile['EyesOpen']['Value'];
+        // console.log('eyesOpen: ', eyesOpen);
+        const mouthOpen = profile['MouthOpen']['Value'];
+        // console.log('mouthOpen: ', mouthOpen);
+        const emotions = profile['Emotions'][0]['Type'];
+        // console.log('emotions: ', emotions);
 
+        console.log('**finish emotion detection');
+        const emotionInfo = {
+            Id: uuid,
+            Bucket: bucketName, 
+            Key: fileName,
+            ageRange: ageRange,
+            smile: smile,
+            eyeglasses: eyeglasses,
+            sunglasses: sunglasses,
+            gender: gender,
+            beard: beard,
+            mustache: mustache,
+            eyesOpen: eyesOpen,
+            mouthOpen: mouthOpen,
+            emotions: emotions
+        }; 
+        console.log('file info: ' + JSON.stringify(emotionInfo));
+        
+        const response = {
+            statusCode: 200,
+            body: JSON.stringify(emotionInfo)
+        };
+        return response;
 
     } catch (error) {
         console.log(error);
-        return error;
-    } 
 
-    const fileInfo = {
-        Id: uuid,
-        Bucket: bucketName, 
-        Key: filename,
-    }; 
-    console.log('file info: ' + JSON.stringify(fileInfo));
-    
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify(fileInfo)
-    };
-    return response;
+        const response = {
+            statusCode: 500,
+            body: error
+        };
+        return response;
+    } 
 };
