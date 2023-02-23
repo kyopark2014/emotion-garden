@@ -1,8 +1,6 @@
 # Emotion Garden
 
-
-
-## Emotion Analytis
+## Emotion 분석
 
 Amazon Rekognition을 이용하여 Emotion을 분석하는 Architecture는 아래와 같습니다. 
 
