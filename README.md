@@ -2,7 +2,7 @@
 
 
 
-## Facial Analytis
+## Emotion Analytis
 
 Emotion을 분석하는 API는 아래와 같습니다. 
 
