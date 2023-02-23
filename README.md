@@ -121,7 +121,43 @@ for proc in procs:
 print("urls: ", urls)
 ```
 
-#### 사용 예 
+### Stable Diffusion 이미지를 생성하는 API
+
+API의 Resouce는 '/text2image'으로 아래와 같이 CloudFront Domain을 활용하여 RESTful API의 POST method로 요청합니다.
+
+```java
+https://d1a0soheyg076e.cloudfront.net/emotion
+```
+
+이것을 구현하기 위한 java script 예제 코드는 아래와 같습니다. response의 'body'에 생성된 이미지의 URL들이 내려옵니다.
+
+```java
+const uri = "https://d1a0soheyg076e.cloudfront.net/text2image";
+const xhr = new XMLHttpRequest();
+
+xhr.open("POST", uri, true);
+xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        response = JSON.parse(xhr.responseText);
+        console.log("response: " + response);
+        result = JSON.parse(response.body);
+        console.log("result: " + result);                    
+
+        console.log("result1: " + JSON.stringify(result[0]));
+        console.log("result2: " + JSON.stringify(result[1]));
+        console.log("result3: " + JSON.stringify(result[2]));
+        console.log("result4: " + JSON.stringify(result[3]));
+    }
+};
+
+var requestObj = {"text":text}
+console.log("request: " + JSON.stringify(requestObj));
+
+var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
+xhr.send(blob); 
+```
+
+### 시험 결과의 예 
 
 - happy 
 
