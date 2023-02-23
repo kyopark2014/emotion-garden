@@ -51,6 +51,16 @@ A flower, fantasy, very happy, immature, smile, concept art, trending on artstat
 
 <img width="817" alt="image" src="https://user-images.githubusercontent.com/52392004/220795334-92ca5cfb-4ffb-44f2-9eac-45797a57dd24.png">
 
+## 배포방법
+
+### 코드 다운로드 및 CDK로 배포 
+
+```java
+git clone https://github.com/kyopark2014/emotion-garden
+cd emotion-garden/cdk-emotion-garden && npm install aws-cdk-lib@2.64.0 path 
+cdk deploy
+```
+
 
 
 
