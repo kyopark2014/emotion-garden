@@ -28,16 +28,38 @@ print("urls: ", urls)
 
 #### 사용 예 
 
+- happy 
+
 ```java
 A flower, fantasy, happy, young, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art, 8 k
 ```
 
 <img width="814" alt="image" src="https://user-images.githubusercontent.com/52392004/220794172-ff8e29ae-381c-475c-b968-f88cec6ee908.png">
 
+- unhappy
+
+```java
+- A flower, fantasy, unhappy, young, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art, 8 k
+```
+
+- very happy, immature
+
+```java
+A flower, fantasy, very happy, immature, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art
+```
+
+<img width="818" alt="image" src="https://user-images.githubusercontent.com/52392004/220794856-9910072d-0bf6-465b-af11-ac70923d18b7.png">
+
+
+- immature
 
 ```java
 ukrainian girl with blue and yellow clothes near big ruined building, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art, 8 k
 ```
+
+
+<img width="817" alt="image" src="https://user-images.githubusercontent.com/52392004/220795334-92ca5cfb-4ffb-44f2-9eac-45797a57dd24.png">
+
 
 <img width="820" alt="image" src="https://user-images.githubusercontent.com/52392004/220715225-8aff9878-da15-4034-8cb6-c78d31527e49.png">
 
