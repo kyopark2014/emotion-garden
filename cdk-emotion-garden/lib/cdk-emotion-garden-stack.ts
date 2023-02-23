@@ -156,7 +156,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'Curl commend of API Gateway',
     }); 
 
-    // cloudfront setting for api gateway    
+    // cloudfront setting for api gateway of stable diffusion
     distribution.addBehavior("/text2image", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,  
@@ -217,5 +217,17 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         }
       ]
     }); 
+
+     // cloudfront setting for api gateway of emotion
+     distribution.addBehavior("/emotion", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,  
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });    
+
+    new cdk.CfnOutput(this, 'EmotionApiUrl', {
+      value: 'https://'+distribution.domainName+'/emotion',      
+      description: 'The api url of emotion',
+    });
   }
 }
