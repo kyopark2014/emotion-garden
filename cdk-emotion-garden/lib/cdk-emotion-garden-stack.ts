@@ -225,9 +225,9 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });    
 
-    new cdk.CfnOutput(this, 'EmotionApiUrl', {
-      value: 'https://'+distribution.domainName+'/emotion',      
-      description: 'The api url of emotion',
+    new cdk.CfnOutput(this, 'EmotionWebUrl', {
+      value: 'https://'+distribution.domainName+'/emotion.html',      
+      description: 'The web url of emotion',
     });
   }
 }
