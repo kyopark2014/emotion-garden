@@ -4,6 +4,37 @@
 
 ## Facial Analytis
 
+emotion을 분석하는 API는 아래와 같습니다. Contents-Type과 이미지를 넣어서 https post 방식으로 아래 서버에 전달합니다.
+
+```java
+https://d1a0soheyg076e.cloudfront.net/emotion
+```
+
+Rekognition을 이용하여 emotion을 분석후 아래와 같은 결과를 리턴합니다. 
+
+```java
+{
+    "Id": "bfc150a5-07ad-45a0-87e8-435e8a21d6ee",
+    "Bucket": "cdkemotiongardenstack-emotiongardenstorage163b614-18zt1jiogggyl",
+    "Key": "profile/bfc150a5-07ad-45a0-87e8-435e8a21d6ee.jpeg",
+    "ageRange": {
+        "Low": 13,
+        "High": 21
+    },
+    "smile": true,
+    "eyeglasses": true,
+    "sunglasses": false,
+    "gender": "Male",
+    "beard": false,
+    "mustache": false,
+    "eyesOpen": true,
+    "mouthOpen": true,
+    "emotions": "HAPPY"
+}
+```
+
+Rekognition으로 감정분석을 하는 상세한 내용은 아래를 참조합니다. 
+
 [Facial analysis](https://github.com/kyopark2014/emotion-garden/blob/main/facial-analysis.md)
 
 
