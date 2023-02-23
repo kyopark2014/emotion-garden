@@ -22,10 +22,10 @@
                     console.log("result3: " + JSON.stringify(result[2]));
                     console.log("result4: " + JSON.stringify(result[3]));
 
-                    previewImg1.src = result[0];
-                    previewImg2.src = result[1];
-                    previewImg3.src = result[2];
-                    previewImg4.src = result[3];                    
+                    previewImg0.src = result[0];
+                    previewImg1.src = result[1];
+                    previewImg2.src = result[2];
+                    previewImg3.src = result[3];                    
                 }
             };
 
@@ -58,14 +58,14 @@
     <h4>Enter your text to generate your stable diffusion image.</h4>
     <div>
         <form id="myform">
-            <input type="text" name="prompt" autofocus size="110">
+            <input type="text" name="prompt" autofocus size="120" value="A flower with cat, fantasy, very happy, immature, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
             <input type="button" name="button" value="Send">
         </form>
     </div>
-    <img id="previewImg0" width="400" alt="Preview}" />
-    <img id="previewImg1" width="400" alt="Preview}" />
-    <img id="previewImg2" width="400" alt="Preview}" />
-    <img id="previewImg3" width="400" alt="Preview}" />
+    <img id="previewImg0" width="350" alt="Preview" />
+    <img id="previewImg1" width="350" alt="Preview" />
+    <img id="previewImg2" width="350" alt="Preview" />
+    <img id="previewImg3" width="350" alt="Preview" />
     <h4>Stable diffusion images will be generated from your text and then served in CloudFront.</h4>
 </body>
 </html>
