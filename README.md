@@ -79,6 +79,10 @@ cloud9에서 "emotion-garden/cdk-emotion-garden/lib/cdk-emotion-garden-stack.ts"
 cdk deploy
 ```
 
+브라우저에서 WebUrl인 "https://d24ksedrubh7x6.cloudfront.net/text2image.html" 로 접속합니다. 아래처럼 prompt를 변경하고 Send를 선택하여 Stable Image를 생성합니다.
+
+![noname](https://user-images.githubusercontent.com/52392004/220824739-764a848a-d98c-4884-847c-8b8b12ecbf90.png)
+
 
 
 ## ETC
