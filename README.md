@@ -73,6 +73,13 @@ cloud9에서 "emotion-garden/cdk-emotion-garden/lib/cdk-emotion-garden-stack.ts"
 
 ![noname](https://user-images.githubusercontent.com/52392004/220823815-ab377db6-80c5-47e2-aeee-40ba1ca4a02f.png)
 
+업데이트된 domain 정보를 반영하기 위하여 아래와 같이 다시 설치합니다.
+
+```java
+cdk deploy
+```
+
+
 
 ## ETC
 
