@@ -14,6 +14,23 @@ Contents-Type과 이미지를 넣어서 https post 방식으로 아래 서버에
 https://d1a0soheyg076e.cloudfront.net/emotion
 ```
 
+javascript 예제는 아래와 같습니다.
+
+```java
+const uri = "https://d1a0soheyg076e.cloudfront.net/emotion";
+const xhr = new XMLHttpRequest();
+
+xhr.open("POST", uri, true);
+xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        alert(xhr.responseText); 
+    }
+};
+
+var blob = new Blob([file], {type: 'image/jpeg'});
+xhr.send(blob);
+```
+
 Rekognition을 이용하여 emotion을 분석후 아래와 같은 결과를 리턴합니다. 
 
 ```java
@@ -40,6 +57,45 @@ Rekognition을 이용하여 emotion을 분석후 아래와 같은 결과를 리�
 Rekognition으로 감정분석을 하는 상세한 내용은 아래를 참조합니다. 
 
 [Facial analysis](https://github.com/kyopark2014/emotion-garden/blob/main/facial-analysis.md)
+
+#### 시험방법 - Test Page
+
+1) Test Page에 접속합니다. 여기서 test page의 주소는 "https://d1a0soheyg076e.cloudfront.net/emotion.html"입니다. CloudFront의 도메인은 변경될 수 있습니다. 
+
+![noname](https://user-images.githubusercontent.com/52392004/221028091-bccaa180-896c-4fed-a2ec-859711cfe8b9.png)
+
+2) [Choose File]로 파일을 선택하고, [Send]를 선택하면 아래와 같은 결과를 얻습니다.
+
+![image](https://user-images.githubusercontent.com/52392004/221026247-82f891f6-0064-4a94-a80d-75a85a027719.png)
+
+
+#### Curl Command
+
+Emotion을 확인하기 위해 아래처러 curl로 파일명을 지정하여 전송합니다.
+
+```java
+curl -i https://d1a0soheyg076e.cloudfront.net/emotion -X POST --data-binary '@bfeacaab-3aab-48e7-a4bc-f4edbe466826.jpeg' -H 'Content-Type: image/jpeg'
+```
+
+이때의 결과는 아래와 같습니다.
+
+```java
+HTTP/2 200
+content-type: application/json
+content-length: 359
+date: Thu, 23 Feb 2023 20:59:10 GMT
+x-amzn-requestid: 64513da8-5cde-453e-9591-b0f99181bd4b
+x-amz-apigw-id: Az4AkENfoE0Ferg=
+x-amzn-trace-id: Root=1-63f7d39c-575fea4367d7dcbf080a573f;Sampled=0
+x-cache: Miss from cloudfront
+via: 1.1 4e7cb5238b8bf39c2881bea34913cbf4.cloudfront.net (CloudFront)
+x-amz-cf-pop: ICN54-C1
+x-amz-cf-id: 6zrBBy0NAKT7ARC_dARICyzWAk2i78FWni5MIOl_oj8wZQxcnB77lg==
+
+{"Id":"f10595b9-a664-4b99-a971-ea54ee359edf","Bucket":"cdkemotiongardenstack-emotiongardenstorage163b614-18zt1jiogggyl","Key":"profile/f10595b9-a664-4b99-a971-ea54ee359edf.jpeg","ageRange":{"Low":13,"High":21},"smile":true,"eyeglasses":true,"sunglasses":false,"gender":"Male","beard":false,"mustache":false,"eyesOpen":true,"mouthOpen":true,"emotions":"HAPPY"}%
+```
+
+
 
 
 ## Parallel Processing
