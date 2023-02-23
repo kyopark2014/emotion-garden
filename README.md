@@ -8,13 +8,13 @@ Amazon Rekognition을 이용하여 Emotion을 분석하는 Architecture는 아�
 
 ![image](https://user-images.githubusercontent.com/52392004/220984943-6299c008-b778-408c-b4a6-e975a720f45f.png)
 
-Contents-Type과 이미지를 넣어서 https post 방식으로 아래 서버에 전달합니다.
+API의 Resouce는 '/emotion'으로 아래와 같이 CloudFront Domain을 활용하여 RESTful API의 POST method로 요청합니다.
 
 ```java
 https://d1a0soheyg076e.cloudfront.net/emotion
 ```
 
-javascript 예제는 아래와 같습니다.
+Client에서 사용할 수 있는 javascript 예제는 아래와 같습니다.
 
 ```java
 const uri = "https://d1a0soheyg076e.cloudfront.net/emotion";
@@ -54,7 +54,7 @@ Rekognition을 이용하여 emotion을 분석후 아래와 같은 결과를 리�
 }
 ```
 
-Rekognition으로 감정분석을 하는 상세한 내용은 아래를 참조합니다. 
+Rekognition의 감정분석 API는 아래를 참조합니다. 
 
 [Facial analysis](https://github.com/kyopark2014/emotion-garden/blob/main/facial-analysis.md)
 
@@ -98,12 +98,14 @@ x-amz-cf-id: 6zrBBy0NAKT7ARC_dARICyzWAk2i78FWni5MIOl_oj8wZQxcnB77lg==
 
 
 
-## Parallel Processing
+## Stable Diffusion 이미지를 Parallel Processing을 이용해 생성하기
 
-전체적인 Architecture는 아래와 같습니다. 여기서는 데모의 원할한 진행을 위하여 여러개의 Endpoint를 만들어서 실행속도를 향상합니다. p3 2xlarge로 진행시 endpoint로 진행시 약 50초정도 소요되지만, 2개의 p3 2xlarge로 진행시는 14초 소요됩니다. 
+Stable Diffusion 이미지를 생성하기 위한 Architecture는 아래와 같습니다. 여기서는 데모의 원할한 진행을 위하여 여러개의 Endpoint를 만들어서 실행속도를 향상합니다. p3 2xlarge로 진행시 endpoint로 진행시 약 50초정도 소요되지만, 2개의 p3 2xlarge로 진행시는 14초 소요됩니다. 
 
 <img width="716" alt="image" src="https://user-images.githubusercontent.com/52392004/220714782-1dc0a2e8-de35-4f53-8ebb-9b2a915a749b.png">
 
+
+병렬처리 관련된 python 코드는 아래와 같습니다.
 
 ```python
 procs = []    
