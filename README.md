@@ -52,15 +52,6 @@ A flower, fantasy, very happy, immature, smile, concept art, trending on artstat
 <img width="817" alt="image" src="https://user-images.githubusercontent.com/52392004/220795334-92ca5cfb-4ffb-44f2-9eac-45797a57dd24.png">
 
 
-- immature
-
-```java
-ukrainian girl with blue and yellow clothes near big ruined building, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art, 8 k
-```
-
-<img width="820" alt="image" src="https://user-images.githubusercontent.com/52392004/220715225-8aff9878-da15-4034-8cb6-c78d31527e49.png">
-
-
 
 
 ## Reference
