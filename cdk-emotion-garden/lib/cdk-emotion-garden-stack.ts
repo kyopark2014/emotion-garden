@@ -8,6 +8,7 @@ import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as apiGateway from 'aws-cdk-lib/aws-apigateway';
 import * as s3Deploy from "aws-cdk-lib/aws-s3-deployment";
+import * as logs from "aws-cdk-lib/aws-logs"
 
 const debug = false;
 const stage = "dev"; 
@@ -70,12 +71,12 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     }); 
 
     // Lambda for stable diffusion 
-    const mlLambda = new lambda.Function(this, 'lambda-emotion-garden', {
+    const lambdaText2Image = new lambda.Function(this, 'lambda-stable-diffusion', {
       description: 'lambda for stable diffusion',
-      functionName: 'lambda-emotion-garden',
+      functionName: 'lambda-stable-diffusion',
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_9,
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-stable-diffusion')),
       timeout: cdk.Duration.seconds(120),
       environment: {
         bucket: s3Bucket.bucketName,
@@ -86,18 +87,18 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });     
 
-    s3Bucket.grantReadWrite(mlLambda); // permission for s3
+    s3Bucket.grantReadWrite(lambdaText2Image); // permission for s3
     const SageMakerPolicy = new iam.PolicyStatement({  // policy statement for sagemaker
       actions: ['sagemaker:*'],
       resources: ['*'],
     });    
-    mlLambda.role?.attachInlinePolicy( // add sagemaker policy
+    lambdaText2Image.role?.attachInlinePolicy( // add sagemaker policy
       new iam.Policy(this, 'sagemaker-policy', {
         statements: [SageMakerPolicy],
       }),
     );
     // permission for api Gateway
-    mlLambda.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
+    lambdaText2Image.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
     
     // role
     const role = new iam.Role(this, "api-role-emotion-garden", {
@@ -116,6 +117,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     const api = new apiGateway.RestApi(this, 'api-emotion-garden', {
       description: 'API Gateway for emotion garden',
       endpointTypes: [apiGateway.EndpointType.REGIONAL],
+      binaryMediaTypes: ['*/*'], 
       deployOptions: {
         stageName: stage,
 
@@ -127,7 +129,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     // POST method
     const text2image = api.root.addResource('text2image');
-    text2image.addMethod('POST', new apiGateway.LambdaIntegration(mlLambda, {
+    text2image.addMethod('POST', new apiGateway.LambdaIntegration(lambdaText2Image, {
       passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
       credentialsRole: role,
       integrationResponses: [{
@@ -168,7 +170,52 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, 'UpdateCommend', {
       value: 'aws s3 cp ../html/text2image.html '+'s3://'+s3Bucket.bucketName,
-      description: 'The url of file upload',
+      description: 'The url of web file upload',
     });
+
+    // Lambda - emotion
+    const lambdaEmotion = new lambda.Function(this, "lambdaEmotion", {
+      runtime: lambda.Runtime.NODEJS_16_X, 
+      functionName: "lambda-for-emotion",
+      code: lambda.Code.fromAsset("../lambda-emotion"), 
+      handler: "index.handler", 
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        bucketName: s3Bucket.bucketName
+      }
+    });  
+    s3Bucket.grantReadWrite(lambdaEmotion);
+
+    const RekognitionPolicy = new iam.PolicyStatement({  
+      actions: ['rekognition:*'],
+      resources: ['*'],
+    });
+    lambdaEmotion.role?.attachInlinePolicy(
+      new iam.Policy(this, 'rekognition-policy', {
+        statements: [RekognitionPolicy],
+      }),
+    );
+
+    // POST method
+    const resourceName = "emotion";
+    const emotion = api.root.addResource(resourceName);
+    emotion.addMethod('POST', new apiGateway.LambdaIntegration(lambdaEmotion, {
+      passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      credentialsRole: role,
+      integrationResponses: [{
+        statusCode: '200',
+      }], 
+      proxy:true, 
+    }), {
+      methodResponses: [  
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apiGateway.Model.EMPTY_MODEL,
+          }, 
+        }
+      ]
+    }); 
   }
 }
