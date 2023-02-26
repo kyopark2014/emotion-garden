@@ -82,11 +82,13 @@ def lambda_handler(event, context):
     for proc in procs:
         proc.join()
         
-    print("total run time(sec): ", int(time.time()) - start)
+    elapsed_time = int(time.time()) - start
+    print("total run time(sec): ", elapsed_time)
     print("urls: ", urls)
 
     statusCode = 200     
     return {
         'statusCode': statusCode,
-        'body': json.dumps(urls)
+        'body': json.dumps(urls),
+        'time': elapsed_time
     }
