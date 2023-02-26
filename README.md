@@ -121,6 +121,22 @@ for proc in procs:
 print("urls: ", urls)
 ```
 
+### 지원해상도 및 소요시간
+
+- XGA 1024 x 768 (x)
+
+- WSVGA 1024 x 576 28s
+
+- WSVGA 1024 x 600 30s
+
+- DVGA 960 x 640 29s
+
+- SVGA 800 x 600 22s
+
+- (Basic) 768 x 512 17s
+
+- VGA 640 x 480 15s
+
 ### Stable Diffusion 이미지를 생성하는 API
 
 API의 Resouce는 '/text2image'으로 아래와 같이 CloudFront Domain을 활용하여 RESTful API의 POST method로 요청합니다.
