@@ -137,6 +137,9 @@ print("urls: ", urls)
 
 - VGA 640 x 480 15s
 
+* Chrome 브라우저에서 요청시 timeout이 30s로 고정되어 있어서 실제 API는 성공하더라도 브라우저에 표시 안됨
+  실행시간은 CPU 부하에 따라 변동됨
+
 ### Stable Diffusion 이미지를 생성하는 API
 
 API의 Resouce는 '/text2image'으로 아래와 같이 CloudFront Domain을 활용하여 RESTful API의 POST method로 요청합니다.
