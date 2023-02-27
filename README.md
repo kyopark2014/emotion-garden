@@ -253,3 +253,7 @@ cdk deploy
 [AI Art 모델인 Stable Diffusion을 쉽고 편리하게 이용하기](https://github.com/kyopark2014/stable-diffusion-api-server)
 
 [How TO - CSS Loader](https://www.w3schools.com/howto/howto_css_loader.asp)
+
+[Stable Diffusion 1 vs 2 - What you need to know](https://www.assemblyai.com/blog/stable-diffusion-1-vs-2-what-you-need-to-know/)
+
+[How to generate stunning images using Stable Diffusion](https://babich.biz/how-to-use-stable-diffusion/)
