@@ -123,6 +123,7 @@ print("urls: ", urls)
 
 ### 지원해상도 및 소요시간
 
+#### Stable Diffusion 2.1
 - XGA 1024 x 768 (x)
 
 - WSVGA 1024 x 576 28s
@@ -139,6 +140,15 @@ print("urls: ", urls)
 
 * Chrome 브라우저에서 요청시 timeout이 30s로 고정되어 있어서 실제 API는 성공하더라도 브라우저에 표시 안됨
   실행시간은 CPU 부하에 따라 변동됨
+  
+#### Stable Diffusion 2 fp16
+
+- Basic: 768 x 512 (11s)
+
+- WSVGA: 1024 x 600 (14s)
+
+- WXGA: 1280 x 800 (26s)
+
 
 ### Stable Diffusion 이미지를 생성하는 API
 
