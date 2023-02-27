@@ -20,8 +20,8 @@ def stable_diffusion(num, txt, mybucket, fname, endpoint):
 
     payload = {        
         "prompt": txt,
-        "width": 768,
-        "height": 512,
+        "width": 1024,
+        "height": 600,
         "num_images_per_prompt": 1,
         "num_inference_steps": 50,
         "guidance_scale": 7.5,
