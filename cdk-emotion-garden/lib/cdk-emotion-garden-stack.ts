@@ -13,10 +13,10 @@ import * as logs from "aws-cdk-lib/aws-logs"
 const debug = false;
 const stage = "dev"; 
 const endpoints = [
-  "emotion-gardeon-model-1",
-  "emotion-gardeon-model-2",
-  "emotion-gardeon-model-3",
-  "emotion-gardeon-model-4",
+  "emotion-garden-model-1",
+  "emotion-garden-model-2",
+  "emotion-garden-model-3",
+  "emotion-garden-model-4",
 ]
 const nproc = 4;
 
