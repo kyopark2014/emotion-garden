@@ -10,9 +10,9 @@
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    response = JSON.parse(xhr.responseText);
+                    let response = JSON.parse(xhr.responseText);
                     console.log("response: " + JSON.stringify(response));
-                    result = JSON.parse(response.body);
+                    let result = JSON.parse(response.body);
                     console.log("time: " + JSON.parse(response.time));                    
 
                     console.log("result1: " + JSON.stringify(result[0]));
