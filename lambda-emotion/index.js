@@ -42,6 +42,7 @@ exports.handler = async (event, context) => {
         return;
     } 
     
+    let response = "";
     try {
         console.log('**start emotion detection');
         const rekognition = new aws.Rekognition();
@@ -59,60 +60,68 @@ exports.handler = async (event, context) => {
         const data = await rekognition.detectFaces(rekognitionParams).promise();
         // console.log('data: '+JSON.stringify(data));
 
-        const profile = data['FaceDetails'][0];
+        if(data['FaceDetails'][0]) {
+            const profile = data['FaceDetails'][0];
+    
+            const ageRange = profile['AgeRange'];
+            // console.log('ageRange: '+JSON.stringify(ageRange));
+            const smile = profile['Smile']['Value'];
+            // console.log('smile: ', smile);
+            const eyeglasses = profile['Eyeglasses']['Value'];
+            // console.log('smile: ', smile);
+            const sunglasses = profile['Sunglasses']['Value'];
+            // console.log('sunglasses: ', sunglasses);
+            const gender = profile['Gender']['Value'];
+            // console.log('gender: ', gender);
+            const beard = profile['Beard']['Value'];
+            // console.log('beard: ', beard);
+            const mustache = profile['Mustache']['Value'];
+            // console.log('mustache: ', mustache);
+            const eyesOpen = profile['EyesOpen']['Value'];
+            // console.log('eyesOpen: ', eyesOpen);
+            const mouthOpen = profile['MouthOpen']['Value'];
+            // console.log('mouthOpen: ', mouthOpen);
+            const emotions = profile['Emotions'][0]['Type'];
+            // console.log('emotions: ', emotions);
 
-        const ageRange = profile['AgeRange'];
-        // console.log('ageRange: '+JSON.stringify(ageRange));
-        const smile = profile['Smile']['Value'];
-        // console.log('smile: ', smile);
-        const eyeglasses = profile['Eyeglasses']['Value'];
-        // console.log('smile: ', smile);
-        const sunglasses = profile['Sunglasses']['Value'];
-        // console.log('sunglasses: ', sunglasses);
-        const gender = profile['Gender']['Value'];
-        // console.log('gender: ', gender);
-        const beard = profile['Beard']['Value'];
-        // console.log('beard: ', beard);
-        const mustache = profile['Mustache']['Value'];
-        // console.log('mustache: ', mustache);
-        const eyesOpen = profile['EyesOpen']['Value'];
-        // console.log('eyesOpen: ', eyesOpen);
-        const mouthOpen = profile['MouthOpen']['Value'];
-        // console.log('mouthOpen: ', mouthOpen);
-        const emotions = profile['Emotions'][0]['Type'];
-        // console.log('emotions: ', emotions);
-
-        console.log('**finish emotion detection');
-        const emotionInfo = {
-            Id: uuid,
-            Bucket: bucketName, 
-            Key: fileName,
-            ageRange: ageRange,
-            smile: smile,
-            eyeglasses: eyeglasses,
-            sunglasses: sunglasses,
-            gender: gender,
-            beard: beard,
-            mustache: mustache,
-            eyesOpen: eyesOpen,
-            mouthOpen: mouthOpen,
-            emotions: emotions
-        }; 
-        console.log('file info: ' + JSON.stringify(emotionInfo));
-        
-        const response = {
-            statusCode: 200,
-            body: JSON.stringify(emotionInfo)
-        };
-        return response;
+            console.log('**finish emotion detection');
+            const emotionInfo = {
+                Id: uuid,
+                Bucket: bucketName, 
+                Key: fileName,
+                ageRange: ageRange,
+                smile: smile,
+                eyeglasses: eyeglasses,
+                sunglasses: sunglasses,
+                gender: gender,
+                beard: beard,
+                mustache: mustache,
+                eyesOpen: eyesOpen,
+                mouthOpen: mouthOpen,
+                emotions: emotions
+            }; 
+            console.log('file info: ' + JSON.stringify(emotionInfo));
+            
+            response = {
+                statusCode: 200,
+                body: JSON.stringify(emotionInfo)
+            };
+        }
+        else {
+            response = {
+                statusCode: 404,
+                body: "No Face"
+            };
+        }
 
     } catch (error) {
         console.log(error);
 
-        const response = {
+        response = {
             statusCode: 500,
             body: error
         };
-        return response;
     } 
+    
+    return response;
 };
