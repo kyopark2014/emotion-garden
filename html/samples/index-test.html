@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    <!-- 캔버스 -->
+    <canvas id="canvas" width="1000" height="300" style="border: 1px solid black;"></canvas>
+    <br><br>
+    
+    <!-- 버튼 -->
+    <button id="btn_start">녹화시작</button>
+    <button id="btn_stop">녹화종료</button>
+    <br><br>
+
+    <!-- 비디오: 녹화한 캔버스를 재생 -->
+    <video id="video_recorded" controls style="border: 1px solid black;"></video>
+  
+</body>
+<script>
+    // 엘리먼트 취득
+    const $canvas = document.querySelector("#canvas");
+    const $btn_start = document.querySelector("#btn_start");
+    const $btn_stop = document.querySelector("#btn_stop");
+    const $video_recorded = document.querySelector("#video_recorded");
+
+    // MediaRecorder(녹화기) 변수 선언
+    let mediaRecorder = null;
+
+    // 스트림 데이터를 담아둘 배열 생성
+    const arrVideoData = [];
+
+
+    // "녹화시작" 버튼 이벤트 처리
+    $btn_start.onclick = (event)=>{
+        // 캔버스에 그림 그리기: 100ms 마다 작은 사각형을 연달아 그린다.
+        drawCanvas(); 
+
+        // 캔버스 영역 화면을 스트림으로 취득
+        const mediaStream = $canvas.captureStream();
+
+        // MediaRecorder(녹화기) 객체 생성
+        mediaRecorder = new MediaRecorder(mediaStream);
+
+        // MediaRecorder.dataavailable 이벤트 처리
+        mediaRecorder.ondataavailable = (event)=>{
+            // 스트림 데이터(Blob)가 들어올 때마다 배열에 담아둔다.
+            arrVideoData.push(event.data);
+        }
+
+        // MediaRecorder.stop 이벤트 처리
+        mediaRecorder.onstop = (event)=>{
+            // 들어온 스트림 데이터들(Blob)을 통합한 Blob객체를 생성
+            const blob = new Blob(arrVideoData);
+
+            // BlobURL 생성: 통합한 스트림 데이터를 가르키는 임시 주소를 생성
+            const blobURL = window.URL.createObjectURL(blob);
+
+            // 재생 구현
+            $video_recorded.src = blobURL;
+            $video_recorded.play();
+
+            // 다운로드 구현
+            const $anchor = document.createElement("a"); // 앵커 태그 생성
+            document.body.appendChild($anchor);
+            $anchor.style.display = "none";
+            $anchor.href = blobURL; // 다운로드 경로 설정
+            $anchor.download = "test.webm"; // 파일명 설정
+            $anchor.click(); // 앵커 클릭
+            
+            // 배열 초기화
+            arrVideoData.splice(0);
+        }
+
+        // 녹화 시작
+        mediaRecorder.start(); 
+    }
+
+
+    // "녹화종료" 버튼 이벤트 처리
+    $btn_stop.onclick = (event)=>{
+        // 캔버스에 그림 그리기 중단!
+        stopCanvas();
+
+        // 녹화 중단!
+        mediaRecorder.stop(); 
+    }
+
+
+
+
+    // drawCanvas메서드: 100ms마다 20px 간격으로 사각형을 연달아 그린다.
+    let intervalID = null;
+    let rectX = 0;
+    let rectY = $canvas.height/2;
+    function drawCanvas() {
+      // canvas 그리기 객체 취득 
+      const ctx = $canvas.getContext('2d');
+
+      // 반복 실행: 100ms마다 사각형 그리기
+      intervalID = setInterval(() => {
+        ctx.fillStyle = "blue";
+        ctx.fillRect(rectX, rectY, 10, 10);
+        rectX += 20;
+      }, 100);
+    }
+
+    // stopCanvas메서드: 사각형 반복 그리기 중단
+    function stopCanvas(){
+      clearInterval(intervalID);
+    }
+
+</script>
+</html>
