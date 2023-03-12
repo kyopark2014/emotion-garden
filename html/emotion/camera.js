@@ -9,6 +9,7 @@ let canvas = document.getElementById('canvas');
 
 canvas.width = previewPlayer.width;
 canvas.height = previewPlayer.height;
+let emotionValue;
 
 let profileInfo_emotion, profileInfo_age, profileInfo_features;
 let msglist = [];
@@ -96,17 +97,17 @@ function emotion() {
             let mouthOpen = response.mouthOpen;
             console.log("mouthOpen: " + mouthOpen);   
 
-            let emotion = response.emotions;
-            console.log("emotion: " + emotion);          
+            emotionValue = response.emotions;
+            console.log("emotion: " + emotionValue);          
             let emotionText = "Emotion: ";
-            if(emotion == "HAPPY") emotionText += "행복 (HAPPY)";
-            else if(emotion == "SURPRISED") emotionText += "놀람 (SURPRISED)";
-            else if(emotion == "CALM") emotionText += "평온 (CALM)";
-            else if(emotion == "ANGRY") emotionText += "화남 (ANGRY)";
-            else if(emotion == "FEAR") emotionText += "공포 (FEAR)";
-            else if(emotion == "CONFUSED") emotionText += "혼란스러움 (CONFUSED)";
-            else if(emotion == "DISGUSTED") emotionText += "역겨움 (DISGUSTED)";
-            else if(emotion == "SAD") emotionText += "슬픔 (SAD)";
+            if(emotionValue == "HAPPY") emotionText += "행복 (HAPPY)";
+            else if(emotionValue == "SURPRISED") emotionText += "놀람 (SURPRISED)";
+            else if(emotionValue == "CALM") emotionText += "평온 (CALM)";
+            else if(emotionValue == "ANGRY") emotionText += "화남 (ANGRY)";
+            else if(emotionValue == "FEAR") emotionText += "공포 (FEAR)";
+            else if(emotionValue == "CONFUSED") emotionText += "혼란스러움 (CONFUSED)";
+            else if(emotionValue == "DISGUSTED") emotionText += "역겨움 (DISGUSTED)";
+            else if(emotionValue == "SAD") emotionText += "슬픔 (SAD)";
             
             let features = "Features:";
             if(smile) features += ' 웃음';
@@ -118,17 +119,36 @@ function emotion() {
             if(mouthOpen) features += ' 입열고있음';
             console.log("features: " + features);   
 
-            let profileText = ageRange+' ('+gender+')';
+            let genderText;
+            if(gender=='Male') genderText='남자'
+            else genderText='여자'            
+            let profileText = ageRange+' ('+genderText+')';
             console.log("profileText: " + profileText);   
 
             profileInfo_emotion.innerHTML = `<h3>${emotionText}</h3>`
             profileInfo_age.innerHTML = `<h3>${profileText}</h3>`
             profileInfo_features.innerHTML = `<h3>${features}</h3>`
 
+            canvas.toBlob(function(blob){
+                const img = new Image();
+                img.src = URL.createObjectURL(blob);
+        
+                console.log(blob);
+                
+                downloadButton.href=img.src;
+                console.log(downloadButton.href);
+                downloadButton.download =`capture_${emotionValue}_${gender}_${ageRangeLow}_${new Date()}.jpeg`;
+            },'image/png');   
+
             // msglist[0].innerHTML = `<h3>${emotions}</h3>`;
             // console.log(msglist[0]);
 
             // alert(xhr.responseText); // handle response.
+        }
+        else {
+            profileInfo_emotion.innerHTML = `<h3>No Face</h3>`
+            profileInfo_age.innerHTML = ``
+            profileInfo_features.innerHTML = ``
         }
     };
 
