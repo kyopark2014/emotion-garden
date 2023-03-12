@@ -12,7 +12,6 @@ canvas.height = previewPlayer.height;
 let emotionValue;
 
 let profileInfo_emotion, profileInfo_age, profileInfo_features;
-let msglist = [];
 
 profileInfo_emotion = document.getElementById('profile-emotion');
 profileInfo_age = document.getElementById('profile-age');
