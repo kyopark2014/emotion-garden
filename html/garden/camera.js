@@ -9,28 +9,27 @@ let canvas = document.getElementById('canvas');
 
 canvas.width = previewPlayer.width;
 canvas.height = previewPlayer.height;
-let emotionValue;
 
 let profileInfo_emotion, profileInfo_age, profileInfo_features;
-let msglist = [];
-const maxMsgItems = 10;
-for (i=0;i<maxMsgItems;i++) {
-    profileInfo_emotion = document.getElementById('profile-emotion');
-    profileInfo_age = document.getElementById('profile-age');
-    profileInfo_features = document.getElementById('profile-features');
-    msglist.push(document.getElementById('emotion'+i));
+profileInfo_emotion = document.getElementById('profile-emotion');
+profileInfo_age = document.getElementById('profile-age');
+profileInfo_features = document.getElementById('profile-features');
+promptText = document.getElementById('promptText');
 
-    msglist.push(document.getElementById('emotion'+i));
-
+let imgList = [];
+const maxImgItems = 10;
+for (let i=0;i<maxImgItems;i++) {
+    imgList.push(document.getElementById('garden'+i));
+    
     // add listener        
     (function(index) {
-        msglist[index].addEventListener("click", function() {
-            if(msglist.length < maxMsgItems) i = index;
+        imgList[index].addEventListener("click", function() {
+            if(imgList.length < maxImgItems) i = index;
             else i = index + maxMsgItems;
 
             console.log('click! index: '+index);
         })
-    })(i);
+    })(i); 
 }
 
 //functions
@@ -98,7 +97,7 @@ function getEmotion() {
             let mouthOpen = response.mouthOpen;
             console.log("mouthOpen: " + mouthOpen);   
 
-            emotionValue = response.emotions;
+            let emotionValue = response.emotions;
             console.log("emotion: " + emotionValue);          
             let emotionText = "Emotion: ";
             if(emotionValue == "HAPPY") emotionText += "행복 (HAPPY)";
@@ -141,15 +140,9 @@ function getEmotion() {
                 downloadButton.download =`capture_${emotionValue}_${gender}_${middleAge}_${new Date()}.jpeg`;
             },'image/png');   
 
-            let prompt = "happy, garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art";
-
-            let promptText = emotionValue+ ', garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art';
-            console.log('promptText: ', promptText);
-            
-            // msglist[0].innerHTML = `<h3>${emotions}</h3>`;
-            // console.log(msglist[0]);
-
             // alert(xhr.responseText); // handle response.
+
+            getStableDiffusion(emotionValue);
         }
         else {
             profileInfo_emotion.innerHTML = `<h3>No Face</h3>`
@@ -163,11 +156,16 @@ function getEmotion() {
     });
 }
 
-function getStableDiffusion(text) {
+function getStableDiffusion(emotionValue) {
     const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image";
     const xhr = new XMLHttpRequest();
 
     console.log("start making images...");
+
+    let text = emotionValue+ ', garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art';
+    console.log('promptText: ', text);
+
+    promptText.innerHTML = `<h3>${text}</h3>`;
 
     xhr.open("POST", uri, true);
     xhr.onreadystatechange = () => {
@@ -179,13 +177,14 @@ function getStableDiffusion(text) {
 
             console.log("result1: " + JSON.stringify(result[0]));
             console.log("result2: " + JSON.stringify(result[1]));
-            // console.log("result3: " + JSON.stringify(result[2]));
-            // console.log("result4: " + JSON.stringify(result[3]));
+                    
+            imgList[0].innerHTML = `<form id="preview_row"></form>
+                <img id="previewImg0" width="512" alt="Preview" />
+                <img id="previewImg1" width="512" alt="Preview" />
+            </form>`
 
-            // previewImg0.src = result[0];
-            // previewImg1.src = result[1];
-            // previewImg2.src = result[2];
-            // previewImg3.src = result[3];                    
+            previewImg0.src = result[0];
+            previewImg1.src = result[1];               
         }
     };
 
@@ -198,9 +197,7 @@ function getStableDiffusion(text) {
 }
 
 function emotion() {
-    getEmotion();
-
-    getStableDiffusion(emotionValue);
+    getEmotion();    
 }
 
 //event
