@@ -13,11 +13,26 @@ let emotionValue;
 
 let profileInfo_emotion, profileInfo_age, profileInfo_features;
 let msglist = [];
+const maxMsgItems = 10;
+for (i=0;i<maxMsgItems;i++) {
+    profileInfo_emotion = document.getElementById('profile-emotion');
+    profileInfo_age = document.getElementById('profile-age');
+    profileInfo_features = document.getElementById('profile-features');
+    msglist.push(document.getElementById('emotion'+i));
 
-profileInfo_emotion = document.getElementById('profile-emotion');
-profileInfo_age = document.getElementById('profile-age');
-profileInfo_features = document.getElementById('profile-features');
-    
+    msglist.push(document.getElementById('emotion'+i));
+
+    // add listener        
+    (function(index) {
+        msglist[index].addEventListener("click", function() {
+            if(msglist.length < maxMsgItems) i = index;
+            else i = index + maxMsgItems;
+
+            console.log('click! index: '+index);
+        })
+    })(i);
+}
+
 //functions
 function videoStart() {
     navigator.mediaDevices.getUserMedia({ video:true,audio:false })
@@ -126,6 +141,14 @@ function getEmotion() {
                 downloadButton.download =`capture_${emotionValue}_${gender}_${middleAge}_${new Date()}.jpeg`;
             },'image/png');   
 
+            let prompt = "happy, garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art";
+
+            let promptText = emotionValue+ ', garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art';
+            console.log('promptText: ', promptText);
+            
+            // msglist[0].innerHTML = `<h3>${emotions}</h3>`;
+            // console.log(msglist[0]);
+
             // alert(xhr.responseText); // handle response.
         }
         else {
@@ -140,8 +163,44 @@ function getEmotion() {
     });
 }
 
+function getStableDiffusion(text) {
+    const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image";
+    const xhr = new XMLHttpRequest();
+
+    console.log("start making images...");
+
+    xhr.open("POST", uri, true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let response = JSON.parse(xhr.responseText);
+            console.log("response: " + JSON.stringify(response));
+            let result = JSON.parse(response.body);
+            console.log("time: " + JSON.parse(response.time));                    
+
+            console.log("result1: " + JSON.stringify(result[0]));
+            console.log("result2: " + JSON.stringify(result[1]));
+            // console.log("result3: " + JSON.stringify(result[2]));
+            // console.log("result4: " + JSON.stringify(result[3]));
+
+            // previewImg0.src = result[0];
+            // previewImg1.src = result[1];
+            // previewImg2.src = result[2];
+            // previewImg3.src = result[3];                    
+        }
+    };
+
+    var requestObj = {"text":text}
+    console.log("request: " + JSON.stringify(requestObj));
+
+    var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
+
+    xhr.send(blob);
+}
+
 function emotion() {
     getEmotion();
+
+    getStableDiffusion(emotionValue);
 }
 
 //event
