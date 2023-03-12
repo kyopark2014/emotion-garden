@@ -67,6 +67,9 @@ function emotion() {
             let response = JSON.parse(xhr.responseText);
             console.log("response: " + JSON.stringify(response));
 
+            let gender = response.gender;
+            console.log("gender: " + gender);   
+
             let ageRangeLow = JSON.parse(response.ageRange.Low);
             let ageRangeHigh = JSON.parse(response.ageRange.High);
             let ageRange = `Age: ${ageRangeLow} ~ ${ageRangeHigh}`; // age   
@@ -80,9 +83,6 @@ function emotion() {
 
             let sunglasses = response.sunglasses;
             console.log("sunglasses: " + sunglasses);   
-
-            let gender = response.gender;
-            console.log("gender: " + gender);   
 
             let beard = response.beard;
             console.log("beard: " + beard);   
@@ -111,15 +111,18 @@ function emotion() {
             let features = "Features:";
             if(smile) features += ' 웃음';
             if(eyeglasses) features += ' 안경';
-            if(sunglasses) features += ' 썬그라스';
+            if(sunglasses) features += ' 썬글라스';
             if(beard) features += ' 수염';
             if(mustache) features += ' 콧수염';
             if(eyesOpen) features += ' 눈뜨고있음';
             if(mouthOpen) features += ' 입열고있음';
             console.log("features: " + features);   
 
+            let profileText = ageRange+' ('+gender+')';
+            console.log("profileText: " + profileText);   
+
             profileInfo_emotion.innerHTML = `<h3>${emotionText}</h3>`
-            profileInfo_age.innerHTML = `<h3>${ageRange}</h3>`
+            profileInfo_age.innerHTML = `<h3>${profileText}</h3>`
             profileInfo_features.innerHTML = `<h3>${features}</h3>`
 
             // msglist[0].innerHTML = `<h3>${emotions}</h3>`;
