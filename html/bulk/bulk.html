@@ -34,7 +34,9 @@
                 console.log("input: "+text);
 
                 if(text){
-                    sendFile(text);
+                    for(let i=0;i<10;i++) {
+                        sendFile(text);
+                    }
                 }else{
                     alert("No prompt.");
                 }
