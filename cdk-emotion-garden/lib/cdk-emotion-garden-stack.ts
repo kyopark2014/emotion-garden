@@ -301,8 +301,9 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-bulk-stable-diffusion')),
       timeout: cdk.Duration.seconds(120),
       environment: {
-        bucket: s3Bucket.bucketName,
+        bucket: s3Bucket.bucketName,        
         endpoints: JSON.stringify(endpoints),
+        sqsBulkUrl: queueBulk.queueUrl,
       }
     });     
     lambdaBulkStableDiffusion.addEventSource(new SqsEventSource(queueBulk)); 
