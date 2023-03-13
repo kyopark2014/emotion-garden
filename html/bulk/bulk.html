@@ -1,0 +1,72 @@
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Emotion Garden</title>
+    <script type="application/javascript">
+        function sendFile(text) {
+            const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image";
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("POST", uri, true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let response = JSON.parse(xhr.responseText);
+                    console.log("response: " + JSON.stringify(response));
+                    let result = JSON.parse(response.body);
+                    console.log("time: " + JSON.parse(response.time));                    
+
+                    console.log("result1: " + JSON.stringify(result[0]));
+                    console.log("result2: " + JSON.stringify(result[1]));
+                //    console.log("result3: " + JSON.stringify(result[2]));
+                //    console.log("result4: " + JSON.stringify(result[3]));
+
+                    previewImg0.src = result[0];
+                    previewImg1.src = result[1];
+                //    previewImg2.src = result[2];
+                //    previewImg3.src = result[3];                    
+                }
+            };
+
+            var requestObj = {"text":text}
+            console.log("request: " + JSON.stringify(requestObj));
+
+            var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
+
+            xhr.send(blob);            
+        }
+
+        window.onload = () => {
+            var form = document.forms.myform;
+            form.elements.button.onclick = function(){
+                var text = form.elements.prompt.value;
+                console.log("input: "+text);
+
+                if(text){
+                    sendFile(text);
+                }else{
+                    alert("No prompt.");
+                }
+            };
+        }
+    </script>
+</head>
+<body>
+    <h1>Emotion Garden</h1>
+    <h4>Enter your text to generate your stable diffusion image.</h4>
+    <div>
+        <form id="myform">
+            <input type="text" name="prompt" autofocus size="100" value="A flower with cat, fantasy, very happy, immature, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
+            <input type="button" name="button" value="Send">
+        </form>
+    </div>
+    <form id="preview_row1"></form>
+        <img id="previewImg0" width="512" alt="Preview" />
+        <img id="previewImg1" width="512" alt="Preview" />
+    </form>
+    <form id="preview_row1"></form>
+        <img id="previewImg2" width="512" alt="Preview" />
+        <img id="previewImg3" width="512" alt="Preview" />
+    </form>
+    <h4>Stable diffusion images will be generated from your text and then served in CloudFront.</h4>
+</body>
+</html>

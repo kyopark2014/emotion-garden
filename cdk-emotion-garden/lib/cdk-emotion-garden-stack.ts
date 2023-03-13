@@ -9,6 +9,8 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as apiGateway from 'aws-cdk-lib/aws-apigateway';
 import * as s3Deploy from "aws-cdk-lib/aws-s3-deployment";
 import * as logs from "aws-cdk-lib/aws-logs"
+import * as sqs from 'aws-cdk-lib/aws-sqs';
+import {SqsEventSource} from 'aws-cdk-lib/aws-lambda-event-sources';
 
 const debug = false;
 const stage = "dev"; 
@@ -23,6 +25,17 @@ const nproc = 2;
 export class CdkEmotionGardenStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    // SQS - Bulk
+    const queueBulk = new sqs.Queue(this, 'QueueBulk', {
+      queueName: "queue-emotion-garden",
+    });
+    if(debug) {
+      new cdk.CfnOutput(this, 'sqsBulkUrl', {
+        value: queueBulk.queueUrl,
+        description: 'The url of the Queue',
+      });
+    }
 
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage",{
@@ -82,7 +95,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         bucket: s3Bucket.bucketName,
         endpoints: JSON.stringify(endpoints),
         //domain: distribution.domainName
-        domain: "d1a0soheyg076e.cloudfront.net",
+        domain: "d3ic6ryvcaoqdy.cloudfront.net",
         nproc: String(nproc)
       }
     });     
@@ -228,6 +241,47 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'EmotionWebUrl', {
       value: 'https://'+distribution.domainName+'/emotion.html',      
       description: 'The web url of emotion',
+    });
+
+    // Lambda - bulk
+    const lambdaBulk = new lambda.Function(this, "lambdaBulk", {
+      runtime: lambda.Runtime.NODEJS_16_X, 
+      functionName: "lambda-emotion-bulk",
+      code: lambda.Code.fromAsset("../lambda-bulk"), 
+      handler: "index.handler", 
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        bucketName: s3Bucket.bucketName
+      }
+    });  
+    lambdaBulk.addEventSource(new SqsEventSource(queueBulk)); 
+
+    // POST method
+    const bulk = api.root.addResource('bulk');
+    bulk.addMethod('POST', new apiGateway.LambdaIntegration(lambdaBulk, {
+      passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      credentialsRole: role,
+      integrationResponses: [{
+        statusCode: '200',
+      }], 
+      proxy:true, 
+    }), {
+      methodResponses: [  
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apiGateway.Model.EMPTY_MODEL,
+          }, 
+        }
+      ]
+    }); 
+
+     // cloudfront setting for api gateway of bulk
+     distribution.addBehavior("/bulk", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,  
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
   }
 }
