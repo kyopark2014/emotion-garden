@@ -1,5 +1,10 @@
 # Emotion Garden
 
+## Stable Diffusion Image Generator
+
+![image](https://user-images.githubusercontent.com/52392004/224722351-bcf5e927-455a-451a-9ed3-11eeea54bfa3.png)
+
+
 ## Emotion 분석
 
 Amazon Rekognition을 이용하여 Emotion을 분석하는 Architecture는 아래와 같습니다. 
