@@ -285,7 +285,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
 
     new cdk.CfnOutput(this, 'UpdateCommend-bulk', {
-      value: 'aws s3 cp ../html/bulk.html '+'s3://'+s3Bucket.bucketName,
+      value: 'aws s3 cp ../html/bulk/bulk.html '+'s3://'+s3Bucket.bucketName+'/bulk',
       description: 'The url of web (bulk)',
     });
   }
