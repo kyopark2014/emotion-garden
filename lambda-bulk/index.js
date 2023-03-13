@@ -14,7 +14,7 @@ exports.handler = async (event, context) => {
         let params = {
             DelaySeconds: 10,
             MessageAttributes: {},
-            MessageBody: JSON.stringify(body), 
+            MessageBody: JSON.stringify(jsonData), 
             QueueUrl: sqsBulkUrl
         };         
         console.log('params: '+JSON.stringify(params));
@@ -27,7 +27,7 @@ exports.handler = async (event, context) => {
 
     const response = {
         statusCode: 200,
-        body: body
+        body: JSON.stringify(jsonData)
     };
     return response;
 };
