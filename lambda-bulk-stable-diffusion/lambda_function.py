@@ -76,7 +76,10 @@ def lambda_handler(event, context):
     stable_diffusion(txt, mybucket, fname, endpoints[0])
 
     # delete queue
-    sqs.delete_message(QueueUrl=sqsBulkUrl, ReceiptHandle=receiptHandle)
+    try:
+        sqs.delete_message(QueueUrl=sqsBulkUrl, ReceiptHandle=receiptHandle)
+    except Exception as e:        
+        print('Fail to delete the queue message: ', e)
         
     statusCode = 200     
     return {
