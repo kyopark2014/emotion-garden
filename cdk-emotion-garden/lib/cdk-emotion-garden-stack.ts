@@ -28,6 +28,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     // SQS - Bulk
     const queueBulk = new sqs.Queue(this, 'QueueBulk', {
+      visibilityTimeout: cdk.Duration.seconds(130),
       queueName: "queue-emotion-garden",
     });
     if(debug) {
@@ -314,3 +315,4 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     );
   }
 }
+
