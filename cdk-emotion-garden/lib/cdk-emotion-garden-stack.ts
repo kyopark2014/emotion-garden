@@ -253,7 +253,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        bucketName: s3Bucket.bucketName,
         sqsBulkUrl: queueBulk.queueUrl,
       }
     });  
@@ -293,22 +292,22 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'The url of web (bulk)',
     });
 
-    // Lambda for bulk emotion garden
-    const lambdaBulkEmotion = new lambda.Function(this, 'lambda-bulk-emotion', {
+    // Lambda for bulk-stable-diffusion
+    const lambdaBulkStableDiffusion = new lambda.Function(this, 'lambda-bulk-stable-diffusion', {
       description: 'lambda for bulk emotion',
-      functionName: 'lambda-bulk-emotion-garden',
+      functionName: 'lambda-bulk-stable-diffusion',
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_9,
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-bulk-emotion')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-bulk-stable-diffusion')),
       timeout: cdk.Duration.seconds(120),
       environment: {
         bucket: s3Bucket.bucketName,
         endpoints: JSON.stringify(endpoints),
       }
     });     
-    lambdaBulkEmotion.addEventSource(new SqsEventSource(queueBulk)); 
-    s3Bucket.grantReadWrite(lambdaBulkEmotion); // permission for s3
-    lambdaBulkEmotion.role?.attachInlinePolicy( // add sagemaker policy
+    lambdaBulkStableDiffusion.addEventSource(new SqsEventSource(queueBulk)); 
+    s3Bucket.grantReadWrite(lambdaBulkStableDiffusion); // permission for s3
+    lambdaBulkStableDiffusion.role?.attachInlinePolicy( // add sagemaker policy
       new iam.Policy(this, 'sagemaker-policy-for-bulk', {
         statements: [SageMakerPolicy],
       }),

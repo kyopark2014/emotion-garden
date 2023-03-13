@@ -1,4 +1,5 @@
-const bucketName = process.env.bucketName;
+const aws = require('aws-sdk');
+const sqs = new aws.SQS({apiVersion: '2012-11-05'});
 const sqsBulkUrl = process.env.sqsBulkUrl;
 
 exports.handler = async (event, context) => {
