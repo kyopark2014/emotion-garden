@@ -283,5 +283,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,  
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
+
+    new cdk.CfnOutput(this, 'UpdateCommend-bulk', {
+      value: 'aws s3 cp ../html/bulk.html '+'s3://'+s3Bucket.bucketName,
+      description: 'The url of web (bulk)',
+    });
   }
 }

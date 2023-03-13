@@ -4,7 +4,7 @@
   <title>Emotion Garden</title>
     <script type="application/javascript">
         function sendFile(text) {
-            const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image";
+            const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
             const xhr = new XMLHttpRequest();
 
             xhr.open("POST", uri, true);
@@ -12,18 +12,6 @@
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     let response = JSON.parse(xhr.responseText);
                     console.log("response: " + JSON.stringify(response));
-                    let result = JSON.parse(response.body);
-                    console.log("time: " + JSON.parse(response.time));                    
-
-                    console.log("result1: " + JSON.stringify(result[0]));
-                    console.log("result2: " + JSON.stringify(result[1]));
-                //    console.log("result3: " + JSON.stringify(result[2]));
-                //    console.log("result4: " + JSON.stringify(result[3]));
-
-                    previewImg0.src = result[0];
-                    previewImg1.src = result[1];
-                //    previewImg2.src = result[2];
-                //    previewImg3.src = result[3];                    
                 }
             };
 
@@ -59,14 +47,6 @@
             <input type="button" name="button" value="Send">
         </form>
     </div>
-    <form id="preview_row1"></form>
-        <img id="previewImg0" width="512" alt="Preview" />
-        <img id="previewImg1" width="512" alt="Preview" />
-    </form>
-    <form id="preview_row1"></form>
-        <img id="previewImg2" width="512" alt="Preview" />
-        <img id="previewImg3" width="512" alt="Preview" />
-    </form>
     <h4>Stable diffusion images will be generated from your text and then served in CloudFront.</h4>
 </body>
 </html>
