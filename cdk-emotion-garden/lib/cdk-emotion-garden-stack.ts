@@ -40,7 +40,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage",{
-      // bucketName: bucketName,
+      bucketName: "emotion-garden",
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
