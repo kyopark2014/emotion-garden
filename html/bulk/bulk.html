@@ -17,7 +17,7 @@
                 }
             };
 
-            var requestObj = {"text":text}
+            var requestObj = {"text":text, "emotion":"happy"}
             console.log("request: " + JSON.stringify(requestObj));
 
             var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});

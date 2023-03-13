@@ -63,6 +63,8 @@ def lambda_handler(event, context):
 
     txt = jsonbody.get("text")
     print("text: ", txt)
+    emotion = jsonbody.get("emotion")
+    print("emotion: ", emotion)
 
     endpoints = json.loads(os.environ.get('endpoints'))
     print("endpoints: ", endpoints)
@@ -70,7 +72,7 @@ def lambda_handler(event, context):
     mybucket = os.environ.get('bucket')
     print("bucket: ", mybucket)
 
-    fname = 'img_'+time.strftime("%Y%m%d-%H%M%S")
+    fname = emotion+'_'+time.strftime("%Y%m%d-%H%M%S")
     print('fname: ', fname)
 
     stable_diffusion(txt, mybucket, fname, endpoints[0])
