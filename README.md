@@ -2,7 +2,7 @@
 
 ## Stable Diffusion Image Generator
 
-<img src="https://user-images.githubusercontent.com/52392004/224722351-bcf5e927-455a-451a-9ed3-11eeea54bfa3.png" width="800">
+<img src="https://user-images.githubusercontent.com/52392004/224748391-2f8ff5ae-7e8e-42aa-925a-4bddd578434b.png" width="800">
 
 1) 사용자가 CloudFront로 접속합니다.
 2) S3 Origin에 있는 html, css, js를 다운로드합니다.
