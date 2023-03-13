@@ -18,7 +18,7 @@ const endpoints = [
   "emotion-garden-model-3",
   "emotion-garden-model-4",
 ]
-const nproc = 4;
+const nproc = 2;
 
 export class CdkEmotionGardenStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {

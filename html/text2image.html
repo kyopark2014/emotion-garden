@@ -4,7 +4,7 @@
   <title>Emotion Garden</title>
     <script type="application/javascript">
         function sendFile(text) {
-            const uri = "https://d1a0soheyg076e.cloudfront.net/text2image";
+            const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image";
             const xhr = new XMLHttpRequest();
 
             xhr.open("POST", uri, true);
@@ -17,13 +17,13 @@
 
                     console.log("result1: " + JSON.stringify(result[0]));
                     console.log("result2: " + JSON.stringify(result[1]));
-                    console.log("result3: " + JSON.stringify(result[2]));
-                    console.log("result4: " + JSON.stringify(result[3]));
+                //    console.log("result3: " + JSON.stringify(result[2]));
+                //    console.log("result4: " + JSON.stringify(result[3]));
 
                     previewImg0.src = result[0];
                     previewImg1.src = result[1];
-                    previewImg2.src = result[2];
-                    previewImg3.src = result[3];                    
+                //    previewImg2.src = result[2];
+                //    previewImg3.src = result[3];                    
                 }
             };
 
