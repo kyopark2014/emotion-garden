@@ -9,6 +9,8 @@ exports.handler = async (event, context) => {
     const body = Buffer.from(event["body"], "base64");
     console.log('body: ' + body)
 
+    const jsonData = JSON.parse(body)
+
     try {
         let params = {
             DelaySeconds: 10,
@@ -26,7 +28,7 @@ exports.handler = async (event, context) => {
 
     const response = {
         statusCode: 200,
-        body: JSON.stringify(body)
+        body: JSON.stringify(jsonData)
     };
     return response;
 };
