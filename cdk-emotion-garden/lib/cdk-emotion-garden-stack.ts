@@ -252,10 +252,13 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        bucketName: s3Bucket.bucketName
+        bucketName: s3Bucket.bucketName,
+        sqsBulkUrl: queueBulk.queueUrl,
       }
     });  
-    lambdaBulk.addEventSource(new SqsEventSource(queueBulk)); 
+    queueBulk.grantSendMessages(lambdaBulk);
+    // permission for api Gateway
+    lambdaBulk.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
 
     // POST method
     const bulk = api.root.addResource('bulk');
@@ -288,5 +291,26 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       value: 'aws s3 cp ../html/bulk/bulk.html '+'s3://'+s3Bucket.bucketName+'/bulk',
       description: 'The url of web (bulk)',
     });
+
+    // Lambda for bulk emotion garden
+    const lambdaBulkEmotion = new lambda.Function(this, 'lambda-bulk-emotion', {
+      description: 'lambda for bulk emotion',
+      functionName: 'lambda-bulk-emotion-garden',
+      handler: 'lambda_function.lambda_handler',
+      runtime: lambda.Runtime.PYTHON_3_9,
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-bulk-emotion')),
+      timeout: cdk.Duration.seconds(120),
+      environment: {
+        bucket: s3Bucket.bucketName,
+        endpoints: JSON.stringify(endpoints),
+      }
+    });     
+    lambdaBulkEmotion.addEventSource(new SqsEventSource(queueBulk)); 
+    s3Bucket.grantReadWrite(lambdaBulkEmotion); // permission for s3
+    lambdaBulkEmotion.role?.attachInlinePolicy( // add sagemaker policy
+      new iam.Policy(this, 'sagemaker-policy', {
+        statements: [SageMakerPolicy],
+      }),
+    );
   }
 }
