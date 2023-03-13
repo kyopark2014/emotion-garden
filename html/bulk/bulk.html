@@ -12,6 +12,13 @@
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     let response = JSON.parse(xhr.responseText);
                     console.log("response: " + JSON.stringify(response));
+
+                    let data = response.body;
+                    console.log("data: " + data);
+
+                    console.log("data: " + atob(data));
+                    console.log("data: " + JSON.parse(data));
+                                        
                 }
             };
 
