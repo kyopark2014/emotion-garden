@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <title>Emotion Garden</title>
     <script type="application/javascript">
-        function sendFile(text) {
+        function sendFile(text, index) {
             const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
             const xhr = new XMLHttpRequest();
 
@@ -19,7 +19,11 @@
 
             text = "happy, garden, fantasy, very happy, immature, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art"
 
-            var requestObj = {"text":text, "emotion":"happy"}
+            var requestObj = {
+                "text":text, 
+                "emotion": "happy", 
+                "index": index
+            }
             console.log("request: " + JSON.stringify(requestObj));
 
             var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
@@ -35,7 +39,7 @@
 
                 if(text){
                     for(let i=0;i<10;i++) {
-                        sendFile(text);
+                        sendFile(text, i);
                     }
                 }else{
                     alert("No prompt.");
