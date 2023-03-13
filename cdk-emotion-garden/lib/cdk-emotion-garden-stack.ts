@@ -246,7 +246,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     // Lambda - bulk
     const lambdaBulk = new lambda.Function(this, "lambdaBulk", {
       runtime: lambda.Runtime.NODEJS_16_X, 
-      functionName: "lambda-emotion-bulk",
+      functionName: "lambda-bulk",
       code: lambda.Code.fromAsset("../lambda-bulk"), 
       handler: "index.handler", 
       timeout: cdk.Duration.seconds(10),
