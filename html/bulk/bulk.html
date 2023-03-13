@@ -12,7 +12,9 @@
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     console.log("responseText: " + xhr.responseText);
 
-                    let arrayBuffer = xhr.responseText.data;
+                    let response = JSON.parse(xhr.responseText)
+
+                    let arrayBuffer = response.data;
                     console.log("arrayBuffer: " +arrayBuffer);
 
                     let byteArray = new Uint8Array(arrayBuffer);
