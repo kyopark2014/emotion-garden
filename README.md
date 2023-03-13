@@ -9,13 +9,13 @@ Amazon Rekognition을 이용하여 Emotion을 분석하는 Architecture는 아�
 API의 Resouce는 '/emotion'으로 아래와 같이 CloudFront Domain을 활용하여 RESTful API의 POST method로 요청합니다.
 
 ```java
-https://d1a0soheyg076e.cloudfront.net/emotion
+https://d3ic6ryvcaoqdy.cloudfront.net/emotion
 ```
 
 Client에서 사용할 수 있는 javascript 예제는 아래와 같습니다.
 
 ```java
-const uri = "https://d1a0soheyg076e.cloudfront.net/emotion";
+const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/emotion";
 const xhr = new XMLHttpRequest();
 
 xhr.open("POST", uri, true);
@@ -59,7 +59,7 @@ Rekognition의 감정분석 API는 아래를 참조합니다.
 ### 시험 방법
 #### 브라우저로 Test Page Web을 접속하여 확인하는 방법
 
-1) Test Page에 접속합니다. 여기서 test page의 주소는 "https://d1a0soheyg076e.cloudfront.net/emotion.html"입니다. CloudFront의 도메인은 변경될 수 있습니다. 
+1) Test Page에 접속합니다. 여기서 test page의 주소는 "https://d3ic6ryvcaoqdy.cloudfront.net/emotion.html"입니다. CloudFront의 도메인은 변경될 수 있습니다. 
 
 ![noname](https://user-images.githubusercontent.com/52392004/221028091-bccaa180-896c-4fed-a2ec-859711cfe8b9.png)
 
@@ -73,7 +73,7 @@ Rekognition의 감정분석 API는 아래를 참조합니다.
 Emotion을 확인하기 위해 아래처러 curl로 파일명을 지정하여 전송합니다.
 
 ```java
-curl -i https://d1a0soheyg076e.cloudfront.net/emotion -X POST --data-binary '@bfeacaab-3aab-48e7-a4bc-f4edbe466826.jpeg' -H 'Content-Type: image/jpeg'
+curl -i https://d3ic6ryvcaoqdy.cloudfront.net/emotion -X POST --data-binary '@bfeacaab-3aab-48e7-a4bc-f4edbe466826.jpeg' -H 'Content-Type: image/jpeg'
 ```
 
 이때의 결과는 아래와 같습니다.
