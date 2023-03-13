@@ -74,7 +74,7 @@ def lambda_handler(event, context):
     mybucket = os.environ.get('bucket')
     print("bucket: ", mybucket)
 
-    fname = emotion+'/img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+index
+    fname = emotion+'/img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(index)
     print('fname: ', fname)
 
     stable_diffusion(txt, mybucket, fname, endpoints[0])

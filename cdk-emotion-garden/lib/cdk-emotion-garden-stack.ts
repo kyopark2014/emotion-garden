@@ -28,7 +28,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     // SQS - Bulk
     const queueBulk = new sqs.Queue(this, 'QueueBulk', {
-      visibilityTimeout: cdk.Duration.seconds(130),
+      visibilityTimeout: cdk.Duration.seconds(310),
       queueName: "queue-emotion-garden",
     });
     if(debug) {
@@ -299,7 +299,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-bulk-stable-diffusion')),
-      timeout: cdk.Duration.seconds(120),
+      timeout: cdk.Duration.seconds(300),
       environment: {
         bucket: s3Bucket.bucketName,        
         endpoints: JSON.stringify(endpoints),
