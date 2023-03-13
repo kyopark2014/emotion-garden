@@ -2,7 +2,7 @@
 
 ## Stable Diffusion Image Generator
 
-![image](https://user-images.githubusercontent.com/52392004/224722351-bcf5e927-455a-451a-9ed3-11eeea54bfa3.png)
+<img src="https://user-images.githubusercontent.com/52392004/224722351-bcf5e927-455a-451a-9ed3-11eeea54bfa3.png" width="800">
 
 
 ## Emotion 분석
