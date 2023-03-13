@@ -14,11 +14,11 @@
 
                     let response = JSON.parse(xhr.responseText)
 
-                    let arrayBuffer = response.data;
-                    console.log("arrayBuffer: " +arrayBuffer);
+                    let jsondata = response.data.toString();
+                    console.log("jsondata: " +jsondata);
 
-                    let byteArray = new Uint8Array(arrayBuffer);
-                    console.log("byteArray: " +byteArray);
+                    let data = Buffer.from(response.data);
+                    console.log("data: " +data);
                     
                                         
                 }
