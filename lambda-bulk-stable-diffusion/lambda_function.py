@@ -53,38 +53,41 @@ def stable_diffusion(txt, mybucket, fname, endpoint):
 def lambda_handler(event, context):
     print(event)
 
-    receiptHandle = event['Records'][0]['receiptHandle']
-    print("receiptHandle: ", receiptHandle)
+    print("message size: ", event['Records'].size)
 
-    body = event['Records'][0]['body']
-    print("body: ", body)
+    for i in event['Records']:
+        receiptHandle = event['Records'][i]['receiptHandle']
+        print("receiptHandle: ", receiptHandle)
 
-    jsonbody = json.loads(body)
+        body = event['Records'][i]['body']
+        print("body: ", body)
 
-    txt = jsonbody.get("text")
-    print("text: ", txt)
-    emotion = jsonbody.get("emotion")
-    print("emotion: ", emotion)
-    index = jsonbody.get("index")
-    print("index: ", index)
+        jsonbody = json.loads(body)
 
-    endpoints = json.loads(os.environ.get('endpoints'))
-    print("endpoints: ", endpoints)
-    
-    mybucket = os.environ.get('bucket')
-    print("bucket: ", mybucket)
+        txt = jsonbody.get("text")
+        print("text: ", txt)
+        emotion = jsonbody.get("emotion")
+        print("emotion: ", emotion)
+        index = jsonbody.get("index")
+        print("index: ", index)
 
-    fname = emotion+'/img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(index)
-    print('fname: ', fname)
-
-    stable_diffusion(txt, mybucket, fname, endpoints[0])
-
-    # delete queue
-    try:
-        sqs.delete_message(QueueUrl=sqsBulkUrl, ReceiptHandle=receiptHandle)
-    except Exception as e:        
-        print('Fail to delete the queue message: ', e)
+        endpoints = json.loads(os.environ.get('endpoints'))
+        print("endpoints: ", endpoints)
         
+        mybucket = os.environ.get('bucket')
+        print("bucket: ", mybucket)
+
+        fname = emotion+'/img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(index)
+        print('fname: ', fname)
+
+        stable_diffusion(txt, mybucket, fname, endpoints[0])
+
+        # delete queue
+        try:
+            sqs.delete_message(QueueUrl=sqsBulkUrl, ReceiptHandle=receiptHandle)
+        except Exception as e:        
+            print('Fail to delete the queue message: ', e)
+            
     statusCode = 200     
     return {
         'statusCode': statusCode,
