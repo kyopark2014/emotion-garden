@@ -15,7 +15,8 @@ exports.handler = async (event, context) => {
             DelaySeconds: 10,
             MessageAttributes: {},
             MessageBody: JSON.stringify(jsonData), 
-            QueueUrl: sqsBulkUrl
+            QueueUrl: sqsBulkUrl,
+            MessageGroupId: "emotion"
         };         
         console.log('params: '+JSON.stringify(params));
 
