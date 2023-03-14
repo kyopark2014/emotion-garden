@@ -22,7 +22,7 @@ def stable_diffusion(txt, mybucket, fname, endpoint):
 
     payload = {        
         "prompt": txt,
-        "width": 1024,
+        "width": 1024,  # WSVGA 1024 x 600, WXGA: 1280 x 800
         "height": 600,
         "num_images_per_prompt": 1,
         "num_inference_steps": 50,
@@ -53,13 +53,13 @@ def stable_diffusion(txt, mybucket, fname, endpoint):
 def lambda_handler(event, context):
     print(event)
 
-    for i in event['Records']:
-        print("message order: ", i)
+    for record in event['Records']:
+        print("record: ", record)
 
-        receiptHandle = event['Records'][i]['receiptHandle']
+        receiptHandle = record['receiptHandle']
         print("receiptHandle: ", receiptHandle)
 
-        body = event['Records'][i]['body']
+        body = record['body']
         print("body: ", body)
 
         jsonbody = json.loads(body)
