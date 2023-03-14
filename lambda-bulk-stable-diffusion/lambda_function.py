@@ -66,7 +66,7 @@ def lambda_handler(event, context):
         index = jsonbody['index']
         print("index: ", index)
         prompt = jsonbody['prompt']
-        print("index: ", index)
+        print("prompt: ", prompt)
         
         emotion = prompt['emotion']
         print("emotion: ", emotion)

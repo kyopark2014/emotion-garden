@@ -27,7 +27,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     super(scope, id, props);
 
     // SQS - Bulk
-    const queueBulk = new sqs.Queue(this, 'QueueBulk', {
+  /*  const queueBulk = new sqs.Queue(this, 'QueueBulk', {
       visibilityTimeout: cdk.Duration.seconds(310),
       queueName: "queue-emotion-garden.fifo",
       fifo: true,
@@ -40,7 +40,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         value: queueBulk.queueUrl,
         description: 'The url of the Queue',
       });
-    } 
+    } */
 
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage",{
@@ -249,7 +249,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
 
     // Lambda - bulk
-    const lambdaBulk = new lambda.Function(this, "lambdaBulk", {
+  /*  const lambdaBulk = new lambda.Function(this, "lambdaBulk", {
       runtime: lambda.Runtime.NODEJS_16_X, 
       functionName: "lambda-bulk",
       code: lambda.Code.fromAsset("../lambda-bulk"), 
@@ -316,7 +316,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       new iam.Policy(this, 'sagemaker-policy-for-bulk', {
         statements: [SageMakerPolicy],
       }),
-    ); 
+    ); */
   }
 }
 
