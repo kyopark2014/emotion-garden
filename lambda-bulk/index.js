@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
 
     try {
         let params = {
-            DelaySeconds: 10,
+            DelaySeconds: 300,
             MessageAttributes: {},
             MessageBody: JSON.stringify(jsonData), 
             QueueUrl: sqsBulkUrl,
