@@ -8,15 +8,18 @@ exports.handler = async (event, context) => {
     
     const body = Buffer.from(event["body"], "base64");
     const jsonData = JSON.parse(body)
-    console.log('jsonData: ' + JSON.stringify(jsonData))
+    console.log('jsonData: ' + JSON.stringify(jsonData));
 
-    console.log('MessageDeduplicationId: ' + jsonData.emotion+jsonData.index)
+    const index = jsonData.index;
+    const prompt = JSON.parse(jsonData.prompt);
+
+    console.log('MessageDeduplicationId: ' + prompt.emotion + index);
     try {
         let params = {
             // DelaySeconds: 10, // not allow for fifo
-            MessageDeduplicationId: jsonData.emotion+jsonData.index,
+            MessageDeduplicationId: prompt.emotion + index,
             MessageAttributes: {},
-            MessageBody: JSON.stringify(jsonData), 
+            MessageBody: JSON.stringify(prompt), 
             QueueUrl: sqsBulkUrl,
             MessageGroupId: "emotion"  // use single lambda for stable diffusion 
         };         

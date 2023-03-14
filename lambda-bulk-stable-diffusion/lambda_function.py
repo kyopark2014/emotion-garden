@@ -64,6 +64,15 @@ def lambda_handler(event, context):
 
         jsonbody = json.loads(body)
 
+        text = jsonbody['emotion']
+        if jsonbody['feature0']:
+            text = text + jsonbody['feature0']
+        if jsonbody['feature1']:
+            text = text + jsonbody['feature1']
+        if jsonbody['feature2']:
+            text = text + jsonbody['feature2']
+        text = text + jsonbody['others']
+
         txt = jsonbody.get("text")
         print("text: ", txt)
         emotion = jsonbody.get("emotion")

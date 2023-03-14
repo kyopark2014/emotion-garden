@@ -8,7 +8,7 @@
             while (Date.now() < wakeUpTime) {}
         }
 
-        function sendFile(text, index) {
+        function sendFile(prompt, index) {
             const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
             const xhr = new XMLHttpRequest();
 
@@ -22,12 +22,9 @@
                 }
             };
 
-            text = "happy, garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art"
-
             var requestObj = {
-                "text":text, 
-                "emotion": "happy", 
-                "index": index
+                "index": index,
+                "prompt": JSON.stringify(prompt) 
             }
             console.log("request: " + JSON.stringify(requestObj));
 
@@ -39,12 +36,33 @@
         window.onload = () => {
             var form = document.forms.myform;
             form.elements.button.onclick = function(){
-                var text = form.elements.prompt.value;
-                console.log("input: "+text);
+                var emotion = form.elements.emotion.value;
+                console.log("emotion: "+emotion);
+                
+                var feature0 = form.elements.feature0.value;
+                console.log("feature0: "+feature0);
 
-                if(text){
+                var feature1 = form.elements.feature1.value;
+                console.log("feature1: "+feature1);
+                
+                var feature2 = form.elements.feature2.value;
+                console.log("feature2: "+feature2);
+
+                var others = form.elements.others.value;
+                console.log("others: "+others);
+
+                var prompt = {
+                    "emotion":emotion, 
+                    "feature0": feature0, 
+                    "feature1": feature1, 
+                    "feature2": feature2, 
+                    "others": others
+                }                                
+                console.log("prompt: "+JSON.stringify(prompt));
+
+                if(prompt){
                     for(let i=0;i<10;i++) {
-                        sendFile(text, i);
+                        sendFile(prompt, i);
                         sleep(2000);
                     }
                 }else{
@@ -59,7 +77,11 @@
     <h4>Enter your text to generate your stable diffusion image.</h4>
     <div>
         <form id="myform">
-            <input type="text" name="prompt" autofocus size="100" value="A flower with cat, fantasy, very happy, immature, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
+            <input type="text" name="emotion" autofocus size="100" value="HAPPY">
+            <input type="text" name="feature0" autofocus size="100" value="cat">
+            <input type="text" name="feature1" autofocus size="100" value="">
+            <input type="text" name="feature2" autofocus size="100" value="">
+            <input type="text" name="others" autofocus size="100" value="garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
             <input type="button" name="button" value="Send">
         </form>
     </div>
