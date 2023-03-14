@@ -30,7 +30,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     const queueBulk = new sqs.Queue(this, 'QueueBulk', {
       visibilityTimeout: cdk.Duration.seconds(310),
       queueName: "queue-emotion-garden.fifo",
-      fifo: true
+      fifo: true,
+      contentBasedDeduplication: true,
     });
     if(debug) {
       new cdk.CfnOutput(this, 'sqsBulkUrl', {
