@@ -3,6 +3,11 @@
   <meta charset="UTF-8">
   <title>Emotion Garden</title>
     <script type="application/javascript">
+        function sleep(ms) {
+            const wakeUpTime = Date.now() + ms;
+            while (Date.now() < wakeUpTime) {}
+        }
+
         function sendFile(text, index) {
             const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
             const xhr = new XMLHttpRequest();
@@ -41,9 +46,10 @@
                     for(let i=0;i<10;i++) {
                         sendFile(text, i);
 
-                        setTimeout(function(){
+                        /*setTimeout(function(){
                             console.log('index: '+i);
-                        }, 2000);
+                        }, 2000);*/
+                        sleep(2000);
                     }
                 }else{
                     alert("No prompt.");
