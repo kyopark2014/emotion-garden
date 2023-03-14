@@ -27,7 +27,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     super(scope, id, props);
 
     // SQS - Bulk
-    const queueBulk = new sqs.Queue(this, 'QueueBulk', {
+  /*  const queueBulk = new sqs.Queue(this, 'QueueBulk', {
       visibilityTimeout: cdk.Duration.seconds(310),
       queueName: "queue-emotion-garden.fifo",
       fifo: true
@@ -37,7 +37,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         value: queueBulk.queueUrl,
         description: 'The url of the Queue',
       });
-    }
+    } */
 
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage",{
@@ -254,10 +254,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        sqsBulkUrl: queueBulk.queueUrl,
+      //  sqsBulkUrl: queueBulk.queueUrl,
       }
     });  
-    queueBulk.grantSendMessages(lambdaBulk);
+    // queueBulk.grantSendMessages(lambdaBulk);
     // permission for api Gateway
     lambdaBulk.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
 
@@ -304,10 +304,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       environment: {
         bucket: s3Bucket.bucketName,        
         endpoints: JSON.stringify(endpoints),
-        sqsBulkUrl: queueBulk.queueUrl,
+      //  sqsBulkUrl: queueBulk.queueUrl,
       }
     });     
-    lambdaBulkStableDiffusion.addEventSource(new SqsEventSource(queueBulk)); 
+    // lambdaBulkStableDiffusion.addEventSource(new SqsEventSource(queueBulk)); 
     s3Bucket.grantReadWrite(lambdaBulkStableDiffusion); // permission for s3
     lambdaBulkStableDiffusion.role?.attachInlinePolicy( // add sagemaker policy
       new iam.Policy(this, 'sagemaker-policy-for-bulk', {
