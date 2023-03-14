@@ -19,7 +19,7 @@ exports.handler = async (event, context) => {
             // DelaySeconds: 10, // not allow for fifo
             MessageDeduplicationId: prompt.emotion + index,
             MessageAttributes: {},
-            MessageBody: JSON.stringify(prompt), 
+            MessageBody: JSON.stringify(jsonData), 
             QueueUrl: sqsBulkUrl,
             MessageGroupId: "emotion"  // use single lambda for stable diffusion 
         };         
