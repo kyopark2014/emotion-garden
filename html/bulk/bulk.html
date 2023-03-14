@@ -15,10 +15,10 @@
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log("responseText: " + xhr.responseText);
+                    console.log("--> responseText: " + xhr.responseText);
 
-                    let response = JSON.parse(xhr.responseText)
-                    console.log("response: " + response.text);                    
+                    // let response = JSON.parse(xhr.responseText)
+                    // console.log("response: " + response.text);                    
                 }
             };
 
@@ -45,10 +45,6 @@
                 if(text){
                     for(let i=0;i<10;i++) {
                         sendFile(text, i);
-
-                        /*setTimeout(function(){
-                            console.log('index: '+i);
-                        }, 2000);*/
                         sleep(2000);
                     }
                 }else{

@@ -53,9 +53,9 @@ def stable_diffusion(txt, mybucket, fname, endpoint):
 def lambda_handler(event, context):
     print(event)
 
-    print("message size: ", event['Records'].size)
-
     for i in event['Records']:
+        print("message order: ", i)
+
         receiptHandle = event['Records'][i]['receiptHandle']
         print("receiptHandle: ", receiptHandle)
 
