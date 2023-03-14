@@ -65,32 +65,35 @@ def lambda_handler(event, context):
         jsonbody = json.loads(body)
         index = jsonbody['index']
         print("index: ", index)
-        prompt = jsonbody['prompt']
+        prompt = json.loads(jsonbody['prompt'])
         print("prompt: ", prompt)
         
         emotion = prompt['emotion']
         print("emotion: ", emotion)
 
         text = emotion
+        key = emotion
         if prompt['feature0']:
-            text = text + prompt['feature0']
+            text = text + ", "+ prompt['feature0']
+            key = key + "/" + prompt['feature0'] 
         if prompt['feature1']:
-            text = text + prompt['feature1']
+            text = text + ", "+ prompt['feature1']
+            key = key + "/" + prompt['feature1'] 
         if prompt['feature2']:
-            text = text + prompt['feature2']
-        text = text + prompt['others']
+            text = text + ", "+ prompt['feature2']
+            key = key + "/" + prompt['feature2'] 
+        text = text + ", "+ prompt['others']
         print("text: ", text)
+        key = key + "/" + 'img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(index)
+        print('key: ', key)
 
         endpoints = json.loads(os.environ.get('endpoints'))
         print("endpoints: ", endpoints)
         
         mybucket = os.environ.get('bucket')
         print("bucket: ", mybucket)
-
-        fname = emotion+'/img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(index)
-        print('fname: ', fname)
-
-        stable_diffusion(text, mybucket, fname, endpoints[0])
+        
+        stable_diffusion(text, mybucket, key, endpoints[0])
 
         # delete queue
         try:
