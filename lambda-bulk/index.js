@@ -8,11 +8,13 @@ exports.handler = async (event, context) => {
     
     const body = Buffer.from(event["body"], "base64");
     const jsonData = JSON.parse(body)
-    console.log('jsonData: ' + jsonData.text)
+    console.log('jsonData: ' + JSON.stringify(jsonData))
 
+    console.log('MessageDeduplicationId: ' + jsonData.emotion+jsonData.index)
     try {
         let params = {
             // DelaySeconds: 10, // not allow for fifo
+            MessageDeduplicationId: jsonData.emotion+jsonData.index,
             MessageAttributes: {},
             MessageBody: JSON.stringify(jsonData), 
             QueueUrl: sqsBulkUrl,
