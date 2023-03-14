@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
 
     try {
         let params = {
-            DelaySeconds: 300,
+            // DelaySeconds: 10, // not allow for fifo
             MessageAttributes: {},
             MessageBody: JSON.stringify(jsonData), 
             QueueUrl: sqsBulkUrl,
