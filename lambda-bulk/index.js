@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
             MessageAttributes: {},
             MessageBody: JSON.stringify(jsonData), 
             QueueUrl: sqsBulkUrl,
-            MessageGroupId: "emotion"
+            MessageGroupId: "emotion"  // use single lambda for stable diffusion 
         };         
         console.log('params: '+JSON.stringify(params));
 
