@@ -40,6 +40,8 @@
                 if(text){
                     for(let i=0;i<10;i++) {
                         sendFile(text, i);
+
+                        setTimeout(function(){}, 2000);
                     }
                 }else{
                     alert("No prompt.");
