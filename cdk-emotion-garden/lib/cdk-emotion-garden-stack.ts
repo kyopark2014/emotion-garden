@@ -31,7 +31,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       visibilityTimeout: cdk.Duration.seconds(310),
       queueName: "queue-emotion-garden.fifo",
       fifo: true,
-      contentBasedDeduplication: true,
+      contentBasedDeduplication: false,
       deliveryDelay: cdk.Duration.millis(0),
       retentionPeriod: cdk.Duration.days(2),
     });
