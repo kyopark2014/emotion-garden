@@ -22,8 +22,8 @@ def stable_diffusion(txt, mybucket, fname, endpoint):
 
     payload = {        
         "prompt": txt,
-        "width": 1024,  # WSVGA 1024 x 600, WXGA: 1280 x 800
-        "height": 600,
+        "width": 1280,  # WSVGA 1024 x 600, WXGA: 1280 x 800
+        "height": 800,
         "num_images_per_prompt": 1,
         "num_inference_steps": 50,
         "guidance_scale": 7.5,

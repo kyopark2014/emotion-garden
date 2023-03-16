@@ -22,37 +22,40 @@
                 }
             };
 
-            var requestObj = {
+            let requestObj = {
                 "index": index,
                 "prompt": JSON.stringify(prompt) 
             }
             console.log("request: " + JSON.stringify(requestObj));
 
-            var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
+            let blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
 
             xhr.send(blob);            
         }
 
         window.onload = () => {
-            var form = document.forms.myform;
-            form.elements.button.onclick = function(){
-                var emotion = form.elements.emotion.value;
-                console.log("emotion: "+emotion);
-                
-                var feature0 = form.elements.feature0.value;
-                console.log("feature0: "+feature0);
+            let form = document.forms.input_row5;
+            form.elements.button.onclick = function(){                
+                let repeatCount = document.forms.input_row0.elements.repeatCount.value;
+                console.log("repeatCount: "+repeatCount);
 
-                var feature1 = form.elements.feature1.value;
+                let selectedEmotion = document.getElementById("emoitonId");
+                console.log("emotion: "+selectedEmotion.value);
+                
+                let feature0 = document.forms.input_row2.elements.feature0.value;
+                console.log("feature0: "+feature0);
+        
+                let feature1 = document.forms.input_row3.elements.feature1.value;
                 console.log("feature1: "+feature1);
                 
-                var feature2 = form.elements.feature2.value;
+                let feature2 = document.forms.input_row4.elements.feature2.value;
                 console.log("feature2: "+feature2);
 
-                var others = form.elements.others.value;
+                let others = document.forms.input_row5.elements.others.value;
                 console.log("others: "+others);
 
-                var prompt = {
-                    "emotion":emotion, 
+                let prompt = {
+                    "emotion": selectedEmotion, 
                     "feature0": feature0, 
                     "feature1": feature1, 
                     "feature2": feature2, 
@@ -61,28 +64,51 @@
                 console.log("prompt: "+JSON.stringify(prompt));
 
                 if(prompt){
-                    for(let i=0;i<10;i++) {
+                    for(let i=0;i<repeatCount;i++) {
                         sendFile(prompt, i);
                         sleep(2000);
                     }
                 }else{
                     alert("No prompt.");
-                }
+                } 
             };
         }
     </script>
 </head>
 <body>
-    <h1>Emotion Garden</h1>
-    <h4>Enter your text to generate your stable diffusion image.</h4>
+    <h1>Stable Diffusion Image Generator</h1>
+    <h4>You can enter your text as bellows.</h4>
+    <form id="input_row0">
+        <H4>RepeatCount</H4><input type="text" name="repeatCount" autofocus size="50" value="10">
+    </form>
     <div>
         <form id="myform">
-            <input type="text" name="emotion" autofocus size="50" value="HAPPY">
-            <input type="text" name="feature0" autofocus size="50" value="cat">
-            <input type="text" name="feature1" autofocus size="50" value="">
-            <input type="text" name="feature2" autofocus size="50" value="">
-            <input type="text" name="others" autofocus size="100" value="garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
-            <input type="button" name="button" value="Send">
+            <form id="input_row1">
+                <H4>Features</H4>
+                <select name="emotion" id="emoitonId">
+                    <option type="text" value="HAPPY" selected="selected">행복 (HAPPY)</option>
+                    <option value="SURPRISED">놀람 (SURPRISED)</option>
+                    <option value="CALM">평온 (CALM)</option>
+                    <option value="ANGRY">화남 (ANGRY)</option>
+                    <option value="FEAR">공포 (FEAR)</option>                
+                    <option value="CONFUSED">혼란스러움 (CONFUSED)</option>
+                    <option value="DISGUSTED">역겨움 (DISGUSTED)</option>
+                    <option value="SAD">슬픔 (SAD)</option>
+                </select>
+            </form>
+            <form id="input_row2">                
+                <input type="text" name="feature0" autofocus size="50" value="cat">
+            </form>
+            <form id="input_row3">
+                <input type="text" name="feature1" autofocus size="50" value="">
+            </form>
+            <form id="input_row4">
+                <input type="text" name="feature2" autofocus size="50" value="">
+            </form>
+            <form id="input_row5">
+                <input type="text" name="others" autofocus size="100" value="garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
+                <input type="button" name="button" value="Send">
+            </form>            
         </form>
     </div>
     <h4>Stable diffusion images will be generated from your text and then served in CloudFront.</h4>
