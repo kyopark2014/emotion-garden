@@ -349,6 +349,16 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       events: [
         s3.EventType.OBJECT_CREATED_PUT,
         s3.EventType.OBJECT_REMOVED_DELETE
+      ],
+      filters: [ 
+        { prefix: 'happy/'},
+        { prefix: 'surprised/'},
+        { prefix: 'calm/'},
+        { prefix: 'angry/'},
+        { prefix: 'fear/'},
+        { prefix: 'confused/'},
+        { prefix: 'disgusted/'},
+        { prefix: 'sad/'},
       ]
     });
     lambdaS3event.addEventSource(s3PutEventSource);
