@@ -2,6 +2,7 @@ const aws = require('aws-sdk');
 const dynamo = new aws.DynamoDB.DocumentClient();
 const bucketName = process.env.bucketName;
 const tableName = process.env.tableName;
+const domainName = process.env.domainName;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -29,6 +30,8 @@ exports.handler = async (event, context) => {
         console.log(error);
         return;
     }  
+
+    //console.log("url: ", domainName+)
 
 /*    function wait(){
         return new Promise((resolve, reject) => {

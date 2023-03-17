@@ -373,7 +373,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
     lambdaS3event.addEventSource(s3PutEventSource);
 
-    // Lambda for s3 trigger
+    // Lambda for getList
     const lambdaGetList = new lambda.Function(this, 'lambda-getlist', {
       runtime: lambda.Runtime.NODEJS_16_X, 
       functionName: "lambda-getlist",
@@ -384,9 +384,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       environment: {
         tableName: tableName,
         bucketName: s3Bucket.bucketName,     
+        domainName: 'https://'+distribution.domainName
       }
     });         
-    dataTable.grantReadWriteData(lambdaS3event); // permission for dynamo
+    dataTable.grantReadWriteData(lambdaGetList); // permission for dynamo
   }
 }
 
