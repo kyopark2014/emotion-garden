@@ -6,6 +6,7 @@ exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
     console.log('## EVENT: ' + JSON.stringify(event))
     
+    let isCompleted = false;
     for(let i in event.Records) {
         // Get the object from the event and show its content type
         const eventName =  event.Records[i].eventName; // ObjectCreated:Put        
@@ -18,8 +19,8 @@ exports.handler = async (event, context) => {
             console.log('bucket: ' + bucket)
             console.log('key: ' + key)
 
-            var date = new Date();        
-            timestamp = Math.floor(date.getTime()/1000).toString();
+            let date = new Date();        
+            let timestamp = Math.floor(date.getTime()/1000).toString();
 
             const emotion = 'happy';
             const feature0 = "";
@@ -27,7 +28,7 @@ exports.handler = async (event, context) => {
             const feature2 = "";
 
             // putItem to DynamoDB
-            var putParams = {
+            let putParams = {
                 TableName: tableName,
                 Item: {
                     ObjKey: key,
@@ -43,10 +44,13 @@ exports.handler = async (event, context) => {
                 if (err) {
                     console.log('Failure: '+err);
                 } 
-            });
+            });     
+            
+            console.log('event.Records.length: ', event.Records.length);
+            isCompleted = true;
         }      
         else {
-            const indexName = "Emotion-index"; // GSI
+        /*    const indexName = "Emotion-index"; // GSI
             var queryParams = {
                 TableName: tableName,
                 IndexName: indexName,    
@@ -65,7 +69,7 @@ exports.handler = async (event, context) => {
             } catch (error) {
                 console.log(error);
                 return;
-            }  
+            }  */
         }  
     }
 
@@ -75,6 +79,22 @@ exports.handler = async (event, context) => {
     } catch (err) {
         console.log(err);
     }*/
+
+    function wait(){
+        return new Promise((resolve, reject) => {
+            if(!isCompleted) {
+                setTimeout(() => resolve("wait..."), 1000)
+            }
+            else {
+                setTimeout(() => resolve("done..."), 0)
+            }
+        });
+    }
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
 
     const response = {
         statusCode: 200,
