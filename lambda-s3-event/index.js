@@ -18,14 +18,14 @@ exports.handler = async (event, context) => {
             
             console.log('bucket: ' + bucket)
             console.log('key: ' + key)
-
+            
             let date = new Date();        
-            let timestamp = Math.floor(date.getTime()/1000).toString();
+            const timestamp = Math.floor(date.getTime()/1000).toString();
 
             const emotion = 'happy';
-            const feature0 = "";
-            const feature1 = "";
-            const feature2 = "";
+            const feature0 = "happy";
+            const feature1 = "happy";
+            const feature2 = "happy";
 
             // putItem to DynamoDB
             let putParams = {
@@ -39,6 +39,7 @@ exports.handler = async (event, context) => {
                     Feature2: feature2,                    
                 } 
             };
+            console.log('putParams: ' + JSON.stringify(putParams));
 
             dynamo.put(putParams, function(err){
                 if (err) {
@@ -47,6 +48,7 @@ exports.handler = async (event, context) => {
             });     
             
             console.log('event.Records.length: ', event.Records.length);
+            console.log('i: ', i);
             isCompleted = true;
         }      
         else {
