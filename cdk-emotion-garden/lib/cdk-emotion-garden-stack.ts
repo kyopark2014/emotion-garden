@@ -45,13 +45,29 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     } 
 
     // DynamoDB
-    const tableName = 'dynamodb-businfo';
+    const tableName = 'db-emotion-garden';
     const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
         tableName: tableName,
-        partitionKey: { name: 'FileName', type: dynamodb.AttributeType.STRING },
-        sortKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
+        partitionKey: { name: 'ObjKey', type: dynamodb.AttributeType.STRING },
+        sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING },
         billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+    dataTable.addGlobalSecondaryIndex({ // GSI
+      indexName: 'Emoition-index',
+      partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
+    });
+    dataTable.addGlobalSecondaryIndex({ // GSI
+      indexName: 'Feature0-index',
+      partitionKey: { name: 'Feature0', type: dynamodb.AttributeType.STRING },
+    });
+    dataTable.addGlobalSecondaryIndex({ // GSI
+      indexName: 'Feature1-index',
+      partitionKey: { name: 'Featrue1', type: dynamodb.AttributeType.STRING },
+    });
+    dataTable.addGlobalSecondaryIndex({ // GSI
+      indexName: 'Feature2-index',
+      partitionKey: { name: 'Featrue2', type: dynamodb.AttributeType.STRING },
     });
 
     // s3 
@@ -339,7 +355,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        bucketName: s3Bucket.bucketName
+        tableName: tableName
       }
     });         
     s3Bucket.grantReadWrite(lambdaS3event); // permission for s3
