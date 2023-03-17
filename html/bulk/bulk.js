@@ -67,7 +67,7 @@ form.elements.button.onclick = function () {
 
             sendFile(prompt, i);
             
-            sleep(1000);            
+            //sleep(1000);            
         }
     } else {
         alert("No prompt.");
