@@ -11,6 +11,8 @@ import * as s3Deploy from "aws-cdk-lib/aws-s3-deployment";
 import * as logs from "aws-cdk-lib/aws-logs"
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import {SqsEventSource} from 'aws-cdk-lib/aws-lambda-event-sources';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 
 const debug = false;
 const stage = "dev"; 
@@ -41,6 +43,16 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         description: 'The url of the Queue',
       });
     } 
+
+    // DynamoDB
+    const tableName = 'dynamodb-businfo';
+    const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
+        tableName: tableName,
+        partitionKey: { name: 'FileName', type: dynamodb.AttributeType.STRING },
+        sortKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
+        billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
 
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage",{
@@ -317,6 +329,29 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         statements: [SageMakerPolicy],
       }),
     ); 
+
+    // Lambda for s3 trigger
+    const lambdaS3event = new lambda.Function(this, 'lambda-S3-event', {
+      runtime: lambda.Runtime.NODEJS_16_X, 
+      functionName: "lambda-s3-event",
+      code: lambda.Code.fromAsset("../lambda-s3-event"), 
+      handler: "index.handler", 
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        bucketName: s3Bucket.bucketName
+      }
+    });         
+    s3Bucket.grantReadWrite(lambdaS3event); // permission for s3
+
+    // s3 put/delete event source
+    const s3PutEventSource = new lambdaEventSources.S3EventSource(s3Bucket, {
+      events: [
+        s3.EventType.OBJECT_CREATED_PUT,
+        s3.EventType.OBJECT_REMOVED_DELETE
+      ]
+    });
+    lambdaS3event.addEventSource(s3PutEventSource);
   }
 }
 
