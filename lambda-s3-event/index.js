@@ -8,14 +8,19 @@ exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
     console.log('## EVENT: ' + JSON.stringify(event))
     
-    // Get the object from the event and show its content type
-    const bucket = event.Records[0].s3.bucket.name;
-    const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
-    const params = {
-        Bucket: bucket,
-        Key: key,
-    }; 
-    console.log('params: ' + JSON.stringify(params))
+    for(let i in event.Records) {
+        // Get the object from the event and show its content type
+        const eventName =  event.Records[i].eventName; // ObjectCreated:Put
+        console.log('eventName: ' + eventName);
+
+        const bucket = event.Records[i].s3.bucket.name;
+        const key = decodeURIComponent(event.Records[i].s3.object.key.replace(/\+/g, ' '));
+        const params = {
+            Bucket: bucket,
+            Key: key,
+        }; 
+        console.log('params: ' + JSON.stringify(params))
+    }
 
     /*try {
         const { ContentType } = await s3.getObject(params).promise();
