@@ -352,13 +352,13 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       ],
       filters: [ 
         { prefix: 'happy/'},
-        { prefix: 'surprised/'},
+      /*  { prefix: 'surprised/'},
         { prefix: 'calm/'},
         { prefix: 'angry/'},
         { prefix: 'fear/'},
         { prefix: 'confused/'},
         { prefix: 'disgusted/'},
-        { prefix: 'sad/'},
+        { prefix: 'sad/'}, */
       ]
     });
     lambdaS3event.addEventSource(s3PutEventSource);
