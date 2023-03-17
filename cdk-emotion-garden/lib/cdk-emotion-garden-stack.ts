@@ -45,7 +45,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     } 
 
     // DynamoDB
-  /*  const tableName = 'db-emotion-garden';
+    const tableName = 'db-emotion-garden';
     const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
         tableName: tableName,
         partitionKey: { name: 'ObjKey', type: dynamodb.AttributeType.STRING },
@@ -57,7 +57,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       indexName: 'Emotion-index',
       partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
     });
-    dataTable.addGlobalSecondaryIndex({ // GSI
+  /*  dataTable.addGlobalSecondaryIndex({ // GSI
       indexName: 'Feature0-index',
       partitionKey: { name: 'Feature0', type: dynamodb.AttributeType.STRING },
     });
@@ -347,7 +347,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     ); 
 
     // Lambda for s3 trigger
-  /*  const lambdaS3event = new lambda.Function(this, 'lambda-S3-event', {
+    const lambdaS3event = new lambda.Function(this, 'lambda-S3-event', {
       runtime: lambda.Runtime.NODEJS_16_X, 
       functionName: "lambda-s3-event",
       code: lambda.Code.fromAsset("../lambda-s3-event"), 
@@ -387,7 +387,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         domainName: 'https://'+distribution.domainName
       }
     });         
-    dataTable.grantReadWriteData(lambdaGetList); // permission for dynamo */
+    dataTable.grantReadWriteData(lambdaGetList); // permission for dynamo 
   } 
 }
 
