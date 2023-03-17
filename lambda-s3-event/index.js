@@ -23,9 +23,9 @@ exports.handler = async (event, context) => {
             const timestamp = Math.floor(date.getTime()/1000).toString();
 
             const emotion = 'happy';
-            const feature0 = "happy";
-            const feature1 = "happy";
-            const feature2 = "happy";
+            //const feature0 = "";
+            //const feature1 = "";
+            //const feature2 = "";
 
             // putItem to DynamoDB
             let putParams = {
@@ -34,9 +34,9 @@ exports.handler = async (event, context) => {
                     ObjKey: key,
                     Timestamp: timestamp,
                     Emotion: emotion,
-                    Feature0: feature0,
-                    Feature1: feature1,
-                    Feature2: feature2,                    
+                    //Feature0: feature0,
+                    //Feature1: feature1,                    
+                    //Feature2: feature2,                    
                 } 
             };
             console.log('putParams: ' + JSON.stringify(putParams));

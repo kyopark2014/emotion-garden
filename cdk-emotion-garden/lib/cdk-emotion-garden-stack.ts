@@ -57,18 +57,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       indexName: 'Emotion-index',
       partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
     });
-  /*  dataTable.addGlobalSecondaryIndex({ // GSI
-      indexName: 'Feature0-index',
-      partitionKey: { name: 'Feature0', type: dynamodb.AttributeType.STRING },
-    });
-    dataTable.addGlobalSecondaryIndex({ // GSI
-      indexName: 'Feature1-index',
-      partitionKey: { name: 'Featrue1', type: dynamodb.AttributeType.STRING },
-    });
-    dataTable.addGlobalSecondaryIndex({ // GSI
-      indexName: 'Feature2-index',
-      partitionKey: { name: 'Featrue2', type: dynamodb.AttributeType.STRING },
-    });*/
 
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage",{
