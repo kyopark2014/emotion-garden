@@ -54,7 +54,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
     dataTable.addGlobalSecondaryIndex({ // GSI
-      indexName: 'Emoition-index',
+      indexName: 'Emotion-index',
       partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
     });
     dataTable.addGlobalSecondaryIndex({ // GSI
