@@ -9,7 +9,7 @@ exports.handler = async (event, context) => {
     console.log('## EVENT: ' + JSON.stringify(event))
     
     const indexName = "Emotion-index"; // GSI
-    let emotion = "happy";
+    let emotion = event.emotion;
     
     let queryParams = {
         TableName: tableName,
@@ -24,33 +24,34 @@ exports.handler = async (event, context) => {
     try {
         dynamoQuery = await dynamo.query(queryParams).promise();
 
-        //  console.log('queryDynamo: '+JSON.stringify(dynamoQuery));
+        console.log('queryDynamo: '+JSON.stringify(dynamoQuery));
         console.log('queryDynamo: '+dynamoQuery.Count);      
     } catch (error) {
         console.log(error);
         return;
     }  
 
-    //console.log("url: ", domainName+)
+    let urlList = [];
+    for(let i in dynamoQuery['Items']) {
+        const objKey = dynamoQuery['Items'][i]['ObjKey'];
+        // const timestamp = dynamoQuery['Items'][i]['Timestamp'];
+        // const emotion = dynamoQuery['Items'][i]['Emotion'];
 
-/*    function wait(){
-        return new Promise((resolve, reject) => {
-            if(!isCompleted) {
-                setTimeout(() => resolve("wait..."), 1000)
-            }
-            else {
-                setTimeout(() => resolve("done..."), 0)
-            }
-        });
+        // console.log('objKey: ', objKey);
+        // console.log('timestamp: ', timestamp);
+        // console.log('emotion: ', emotion);
+        
+        const url = domainName+'/'+objKey;
+        // console.log('url: ', url);
+
+        urlList.push(url);
     }
-    console.log(await wait());
-    console.log(await wait());
-    console.log(await wait());
-    console.log(await wait());
-    console.log(await wait()); */
+
+    console.log('urlList: ', JSON.stringify(urlList));
 
     const response = {
         statusCode: 200,
+        body: JSON.stringify(urlList)
     };
 
     return response;
