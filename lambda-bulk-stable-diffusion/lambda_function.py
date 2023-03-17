@@ -71,7 +71,7 @@ def lambda_handler(event, context):
         emotion = prompt['emotion']
         print("emotion: ", emotion)
 
-        text = emotion
+        text = 'emotions/'+emotion
         key = emotion
         if prompt['feature0']:
             text = text + ", "+ prompt['feature0']

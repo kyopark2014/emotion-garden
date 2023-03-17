@@ -351,7 +351,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         s3.EventType.OBJECT_REMOVED_DELETE
       ],
       filters: [ 
-        { prefix: 'emotion-garden/' },
+        { prefix: 'emotions/' },
       ]
     });
     lambdaS3event.addEventSource(s3PutEventSource);
