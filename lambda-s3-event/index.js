@@ -1,6 +1,7 @@
 const aws = require('aws-sdk');
 const dynamo = new aws.DynamoDB.DocumentClient();
 const tableName = process.env.tableName;
+const dynamodb = new aws.DynamoDB();
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -12,13 +13,13 @@ exports.handler = async (event, context) => {
         const eventName =  event.Records[i].eventName; // ObjectCreated:Put        
         console.log('eventName: ' + eventName);
 
+        const bucket = event.Records[i].s3.bucket.name;
+        const key = decodeURIComponent(event.Records[i].s3.object.key.replace(/\+/g, ' '));
+            
+        console.log('bucket: ' + bucket)
+        console.log('key: ' + key)
+
         if(eventName == 'ObjectCreated:Put') {
-            const bucket = event.Records[i].s3.bucket.name;
-            const key = decodeURIComponent(event.Records[i].s3.object.key.replace(/\+/g, ' '));
-            
-            console.log('bucket: ' + bucket)
-            console.log('key: ' + key)
-            
             let date = new Date();        
             const timestamp = Math.floor(date.getTime()/1000).toString();
 
@@ -41,10 +42,12 @@ exports.handler = async (event, context) => {
             };
             console.log('putParams: ' + JSON.stringify(putParams));
 
-            dynamo.put(putParams, function(err){
+            dynamo.put(putParams, function(err, data){
                 if (err) {
                     console.log('Failure: '+err);
                 } 
+
+                console.log('data: '+JSON.stringify(data));
             });     
             
             console.log('event.Records.length: ', event.Records.length);
@@ -52,6 +55,62 @@ exports.handler = async (event, context) => {
             isCompleted = true;
         }      
         else {
+            var params = {
+                TableName: tableName,
+                Key: {
+                    ObjKey: key
+                },
+              /*  ConditionExpression: "info.rating <= :val",
+                ExpressionAttributeValues: {
+                  ":val": 5.0
+                } */
+              };
+              
+              dynamo.delete(params, function(err, data) {
+                if (err) {
+                  console.error(
+                    "Unable to update item. Error JSON:",
+                    JSON.stringify(err, null, 2)
+                  );
+                } else {
+                  console.log("DeleteItem succeeded:", JSON.stringify(data, null, 2));
+                }
+              });
+            /*
+            let deleteParams = {
+                TableName: tableName,
+                Key: {
+                    ObjKey: {
+                        S: key 
+                      }
+                } 
+            };
+            dynamodb.deleteItem(deleteParams, function(err, data){
+                if (err) {
+                    console.log('Failure: '+err);
+                } 
+
+                console.log('data: '+data); 
+            });   */
+            
+
+         /*   var fileItem = {
+                Key: {
+                    ObjKey: {
+                    N: "1234" // My partition key is a number.
+                  }
+                },
+                TableName: tableName,
+            };
+            
+            dynamo.deleteItem(fileItem, function(err, data) {
+              if (err) {
+                console.log(err, err.stack);
+              }
+              else {
+                console.log(data);
+              }
+            }); */
         /*    const indexName = "Emotion-index"; // GSI
             var queryParams = {
                 TableName: tableName,
@@ -96,7 +155,7 @@ exports.handler = async (event, context) => {
     console.log(await wait());
     console.log(await wait());
     console.log(await wait());
-    console.log(await wait());
+    console.log(await wait()); 
 
     const response = {
         statusCode: 200,
