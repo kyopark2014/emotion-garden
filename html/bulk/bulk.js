@@ -1,8 +1,8 @@
 const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
-const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/"
+const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
 
 let profileInfo_emotion = document.getElementById('status');
-profileInfo_emotion.innerHTML = `<h3>Ready</h3>`
+profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
 
 function sendFile(prompt, fname, index) {    
     const xhr = new XMLHttpRequest();
@@ -72,8 +72,8 @@ form.elements.send.onclick = function () {
     }
 };
 
-//repeatCount=10;
-//fname="emotions/happy/cat/img_20230318-232219"
+// repeatCount=1;
+// fname="emotions/happy/cat/img_20230318-82016"
 
 form.elements.update.onclick = function () {
     var previewlist = [];
