@@ -98,7 +98,6 @@ form.elements.update.onclick = function () {
         })(i);
     }    
 
-    let listCnt = 0;
     for(let i=0;i<repeatCount*2;i++) {
         let previewUrl;
 
