@@ -80,9 +80,12 @@ form.elements.update.onclick = function () {
     console.log("repeatCount: " + repeatCount);
     console.log("fname: " + fname);
     
-    // Landscape (horizontal)
+    // previews
     for (let i=0;i<repeatCount*2;i++) {
-        previewlist.push(document.getElementById('preview'+i+'h'));
+        if(i<repeatCount)
+            previewlist.push(document.getElementById('preview'+i+'h'));
+        else
+            previewlist.push(document.getElementById('preview'+i+'v'));
 
         // add listener        
         (function(index) {
