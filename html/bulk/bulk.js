@@ -77,7 +77,7 @@ form.elements.send.onclick = function () {
 
     let favorite = document.forms.input_row2.elements.favorite.value;
     console.log("favorite: " + favorite);
-    favorite = toLowerCase(favorite);
+    favorite = favorite.toLowerCase();
 
     let others = document.forms.input_row3.elements.others.value;
     console.log("others: " + others);
