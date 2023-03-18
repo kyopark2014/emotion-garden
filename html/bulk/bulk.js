@@ -104,7 +104,8 @@ form.elements.update.onclick = function () {
         let previewUrl = cloudfrntUrl+fname+'_'+i+'h.jpeg';
         console.log('previewUrl: ', previewUrl);
 
-        const htmlsrc = `<H5>${previewUrl}</H5><img id="previewImg1" src="${previewUrl}" width="500"/>`;
+        const id_h = fname+'_'+i+'h';
+        const htmlsrc = `<H5>${previewUrl}</H5><img id="${id_h}" src="${previewUrl}" width="500"/>`;
         console.log('htmlsrc: ', htmlsrc);
 
         previewlist[listCnt++].innerHTML = htmlsrc;
@@ -114,7 +115,8 @@ form.elements.update.onclick = function () {
         let previewUrl = cloudfrntUrl+fname+'_'+i+'v.jpeg';
         console.log('previewUrl: ', previewUrl);
 
-        const htmlsrc = `<H5>${previewUrl}</H5><img id="previewImg1" src="${previewUrl}" height="500"/>`;
+        const id_v = fname+'_'+i+'v';
+        const htmlsrc = `<H5>${previewUrl}</H5><img id="${id_h}" src="${previewUrl}" width="500"/>`;
         console.log('htmlsrc: ', htmlsrc);
 
         previewlist[listCnt++].innerHTML = htmlsrc;
