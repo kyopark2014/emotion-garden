@@ -3,11 +3,44 @@ function sleep(ms) {
     while (Date.now() < wakeUpTime) { }
 }
 
+function gettimestr() {
+    let dateObj = new Date();
+    let year = dateObj.getUTCFullYear();    
+    let month = dateObj.getUTCMonth() + 1; //months from 1-12    
+    let monthstr;
+    if(month<10) monthstr = '0'+ month;
+    else monthstr = month;
+
+    let day = dateObj.getUTCDate();
+    let daystr;
+    if(daystr<10) daystr = '0'+ day;
+    else daystr = day;
+    
+    let hour = dateObj.getHours();
+    let hourstr;
+    if(hourstr<10) hourtr = '0'+ hour;
+    else hourstr = hour;
+    
+    let minutes = dateObj.getMinutes();
+    let minutesstr;
+    if(minutes<10) minutesstr = '0'+ minutes;
+    else minutesstr = minutes;
+    
+    let seconds = dateObj.getSeconds();
+    let secondsstr;
+    if(seconds<10) secondsstr = '0'+ seconds;
+    else secondsstr = seconds;
+    
+    let timestr = year+monthstr+daystr+'-'+hourstr+minutesstr+secondsstr;
+    
+    return timestr;
+}
+
 const status = "Ready";
 let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>${status}</h3>`
 
-function sendFile(prompt, index) {
+function sendFile(prompt, fname, index) {
     const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
     const xhr = new XMLHttpRequest();
 
@@ -23,7 +56,8 @@ function sendFile(prompt, index) {
 
     let requestObj = {
         "index": index,
-        "prompt": JSON.stringify(prompt)
+        "prompt": JSON.stringify(prompt),
+        "fname": fname
     }
     console.log("request: " + JSON.stringify(requestObj));
 
@@ -32,7 +66,7 @@ function sendFile(prompt, index) {
     xhr.send(blob);
 }
 
-let form = document.forms.input_row5;
+let form = document.forms.input_row3;
 form.elements.button.onclick = function () {
     let repeatCount = document.forms.input_row0.elements.repeatCount.value;
     console.log("repeatCount: " + repeatCount);
@@ -40,32 +74,33 @@ form.elements.button.onclick = function () {
     let selectedEmotion = document.getElementById("emoitonId");
     console.log("emotion: " + selectedEmotion.value);
 
-    let feature0 = document.forms.input_row2.elements.feature0.value;
-    console.log("feature0: " + feature0);
+    let favorite = document.forms.input_row2.elements.favorite.value;
+    console.log("favorite: " + favorite);
 
-    let feature1 = document.forms.input_row3.elements.feature1.value;
-    console.log("feature1: " + feature1);
-
-    let feature2 = document.forms.input_row4.elements.feature2.value;
-    console.log("feature2: " + feature2);
-
-    let others = document.forms.input_row5.elements.others.value;
+    let others = document.forms.input_row3.elements.others.value;
     console.log("others: " + others);
+
+    const timestr = gettimestr();
+    console.log("timestr: ", timestr);
+
+    let fname;
+    if(favorite)
+        fname = 'emotions/'+selectedEmotion.value+'/'+favorite+'/img_'+timestr;
+    else 
+        fname = 'emotions/'+selectedEmotion.value+'/img_'+timestr; 
 
     let prompt = {
         "emotion": selectedEmotion.value,
-        "feature0": feature0,
-        "feature1": feature1,
-        "feature2": feature2,
+        "favorite": favorite,
         "others": others
     }
     console.log("prompt: " + JSON.stringify(prompt));
-
+    
     if (prompt) {
         for (let i = 0; i < repeatCount; i++) {
             profileInfo_emotion.innerHTML = `<h3>${i+1}/${repeatCount}</h3>`
 
-            sendFile(prompt, i);
+            sendFile(prompt, fname, i);
             
             //sleep(1000);            
         }

@@ -11,13 +11,12 @@ exports.handler = async (event, context) => {
     console.log('jsonData: ' + JSON.stringify(jsonData));
 
     const index = jsonData.index;
-    const prompt = JSON.parse(jsonData.prompt);
-
-    console.log('MessageDeduplicationId: ' + prompt.emotion + index);
+    
+    console.log('MessageDeduplicationId: ', jsonData.fname+'_'+index);
     try {
         let params = {
             // DelaySeconds: 10, // not allow for fifo
-            MessageDeduplicationId: prompt.emotion + index,
+            MessageDeduplicationId: jsonData.fname+'_'+index,
             MessageAttributes: {},
             MessageBody: JSON.stringify(jsonData), 
             QueueUrl: sqsBulkUrl,

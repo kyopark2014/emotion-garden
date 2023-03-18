@@ -71,21 +71,18 @@ def lambda_handler(event, context):
         emotion = prompt['emotion']
         print("emotion: ", emotion)
 
+        key = prompt['fname']+'_'+str(index)
+        print('key: ', key)
+
         text = emotion
-        key = 'emotions/'+emotion
-        if prompt['feature0']:
-            text = text + ", "+ prompt['feature0']
-            key = key + "/" + prompt['feature0'] 
-        if prompt['feature1']:
-            text = text + ", "+ prompt['feature1']
-            key = key + "/" + prompt['feature1'] 
-        if prompt['feature2']:
-            text = text + ", "+ prompt['feature2']
-            key = key + "/" + prompt['feature2'] 
+        #key = 'emotions/'+emotion
+        if prompt['favorite']:
+            text = text + ", "+ prompt['favorite']
+            #key = key + "/" + prompt['favorite'] 
         text = text + ", "+ prompt['others']
         print("text: ", text)
-        key = key + "/" + 'img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(index)
-        print('key: ', key)
+        #key = key + "/" + 'img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(index)
+        
 
         endpoints = json.loads(os.environ.get('endpoints'))
         print("endpoints: ", endpoints)
