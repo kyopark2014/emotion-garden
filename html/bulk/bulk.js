@@ -104,12 +104,14 @@ form.elements.update.onclick = function () {
 
         let id;
         if(i<repeatCount) {
-            previewUrl = cloudfrntUrl+fname+'_'+i+'h.jpeg';
-            id = fname+'_'+i+'h';
+            let index = i;
+            previewUrl = cloudfrntUrl+fname+'_'+index+'h.jpeg';
+            id = fname+'_'+index+'h';
         }
         else {
-            previewUrl = cloudfrntUrl+fname+'_'+i+'v.jpeg';
-            id = fname+'_'+i+'v';
+            let index = i-repeatCount;
+            previewUrl = cloudfrntUrl+fname+'_'+index+'v.jpeg';
+            id = fname+'_'+index+'v';
         }
         console.log('previewUrl: ', previewUrl);
         
