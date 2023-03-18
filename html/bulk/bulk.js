@@ -116,7 +116,7 @@ form.elements.update.onclick = function () {
         console.log('previewUrl: ', previewUrl);
 
         const id_v = fname+'_'+i+'v';
-        const htmlsrc = `<H5>${previewUrl}</H5><img id="${id_h}" src="${previewUrl}" width="500"/>`;
+        const htmlsrc = `<H5>${previewUrl}</H5><img id="${id_v}" src="${previewUrl}" width="500"/>`;
         console.log('htmlsrc: ', htmlsrc);
 
         previewlist[listCnt++].innerHTML = htmlsrc;
