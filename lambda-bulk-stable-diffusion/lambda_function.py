@@ -14,16 +14,16 @@ def parse_response(query_response):
     response_dict = json.loads(query_response)
     return response_dict["generated_images"], response_dict["prompt"]
 
-def stable_diffusion(txt, mybucket, fname, endpoint):
+def stable_diffusion(txt, mybucket, fname, width, height, endpoint):
     mykey = fname+'.jpeg'  
     start = int(time.time())
 
-    print("endpoint: ", endpoint)
+    print("width: "+width+" height: "+height+" endpoint: ", endpoint)
 
     payload = {        
         "prompt": txt,
-        "width": 1280,  # WSVGA 1024 x 600, WXGA: 1280 x 800
-        "height": 800,
+        "width": width,  # WSVGA 1024 x 600, WXGA: 1280 x 800
+        "height": height,
         "num_images_per_prompt": 1,
         "num_inference_steps": 50,
         "guidance_scale": 7.5,
@@ -71,18 +71,14 @@ def lambda_handler(event, context):
         emotion = prompt['emotion']
         print("emotion: ", emotion)
 
-        key = prompt['fname']+'_'+str(index)
+        key = jsonbody['fname']+'_'+str(index)
         print('key: ', key)
 
         text = emotion
-        #key = 'emotions/'+emotion
         if prompt['favorite']:
             text = text + ", "+ prompt['favorite']
-            #key = key + "/" + prompt['favorite'] 
         text = text + ", "+ prompt['others']
         print("text: ", text)
-        #key = key + "/" + 'img_'+time.strftime("%Y%m%d-%H%M%S")+'_'+str(index)
-        
 
         endpoints = json.loads(os.environ.get('endpoints'))
         print("endpoints: ", endpoints)
@@ -90,7 +86,8 @@ def lambda_handler(event, context):
         mybucket = os.environ.get('bucket')
         print("bucket: ", mybucket)
         
-        stable_diffusion(text, mybucket, key, endpoints[0])
+        stable_diffusion(text, mybucket, key+'h', 1280, 800, endpoints[0])
+        stable_diffusion(text, mybucket, key+'v', 800, 1280, endpoints[1])
 
         # delete queue
         try:
