@@ -23,14 +23,14 @@ exports.handler = async (event, context) => {
         console.log('length: ' + splitKey.length);
 
         let emotion, favorite, fname;
-            
-        if(splitKey.length == 3) {
+
+        if (splitKey.length == 3) {
             emotion = splitKey[1];
             console.log('emotion: ', emotion);
             fname = splitKey[2];
             console.log('fname: ', fname);
         }
-        else if(splitKey.length == 4) {
+        else if (splitKey.length == 4) {
             emotion = splitKey[1];
             console.log('emotion: ', splitKey[1]);
             favorite = splitKey[2];
@@ -48,26 +48,12 @@ exports.handler = async (event, context) => {
 
             // putItem to DynamoDB
             let putParams;
-            if(splitKey.length >= 4) {
-                putParams = {
-                    TableName: tableName,
-                    Item: {
-                        ObjKey: key,
-                        Timestamp: timestamp,
-                        Emotion: emotion,
-                        Favorite: favorite,
-                    }
-                };
+            let searchKey;
+            if (splitKey.length >= 4) {
+                searchKey = emotion + '/' + favorite
             }
-            else if(splitKey.length == 3) {
-                putParams = {
-                    TableName: tableName,
-                    Item: {
-                        ObjKey: key,
-                        Timestamp: timestamp,
-                        Emotion: emotion,
-                    }
-                };
+            else if (splitKey.length == 3) {
+                searchKey = emotion + '/' + favorite
             }
             else {
                 return response = {
@@ -76,6 +62,14 @@ exports.handler = async (event, context) => {
                 };
             }
 
+            putParams = {
+                TableName: tableName,
+                Item: {
+                    ObjKey: key,
+                    Timestamp: timestamp,
+                    Emotion: searchKey,
+                }
+            };
             console.log('putParams: ' + JSON.stringify(putParams));
 
             dynamo.put(putParams, function (err, data) {
@@ -109,21 +103,21 @@ exports.handler = async (event, context) => {
         }
     }
 
-/*    function wait() {
-        return new Promise((resolve, reject) => {
-            if (!isCompleted) {
-                setTimeout(() => resolve("wait..."), 1000)
-            }
-            else {
-                setTimeout(() => resolve("done..."), 0)
-            }
-        });
-    }
-    console.log(await wait());
-    console.log(await wait());
-    console.log(await wait());
-    console.log(await wait());
-    console.log(await wait()); */
+    /*    function wait() {
+            return new Promise((resolve, reject) => {
+                if (!isCompleted) {
+                    setTimeout(() => resolve("wait..."), 1000)
+                }
+                else {
+                    setTimeout(() => resolve("done..."), 0)
+                }
+            });
+        }
+        console.log(await wait());
+        console.log(await wait());
+        console.log(await wait());
+        console.log(await wait());
+        console.log(await wait()); */
 
     const response = {
         statusCode: 200,
