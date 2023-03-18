@@ -112,7 +112,8 @@ form.elements.send.onclick = function () {
 
 form.elements.update.onclick = function () {
     for(let i=0;i<repeatCount;i++) {
-        let previewUrl = cloudfrntUrl+fname+'_'+i+'h.jpeg';
+        //let previewUrl = cloudfrntUrl+fname+'_'+i+'h.jpeg';
+        let previewUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/happy/cat/img_20230318-232219_2h.jpeg"
         console.log('previewUrl: ', previewUrl);
 
         // const htmlsrc = `<img id="previewImg2" width="512" alt="Preview" />`;
