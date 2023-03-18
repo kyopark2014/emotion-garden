@@ -77,6 +77,8 @@ form.elements.send.onclick = function () {
 
 form.elements.update.onclick = function () {
     var previewlist = [];
+    console.log("repeatCount: " + repeatCount);
+    console.log("fname: " + fname);
     
     // Landscape (horizontal)
     for (let i=0;i<repeatCount;i++) {
