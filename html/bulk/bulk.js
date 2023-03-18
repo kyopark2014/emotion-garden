@@ -36,12 +36,12 @@ function gettimestr() {
     return timestr;
 }
 
-const status = "Ready";
 let profileInfo_emotion = document.getElementById('status');
-profileInfo_emotion.innerHTML = `<h3>${status}</h3>`
+profileInfo_emotion.innerHTML = `<h3>Ready</h3>`
+const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
+const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/"
 
-function sendFile(prompt, fname, index) {
-    const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
+function sendFile(prompt, fname, index) {    
     const xhr = new XMLHttpRequest();
 
     xhr.open("POST", uri, true);
@@ -67,8 +67,9 @@ function sendFile(prompt, fname, index) {
 }
 
 let form = document.forms.input_row3;
-form.elements.button.onclick = function () {
-    let repeatCount = document.forms.input_row0.elements.repeatCount.value;
+let repeatCount, fname;
+form.elements.send.onclick = function () {
+    repeatCount = document.forms.input_row0.elements.repeatCount.value;
     console.log("repeatCount: " + repeatCount);
 
     let selectedEmotion = document.getElementById("emoitonId");
@@ -83,8 +84,7 @@ form.elements.button.onclick = function () {
 
     const timestr = gettimestr();
     console.log("timestr: ", timestr);
-
-    let fname;
+    
     if(favorite)
         fname = 'emotions/'+selectedEmotion.value+'/'+favorite+'/img_'+timestr;
     else 
@@ -107,5 +107,17 @@ form.elements.button.onclick = function () {
         }
     } else {
         alert("No prompt.");
+    }
+};
+
+form.elements.update.onclick = function () {
+    for(let i=0;i<repeatCount;i++) {
+        let previewUrl = cloudfrntUrl+fname+'_'+i+'h.jpeg';
+        console.log('previewUrl: ', previewUrl);
+
+        // const htmlsrc = `<img id="previewImg2" width="512" alt="Preview" />`;
+        const htmlsrc = `<img id="previewImg1" alt=${previewUrl} width="100" height="100"/>`;
+
+        previewImg1.innerHTML = htmlsrc;
     }
 };
