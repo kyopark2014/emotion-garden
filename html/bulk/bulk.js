@@ -98,29 +98,26 @@ form.elements.update.onclick = function () {
         })(i);
     }    
 
-    // Landscape (horizontal)
     let listCnt = 0;
-    for(let i=0;i<repeatCount;i++) {
-        let previewUrl = cloudfrntUrl+fname+'_'+i+'h.jpeg';
-        console.log('previewUrl: ', previewUrl);
+    for(let i=0;i<repeatCount*2;i++) {
+        let previewUrl;
 
-        const id_h = fname+'_'+i+'h';
-        const htmlsrc = `<H5>${previewUrl}</H5><img id="${id_h}" src="${previewUrl}" width="500"/>`;
+        let id;
+        if(i<repeatCount) {
+            previewUrl = cloudfrntUrl+fname+'_'+i+'h.jpeg';
+            id = fname+'_'+i+'h';
+        }
+        else {
+            previewUrl = cloudfrntUrl+fname+'_'+i+'v.jpeg';
+            id = fname+'_'+i+'v';
+        }
+        console.log('previewUrl: ', previewUrl);
+        
+        const htmlsrc = `<H5>${previewUrl}</H5><img id="${id}" src="${previewUrl}" width="500"/>`;
         console.log('htmlsrc: ', htmlsrc);
 
-        previewlist[listCnt++].innerHTML = htmlsrc;
+        previewlist[i].innerHTML = htmlsrc;
     }    
-    // Portrait (vertical)
-    for(let i=0;i<repeatCount;i++) {
-        let previewUrl = cloudfrntUrl+fname+'_'+i+'v.jpeg';
-        console.log('previewUrl: ', previewUrl);
-
-        const id_v = fname+'_'+i+'v';
-        const htmlsrc = `<H5>${previewUrl}</H5><img id="${id_v}" src="${previewUrl}" width="500"/>`;
-        console.log('htmlsrc: ', htmlsrc);
-
-        previewlist[listCnt++].innerHTML = htmlsrc;
-    } 
 };
 
 function sleep(ms) {
