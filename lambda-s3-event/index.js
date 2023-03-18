@@ -1,7 +1,6 @@
 const aws = require('aws-sdk');
 const dynamo = new aws.DynamoDB.DocumentClient();
 const tableName = process.env.tableName;
-const dynamodb = new aws.DynamoDB();
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -19,27 +18,64 @@ exports.handler = async (event, context) => {
         console.log('bucket: ' + bucket)
         console.log('key: ' + key)
 
+        var splitKey = key.split("/");
+        console.log('splitKey: ' + splitKey);
+        console.log('length: ' + splitKey.length);
+
+        let emotion, favorite, fname;
+            
+        if(splitKey.length == 3) {
+            emotion = splitKey[1];
+            console.log('emotion: ', emotion);
+            fname = splitKey[2];
+            console.log('fname: ', fname);
+        }
+        else if(splitKey.length == 4) {
+            emotion = splitKey[1];
+            console.log('emotion: ', splitKey[1]);
+            favorite = splitKey[2];
+            console.log('favorite: ', splitKey[2])
+            fname = splitKey[3];
+            console.log('fname: ', splitKey[3]);
+        }
+        else {
+            console.log('error: ', splitKey);
+        }
+
         if (eventName == 'ObjectCreated:Put') {
             let date = new Date();
             const timestamp = Math.floor(date.getTime() / 1000).toString();
 
-            const emotion = 'happy';
-            //const feature0 = "";
-            //const feature1 = "";
-            //const feature2 = "";
-
             // putItem to DynamoDB
-            let putParams = {
-                TableName: tableName,
-                Item: {
-                    ObjKey: key,
-                    Timestamp: timestamp,
-                    Emotion: emotion,
-                    //Feature0: feature0,
-                    //Feature1: feature1,                    
-                    //Feature2: feature2,                    
-                }
-            };
+            let putParams;
+            if(splitKey.length >= 4) {
+                putParams = {
+                    TableName: tableName,
+                    Item: {
+                        ObjKey: key,
+                        Timestamp: timestamp,
+                        Emotion: emotion,
+                        Favorite: favorite,
+                    }
+                };
+            }
+            else if(splitKey.length == 3) {
+                putParams = {
+                    TableName: tableName,
+                    Item: {
+                        ObjKey: key,
+                        Timestamp: timestamp,
+                        Emotion: emotion,
+                    }
+                };
+            }
+            else {
+                return response = {
+                    statusCode: 500,
+                    body: splitKey
+                };
+            }
+
             console.log('putParams: ' + JSON.stringify(putParams));
 
             dynamo.put(putParams, function (err, data) {
@@ -59,7 +95,6 @@ exports.handler = async (event, context) => {
                 TableName: tableName,
                 Key: {
                     ObjKey: key,
-
                 },
             };
 

@@ -18,7 +18,7 @@ def stable_diffusion(txt, mybucket, fname, width, height, endpoint):
     mykey = fname+'.jpeg'  
     start = int(time.time())
 
-    print("width: "+width+" height: "+height+" endpoint: ", endpoint)
+    print("width: "+str(width)+" height: "+str(height)+" endpoint: ", endpoint)
 
     payload = {        
         "prompt": txt,
