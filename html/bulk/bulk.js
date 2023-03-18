@@ -95,7 +95,7 @@ form.elements.update.onclick = function () {
         })(i);
     }    
     // Portrait (vertical)
-    for (let i=0;i<repeatCount;i++) {
+ /*   for (let i=0;i<repeatCount;i++) {
         previewlist.push(document.getElementById('preview'+i+'v'));
 
         // add listener        
@@ -107,7 +107,7 @@ form.elements.update.onclick = function () {
                 console.log('click! index: '+index);
             })
         })(repeatCount+i);
-    }
+    } */
 
     // Landscape (horizontal)
     let listCnt = 0;
@@ -121,7 +121,7 @@ form.elements.update.onclick = function () {
         previewlist[listCnt++].innerHTML = htmlsrc;
     }    
     // Portrait (vertical)
-    for(let i=0;i<repeatCount;i++) {
+ /*   for(let i=0;i<repeatCount;i++) {
         let previewUrl = cloudfrntUrl+fname+'_'+i+'v.jpeg';
         console.log('previewUrl: ', previewUrl);
 
@@ -129,7 +129,7 @@ form.elements.update.onclick = function () {
         console.log('htmlsrc: ', htmlsrc);
 
         previewlist[listCnt++].innerHTML = htmlsrc;
-    }
+    } */
 };
 
 function sleep(ms) {
