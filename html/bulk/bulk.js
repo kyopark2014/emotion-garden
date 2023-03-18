@@ -21,7 +21,7 @@ function sendFile(prompt, fname, index) {
         "index": index,
         "prompt": JSON.stringify(prompt),
         "fname": fname
-    }
+    };
     console.log("request: " + JSON.stringify(requestObj));
 
     let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
@@ -57,12 +57,12 @@ form.elements.send.onclick = function () {
         "emotion": selectedEmotion.value,
         "favorite": favorite,
         "others": others
-    }
+    };
     console.log("prompt: " + JSON.stringify(prompt));
     
     if (prompt) {
         for (let i = 0; i < repeatCount; i++) {
-            profileInfo_emotion.innerHTML = `<h3>${i+1}/${repeatCount}</h3>`
+            profileInfo_emotion.innerHTML = `<h3>${i+1}/${repeatCount}</h3>`;
 
             sendFile(prompt, fname, i);            
             //sleep(1000);            
@@ -94,7 +94,7 @@ form.elements.update.onclick = function () {
                 else i = index + repeatCount;
 
                 console.log('click! index: '+index);
-            })
+            });
         })(i);
     }    
 
@@ -143,7 +143,7 @@ function gettimestr() {
     
     let hour = dateObj.getHours();
     let hourstr;
-    if(hourstr<10) hourtr = '0'+ hour;
+    if(hourstr<10) hourstr = '0'+ hour;
     else hourstr = hour;
     
     let minutes = dateObj.getMinutes();
