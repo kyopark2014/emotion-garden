@@ -1,45 +1,8 @@
-function sleep(ms) {
-    const wakeUpTime = Date.now() + ms;
-    while (Date.now() < wakeUpTime) { }
-}
-
-function gettimestr() {
-    let dateObj = new Date();
-    let year = dateObj.getUTCFullYear();    
-    let month = dateObj.getUTCMonth() + 1; //months from 1-12    
-    let monthstr;
-    if(month<10) monthstr = '0'+ month;
-    else monthstr = month;
-
-    let day = dateObj.getUTCDate();
-    let daystr;
-    if(daystr<10) daystr = '0'+ day;
-    else daystr = day;
-    
-    let hour = dateObj.getHours();
-    let hourstr;
-    if(hourstr<10) hourtr = '0'+ hour;
-    else hourstr = hour;
-    
-    let minutes = dateObj.getMinutes();
-    let minutesstr;
-    if(minutes<10) minutesstr = '0'+ minutes;
-    else minutesstr = minutes;
-    
-    let seconds = dateObj.getSeconds();
-    let secondsstr;
-    if(seconds<10) secondsstr = '0'+ seconds;
-    else secondsstr = seconds;
-    
-    let timestr = year+monthstr+daystr+'-'+hourstr+minutesstr+secondsstr;
-    
-    return timestr;
-}
+const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
+const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/"
 
 let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>Ready</h3>`
-const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
-const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/"
 
 function sendFile(prompt, fname, index) {    
     const xhr = new XMLHttpRequest();
@@ -101,8 +64,7 @@ form.elements.send.onclick = function () {
         for (let i = 0; i < repeatCount; i++) {
             profileInfo_emotion.innerHTML = `<h3>${i+1}/${repeatCount}</h3>`
 
-            sendFile(prompt, fname, i);
-            
+            sendFile(prompt, fname, i);            
             //sleep(1000);            
         }
     } else {
@@ -110,15 +72,99 @@ form.elements.send.onclick = function () {
     }
 };
 
+//repeatCount=10;
+//fname="emotions/happy/cat/img_20230318-232219"
+
 form.elements.update.onclick = function () {
+    var previewlist = [];
+    
+    // Landscape (horizontal)
+    for (let i=0;i<repeatCount;i++) {
+        previewlist.push(document.getElementById('preview'+i+'h'));
+
+        // add listener        
+        (function(index) {
+            previewlist[index].addEventListener("click", function() {
+                if(previewlist.length < repeatCount) i = index;
+                else i = index + repeatCount;
+
+                console.log('click! index: '+index);
+            })
+        })(i);
+    }    
+    // Portrait (vertical)
+    for (let i=0;i<repeatCount;i++) {
+        previewlist.push(document.getElementById('preview'+i+'v'));
+
+        // add listener        
+        (function(index) {
+            previewlist[index].addEventListener("click", function() {
+                if(previewlist.length < repeatCount) i = index;
+                else i = index + repeatCount;
+
+                console.log('click! index: '+index);
+            })
+        })(repeatCount+i);
+    }
+
+    // Landscape (horizontal)
+    let listCnt = 0;
     for(let i=0;i<repeatCount;i++) {
-        //let previewUrl = cloudfrntUrl+fname+'_'+i+'h.jpeg';
-        let previewUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/happy/cat/img_20230318-232219_2h.jpeg"
+        let previewUrl = cloudfrntUrl+fname+'_'+i+'h.jpeg';
         console.log('previewUrl: ', previewUrl);
 
-        // const htmlsrc = `<img id="previewImg2" width="512" alt="Preview" />`;
-        const htmlsrc = `<img id="previewImg1" alt=${previewUrl} width="100" height="100"/>`;
+        const htmlsrc = `<H5>${previewUrl}</H5><img id="previewImg1" src="${previewUrl}" width="500"/>`;
+        console.log('htmlsrc: ', htmlsrc);
 
-        previewImg1.innerHTML = htmlsrc;
+        previewlist[listCnt++].innerHTML = htmlsrc;
+    }    
+    // Portrait (vertical)
+    for(let i=0;i<repeatCount;i++) {
+        let previewUrl = cloudfrntUrl+fname+'_'+i+'v.jpeg';
+        console.log('previewUrl: ', previewUrl);
+
+        const htmlsrc = `<H5>${previewUrl}</H5><img id="previewImg1" src="${previewUrl}" height="500"/>`;
+        console.log('htmlsrc: ', htmlsrc);
+
+        previewlist[listCnt++].innerHTML = htmlsrc;
     }
 };
+
+function sleep(ms) {
+    const wakeUpTime = Date.now() + ms;
+    while (Date.now() < wakeUpTime) { }
+}
+
+function gettimestr() {
+    let dateObj = new Date();
+    let year = dateObj.getUTCFullYear();    
+    let month = dateObj.getUTCMonth() + 1; //months from 1-12    
+    let monthstr;
+    if(month<10) monthstr = '0'+ month;
+    else monthstr = month;
+
+    let day = dateObj.getUTCDate();
+    let daystr;
+    if(daystr<10) daystr = '0'+ day;
+    else daystr = day;
+    
+    let hour = dateObj.getHours();
+    let hourstr;
+    if(hourstr<10) hourtr = '0'+ hour;
+    else hourstr = hour;
+    
+    let minutes = dateObj.getMinutes();
+    let minutesstr;
+    if(minutes<10) minutesstr = '0'+ minutes;
+    else minutesstr = minutes;
+    
+    let seconds = dateObj.getSeconds();
+    let secondsstr;
+    if(seconds<10) secondsstr = '0'+ seconds;
+    else secondsstr = seconds;
+    
+    let timestr = year+monthstr+daystr+'-'+hourstr+minutesstr+secondsstr;
+    
+    return timestr;
+}
+

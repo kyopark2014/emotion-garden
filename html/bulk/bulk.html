@@ -29,19 +29,49 @@
             </form>
             <form id="input_row3">
                 <input type="text" name="others" autofocus size="100" value="garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
-                <input type="button" name="send" value="Send">
+                <input type="button" name="send" value="Generate">
                 <input type="button" name="update" value="Update">
             </form>                               
         </form>
     </div>   
-    <h4>Stable diffusion images will be generated from your text and then served in CloudFront.</h4>
+    <text>Generate 선택후에 이미지가 생성될때까지 기다린 후에 Update를 누르면 이미지를 확인할 수 있습니다..</text>
     <div class="result-container">
         <div id="status"></div>             
     </div>
-    <form id="preview_row1"></form>
-        <div id="previewImg1"></div>
-        <div id="previewImg2"></div>
-    </form>
+    <div class="chat-panel" id="chatPanel">     
+        <H3>Horizontal</H3>
+        <div id="preview0h"></div>
+        <div id="preview1h"></div>
+        <div id="preview2h"></div>
+        <div id="preview3h"></div>
+        <div id="preview4h"></div>
+        <div id="preview5h"></div>
+        <div id="preview6h"></div>
+        <div id="preview7h"></div>
+        <div id="preview8h"></div>
+        <div id="preview9h"></div>
+        <div id="preview10h"></div>
+        <H3>Vertical</H3>
+        <div id="preview0v"></div>
+        <div id="preview1v"></div>
+        <div id="preview2v"></div>
+        <div id="preview3v"></div>
+        <div id="preview4v"></div>
+        <div id="preview5v"></div>
+        <div id="preview6v"></div>
+        <div id="preview7v"></div>
+        <div id="preview8v"></div>
+        <div id="preview9v"></div>
+        <div id="preview10v"></div>
+    </div>
     <script src="bulk.js"></script>
+
+    <a href="#pop_info_1" class="btn_open">팝업 열기</a>
+    <div id="pop_info_1" class="pop_wrap" style="display:none;">
+        <div class="pop_inner">
+            <p class="dsc">팝업 안내문구 입니다.</p>
+            <button type="button" class="btn_close">닫기</button>
+        </div>
+    </div>
 </body>
 </html>
