@@ -364,11 +364,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
     lambdaS3event.addEventSource(s3PutEventSource);
 
-    // Lambda for getList
-    const lambdaGetList = new lambda.Function(this, 'lambda-getlist', {
+    // Lambda for retrieve
+    const lambdaRetrieve = new lambda.Function(this, 'lambda-retrieve', {
       runtime: lambda.Runtime.NODEJS_16_X,
-      functionName: "lambda-getlist",
-      code: lambda.Code.fromAsset("../lambda-getlist"),
+      functionName: "lambda-retrieve",
+      code: lambda.Code.fromAsset("../lambda-retrieve"),
       handler: "index.handler",
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
@@ -379,11 +379,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         domain: cloudFrontDomain,
       }
     });
-    dataTable.grantReadWriteData(lambdaGetList); // permission for dynamo 
+    dataTable.grantReadWriteData(lambdaRetrieve); // permission for dynamo 
 
     // POST method
     const retrieve = api.root.addResource('retrieve');
-    retrieve.addMethod('POST', new apiGateway.LambdaIntegration(lambdaGetList, {
+    retrieve.addMethod('POST', new apiGateway.LambdaIntegration(lambdaRetrieve, {
       passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
       credentialsRole: role,
       integrationResponses: [{
