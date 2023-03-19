@@ -13,7 +13,7 @@ exports.handler = async (event, context) => {
     const body = JSON.parse(Buffer.from(event["body"], "base64"));
     console.log('body: ' + JSON.stringify(body));
 
-    let emotion = JSON.parse(body['emotion']);
+    let emotion = body['emotion'];
     console.log('emotion: ', emotion);
     
     let queryParams = {

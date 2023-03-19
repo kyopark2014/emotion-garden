@@ -9,7 +9,7 @@ exports.handler = async (event, context) => {
     const body = JSON.parse(Buffer.from(event["body"], "base64"));
     console.log('body: ' + JSON.stringify(body));
 
-    let list = JSON.parse(body['objName']);
+    let list = body['objName'];
     console.log('object: ', JSON.stringify(list));
     
     let isCompleted = false;

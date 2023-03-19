@@ -2,6 +2,7 @@ const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
 
 const removeUrl = cloudfrntUrl + "remove";
 const retrieveUrl = cloudfrntUrl + "retrieve";
+const clearIndexUrl = cloudfrntUrl + "clearIndex";
 
 let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
@@ -73,7 +74,7 @@ function retrieveFile(emotionStr) {
     };
 
     let requestObj = {
-        "emotion": JSON.stringify(emotionStr),
+        "emotion": emotionStr,
     };
     console.log("request: " + JSON.stringify(requestObj));
 
@@ -82,7 +83,7 @@ function retrieveFile(emotionStr) {
     xhr.send(blob);
 }
 
-function deleteFile(objName) {
+function deleteFile(objName) {   
     const xhr = new XMLHttpRequest();
 
     xhr.open("POST", removeUrl, true);
@@ -96,7 +97,30 @@ function deleteFile(objName) {
     };
 
     let requestObj = {
-        "objName": JSON.stringify(objName),
+        "objName": objName,
+    };
+    console.log("request: " + JSON.stringify(requestObj));
+
+    let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
+
+    xhr.send(blob);
+}
+
+function clearIndex(objName) {   
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", clearIndexUrl, true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("--> responseText: " + xhr.responseText);
+
+            // let response = JSON.parse(xhr.responseText)
+            // console.log("response: " + response.text);                               
+        }
+    };
+
+    let requestObj = {
+        "objName": objName,
     };
     console.log("request: " + JSON.stringify(requestObj));
 
@@ -146,6 +170,8 @@ form.elements.retrieve.onclick = function () {
                 }
                 else {
                     console.log('remove dynamodb index');
+
+
                 }
             });
         })(i);

@@ -448,6 +448,47 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
+
+    // Lambda for clear-dynamo-index
+    const lambdaClearDynamoIndex = new lambda.Function(this, 'lambda-clear-dynamo-index', {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      functionName: "lambda-clear-dynamo-index",
+      code: lambda.Code.fromAsset("../lambda-clear-dynamo-index"),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        tableName: tableName,
+      }
+    });
+    dataTable.grantReadWriteData(lambdaClearDynamoIndex); // permission for dynamo 
+
+    // POST method
+    const clearIndex = api.root.addResource('clearIndex');
+    clearIndex.addMethod('POST', new apiGateway.LambdaIntegration(lambdaClearDynamoIndex, {
+      passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      credentialsRole: role,
+      integrationResponses: [{
+        statusCode: '200',
+      }],
+      proxy: true,
+    }), {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apiGateway.Model.EMPTY_MODEL,
+          },
+        }
+      ]
+    });
+
+    // cloudfront setting for api gateway of clearIndex
+    distribution.addBehavior("/clearIndex", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });
   }
 }
 
