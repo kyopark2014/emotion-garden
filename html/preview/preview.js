@@ -27,9 +27,9 @@ function retrieveFile(emotionStr) {
             }        
             
             for (let i=0;i<nRow;i++) {
-            //    console.log('i: '+i+", previewUrl.length: "+previewUrl.length);
+                console.log('i: '+i+", previewUrl.length: "+previewUrl.length);
                 console.log("previewUrl "+previewUrl[i]);
-                //if(i>previewUrl.length) break;
+                if(i>previewUrl.length) break;
                     
                 let htmlsrc = `<H5>${previewUrl[i]}</H5>
                     <img id="${i}" src="${previewUrl[i]}" height="800"/>

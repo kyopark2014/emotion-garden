@@ -409,10 +409,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
 
     // Lambda for bulk-stable-diffusion
-    const lambdaRemoveImage = new lambda.Function(this, 'lambda-remove-image', {
+    const lambdaRemove = new lambda.Function(this, 'lambda-remove', {
       runtime: lambda.Runtime.NODEJS_16_X,
-      functionName: "lambda-remove-image",
-      code: lambda.Code.fromAsset("../lambda-remove-images"),
+      functionName: "lambda-remove",
+      code: lambda.Code.fromAsset("../lambda-remove"),
       handler: "index.handler",
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
@@ -420,11 +420,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         bucketName: s3Bucket.bucketName,
       }
     });
-    s3Bucket.grantReadWrite(lambdaRemoveImage); // permission for s3    
+    s3Bucket.grantReadWrite(lambdaRemove); // permission for s3    
 
     // POST method
     const remove = api.root.addResource('remove');
-    remove.addMethod('POST', new apiGateway.LambdaIntegration(lambdaRemoveImage, {
+    remove.addMethod('POST', new apiGateway.LambdaIntegration(lambdaRemove, {
       passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
       credentialsRole: role,
       integrationResponses: [{
