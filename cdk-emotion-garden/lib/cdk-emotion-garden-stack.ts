@@ -23,6 +23,7 @@ const endpoints = [
   "emotion-garden-model-4",
 ]
 const nproc = 2;
+const cloudFrontDomain = "d3ic6ryvcaoqdy.cloudfront.net";
 
 export class CdkEmotionGardenStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -118,7 +119,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         bucket: s3Bucket.bucketName,
         endpoints: JSON.stringify(endpoints),
         //domain: distribution.domainName
-        domain: "d3ic6ryvcaoqdy.cloudfront.net",
+        domain: cloudFrontDomain,
         nproc: String(nproc)
       }
     });
@@ -374,7 +375,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       environment: {
         tableName: tableName,
         bucketName: s3Bucket.bucketName,
-        domainName: 'https://' + distribution.domainName
+        // domainName: 'https://' + distribution.domainName
+        domain: cloudFrontDomain,
       }
     });
     dataTable.grantReadWriteData(lambdaGetList); // permission for dynamo 
