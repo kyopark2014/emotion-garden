@@ -46,8 +46,8 @@ function retrieveFile(emotionStr) {
                     // console.log("identifier: ", identifier);      
 
                     let pos2 = previewUrl[i+start].lastIndexOf('emotions');
-                    console.log('pos: ', pos2);
-                    fileList[i] = str.substring(pos)
+                    // console.log('pos: ', pos2);
+                    fileList[i] = previewUrl[i+start].substring(pos)
                     console.log("fname: ", fileList[i]);
 
                     let htmlsrc;
