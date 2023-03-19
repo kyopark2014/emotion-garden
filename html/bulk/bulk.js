@@ -56,9 +56,19 @@ function deleteFile(objName) {
 
 let form = document.forms.input_row3;
 let repeatCount, fname;
+let likeList = [];
+let deletedList = [];
+let fileList = [];
+
 form.elements.send.onclick = function () {
     repeatCount = document.forms.input_row0.elements.repeatCount.value;
     console.log("repeatCount: " + repeatCount);
+
+    for (let i=0;i<repeatCount*2;i++) {
+        likeList[i] = true;
+        deletedList[i] = false;
+        fileList[i] = "";
+    }
 
     let selectedEmotion = document.getElementById("emoitonId");
     console.log("emotion: " + selectedEmotion.value);
@@ -102,11 +112,7 @@ form.elements.send.onclick = function () {
 repeatCount=10;
 fname="emotions/happy/cat/img_20230319-131015"
 let like = true;
-
 let previewlist = [];
-let fileList = [];
-let likeList = [];
-let deletedList = [];
 
 form.elements.remove.onclick = function () {    
     console.log("repeatCount: " + repeatCount);
@@ -141,9 +147,6 @@ form.elements.update.onclick = function () {
     
     // previews
     for (let i=0;i<repeatCount*2;i++) {
-        likeList[i] = true;
-        deletedList[i] = false;
-
         if(i<repeatCount)
             previewlist.push(document.getElementById('preview'+i+'h'));
         else
