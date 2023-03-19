@@ -100,7 +100,7 @@ form.elements.send.onclick = function () {
 };
 
 repeatCount=10;
-fname="emotions/sad/cat/img_20230319-91557"
+fname="emotions/happy/cat/img_20230319-131015"
 let like = true;
 
 let previewlist = [];
