@@ -10,7 +10,11 @@ exports.handler = async (event, context) => {
     
     console.log('indexName: ' + indexName);
 
-    let emotion = event.emotion;
+    const body = JSON.parse(Buffer.from(event["body"], "base64"));
+    console.log('body: ' + JSON.stringify(body));
+
+    let emotion = JSON.parse(body['emotion']);
+    console.log('emotion: ', emotion);
     
     let queryParams = {
         TableName: tableName,
@@ -42,7 +46,7 @@ exports.handler = async (event, context) => {
         // console.log('timestamp: ', timestamp);
         // console.log('emotion: ', emotion);
         
-        const url = domainName+'/'+objKey;
+        const url = 'https://'+domainName+'/'+objKey;
         // console.log('url: ', url);
 
         urlList.push(url);

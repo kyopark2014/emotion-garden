@@ -15,7 +15,8 @@ function retrieveFile(emotionStr) {
             console.log("--> responseText: " + xhr.responseText);
 
             let response = JSON.parse(xhr.responseText)
-            console.log("response: " + response.text);                    
+
+            console.log('resonse: ', JSON.stringify(response[i]));     
         }
     };
 
