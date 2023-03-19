@@ -64,6 +64,8 @@ function retrieveFile(emotionStr) {
             }
             else {
                 profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
+                previewUrl = [];
+                previewlist = [];
 
                 alert("이미지가 조회되지 않습니다.");
             }
