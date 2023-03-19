@@ -21,7 +21,11 @@ function retrieveFile(emotionStr) {
             let response = JSON.parse(xhr.responseText)
 
             previewUrl = response;
-            console.log('previewUrl: ', JSON.stringify(previewUrl));                 
+
+            for(let i in previewUrl) {
+                console.log('i: ', previewUrl[i]);    
+            }
+                         
         }
     };
 
