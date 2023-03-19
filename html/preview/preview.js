@@ -7,7 +7,7 @@ let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
 
 let start=0, nRow=50;
-let previewUrl;
+let previewUrl = [];
 let previewlist = [];
 
 function retrieveFile(emotionStr) {    
