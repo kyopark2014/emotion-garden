@@ -162,12 +162,17 @@ form.elements.update.onclick = function () {
         let previewUrl;
 
         let id;
+        let htmlsrc;
         if(i<repeatCount) {
             let index = i;            
             previewUrl = cloudfrntUrl+fname+'_'+index+'h.jpeg';
             id = fname+'_'+index+'h';
 
             fileList[i] = fname+'_'+index+'h.jpeg';
+
+            htmlsrc = `<H5>${previewUrl}</H5>
+        <img id="${id}" src="${previewUrl}" width="500"/>
+        <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
         }
         else {
             let index = i-repeatCount;
@@ -175,12 +180,13 @@ form.elements.update.onclick = function () {
             id = fname+'_'+index+'v';
 
             fileList[i] = fname+'_'+index+'v.jpeg';
+
+            htmlsrc = `<H5>${previewUrl}</H5>
+        <img id="${id}" src="${previewUrl}" height="500"/>
+        <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
         }
         console.log('previewUrl: ', previewUrl);
-        
-        const htmlsrc = `<H5>${previewUrl}</H5>
-        <img id="${id}" src="${previewUrl}" width="500"/>
-        <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
+                
         // console.log('htmlsrc: ', htmlsrc);
 
         previewlist[i].innerHTML = htmlsrc;
