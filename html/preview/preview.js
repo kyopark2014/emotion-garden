@@ -28,9 +28,12 @@ function retrieveFile(emotionStr) {
 
             if(previewUrl.length) {
                 for (let i=0;i<nRow;i++) {
-                    console.log('i: '+i+", previewUrl.length: "+previewUrl.length);
-                    console.log("previewUrl "+previewUrl[i]);
                     if(i>=previewUrl.length) break;
+                    console.log("previewUrl "+previewUrl[i]);
+                    
+                    let pos = previewUrl[i].indexOf('.jpeg');
+                    console.log("pos: ", pos);
+                    console.log("charactor: ", previewUrl[i][pos-1]);                    
                         
                     let htmlsrc = `<H5>${previewUrl[i]}</H5>
                         <img id="${i}" src="${previewUrl[i]}" height="800"/>
@@ -42,7 +45,7 @@ function retrieveFile(emotionStr) {
                 }
                     
                 alert("이미지 조회를 요청되었습니다.");
-                profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}/h3>`;
+                profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}</h3>`;
             }
             else {
                 profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
