@@ -10,6 +10,12 @@ let start=0, nRow=50;
 let previewUrl = [];
 let previewlist = [];
 
+/*
+let str = "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/happy/img_20230319-225620_5h.jpeg";console.log("str: ", str);
+let pos = str.indexOf('.jpeg');
+console.log("pos: ", pos);
+console.log("charactor: ", str[pos-1]);      */
+
 function retrieveFile(emotionStr) {    
     const xhr = new XMLHttpRequest();
 
@@ -33,11 +39,20 @@ function retrieveFile(emotionStr) {
                     
                     let pos = previewUrl[i].indexOf('.jpeg');
                     console.log("pos: ", pos);
-                    console.log("charactor: ", previewUrl[i][pos-1]);                    
-                        
-                    let htmlsrc = `<H5>${previewUrl[i]}</H5>
+                    let identifier = previewUrl[i][pos-1];
+                    console.log("identifier: ", identifier);      
+
+                    let htmlsrc;
+                    if(identifier=='v') {
+                        htmlsrc = `<H5>${previewUrl[i]}</H5>
                         <img id="${i}" src="${previewUrl[i]}" height="800"/>
                         <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
+                    }              
+                    else {
+                        htmlsrc = `<H5>${previewUrl[i]}</H5>
+                        <img id="${i}" src="${previewUrl[i]}" width="800"/>
+                        <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
+                    }                                            
                         
                     console.log('htmlsrc: ', htmlsrc);
                     //if(!deletedList[i])
