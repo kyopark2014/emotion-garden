@@ -168,11 +168,6 @@ form.elements.retrieve.onclick = function () {
                 if(checkFile(url)) {
                     console.log('ok');
                 }
-                else {
-                    console.log('remove dynamodb index');
-
-
-                }
             });
         })(i);
     }
@@ -250,12 +245,13 @@ function checkFile(url) {
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("--> OK, responseText: " + xhr.responseText);
-
             return true;
         }
         else {
             console.log("--> NOK, responseText: " + xhr.responseText);
-
+            clearIndex(fileList[i]);
+            deletedList[i] = true;
+            previewlist[i].innerHTML = '';
             return false;
         }
     };
