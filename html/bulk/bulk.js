@@ -76,7 +76,8 @@ form.elements.send.onclick = function () {
 // fname="emotions/happy/cat/img_20230318-82016"
 
 form.elements.update.onclick = function () {
-    var previewlist = [];
+    let previewlist = [];
+    let fileList = [];
     console.log("repeatCount: " + repeatCount);
     console.log("fname: " + fname);
     
@@ -94,6 +95,8 @@ form.elements.update.onclick = function () {
                 else i = index + repeatCount;
 
                 console.log('click! index: '+index);
+
+                console.log('filename: ', fileList[i]);
             });
         })(i);
     }    
@@ -103,14 +106,18 @@ form.elements.update.onclick = function () {
 
         let id;
         if(i<repeatCount) {
-            let index = i;
+            let index = i;            
             previewUrl = cloudfrntUrl+fname+'_'+index+'h.jpeg';
             id = fname+'_'+index+'h';
+
+            fileList[i] = fname+'_'+index+'h.jpeg';
         }
         else {
             let index = i-repeatCount;
             previewUrl = cloudfrntUrl+fname+'_'+index+'v.jpeg';
             id = fname+'_'+index+'v';
+
+            fileList[i] = fname+'_'+index+'v.jpeg';
         }
         console.log('previewUrl: ', previewUrl);
         
