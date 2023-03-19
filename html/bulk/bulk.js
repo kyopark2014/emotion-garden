@@ -106,18 +106,22 @@ let like = true;
 let previewlist = [];
 let fileList = [];
 let likeList = [];
+let deletedList = [];
+
 form.elements.remove.onclick = function () {    
     console.log("repeatCount: " + repeatCount);
     console.log("fname: " + fname);
 
     let dislike = [];
     for (let i=0;i<repeatCount*2;i++) {
-        if(!likeList[i]) {            
+        if(!likeList[i] && !deletedList[i]) {            
             console.log(`${cloudfrntUrl+fileList[i]} will be removed.`);
 
             dislike.push(fileList[i]);
 
             previewlist[i].innerHTML = '';
+
+            deletedList[i] = true;
         }
     }
 
@@ -138,6 +142,7 @@ form.elements.update.onclick = function () {
     // previews
     for (let i=0;i<repeatCount*2;i++) {
         likeList[i] = true;
+        deletedList[i] = false;
 
         if(i<repeatCount)
             previewlist.push(document.getElementById('preview'+i+'h'));
@@ -189,7 +194,8 @@ form.elements.update.onclick = function () {
                 
         // console.log('htmlsrc: ', htmlsrc);
 
-        previewlist[i].innerHTML = htmlsrc;
+        if(!deletedList[i])
+            previewlist[i].innerHTML = htmlsrc;
     }    
 
     // alert("생성된 이미지를 볼 수 있습니다. 생성중일때는 빈칸으로 표시됩니다. 이미지 옆의 like/dislike를 선택한 후에 [Remove] 버튼을 선택하면 dislike 이미지를 삭제할 수 있습니다.");  
