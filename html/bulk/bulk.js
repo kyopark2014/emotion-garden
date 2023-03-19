@@ -116,6 +116,8 @@ form.elements.remove.onclick = function () {
             console.log(`${cloudfrntUrl+fileList[i]} will be removed.`);
 
             dislike.push(fileList[i]);
+
+            previewlist[i].innerHTML = '';
         }
     }
 
