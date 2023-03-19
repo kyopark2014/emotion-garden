@@ -26,7 +26,7 @@ function retrieveFile(emotionStr) {
                 previewUrl.push(response[i]);
             }           
 
-            if(response) {
+            if(previewUrl.length) {
                 for (let i=0;i<nRow;i++) {
                     console.log('i: '+i+", previewUrl.length: "+previewUrl.length);
                     console.log("previewUrl "+previewUrl[i]);
@@ -42,8 +42,11 @@ function retrieveFile(emotionStr) {
                 }
                     
                 alert("이미지 조회를 요청되었습니다.");
+                profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}/h3>`;
             }
             else {
+                profileInfo_emotion.innerHTML = `<h3>No Image/h3>`;
+
                 alert("이미지 조회되지 않습니다.");
             }                                    
         }
