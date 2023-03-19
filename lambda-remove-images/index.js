@@ -1,6 +1,6 @@
 const aws = require('aws-sdk');
 const s3 = new aws.S3();
-const bucketName = process.env.bucketName;
+const bucketName = process.env.bucket;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -10,11 +10,11 @@ exports.handler = async (event, context) => {
     console.log('body: ' + JSON.stringify(body));
 
     let list = JSON.parse(body['objName']);
-    console.log('list: ', JSON.stringify(list));
+    console.log('object: ', JSON.stringify(list));
     
     let isCompleted = false;
     for (let i in list) {
-        console.log('key: ', list[i]);
+        console.log('object: ', list[i]);
         
         let params = {
             Bucket: bucketName,
@@ -25,12 +25,13 @@ exports.handler = async (event, context) => {
             if (err) console.log(err, err.stack);  // error
 
             console.log('Success: ', data);
-
-            if(i==body['objName'].length-1) isCompleted = true;
+            
+            // console.log('i: ', i);
+            // console.log('length: ', list.length);
+            if(i==list.length-1) isCompleted = true;
         });
     }
     
-
     function wait() {
         return new Promise((resolve, reject) => {
             if (!isCompleted) {
