@@ -170,7 +170,7 @@ form.elements.retrieve.onclick = function () {
                     console.log('ok');
                 }
                 else {
-                    console.log('NOK, clear index of dynamodb');
+                    console.log('No file, clear index of dynamodb');
                     clearIndexDynamoDB(fileList[i]);
                     deletedList[i] = true;
                     previewlist[i].innerHTML = '';
@@ -252,13 +252,13 @@ function checkFile(url) {
     xhr.onreadystatechange = () => {
         console.log("xhr.statu: ", xhr.status);
 
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("--> OK, responseText: " + xhr.responseText);
-            return true;
-        }
-        else {
+        if(xhr.status === 403){
             console.log("--> NOK, responseText: " + xhr.responseText);            
             return false;
+        }
+        else {
+            console.log("--> OK");
+            return true;
         }
     };
 
