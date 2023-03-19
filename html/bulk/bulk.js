@@ -103,7 +103,7 @@ form.elements.send.onclick = function () {
             profileInfo_emotion.innerHTML = `<h3>${i+1}/${repeatCount}</h3>`;
 
             sendFile(prompt, fname, i);            
-            //sleep(1000);            
+            sleep(200);            
         }
     } else {
         alert("No prompt.");
