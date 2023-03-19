@@ -174,6 +174,8 @@ form.elements.retrieve.onclick = function () {
                     clearIndexDynamoDB(fileList[i]);
                     deletedList[i] = true;
                     previewlist[i].innerHTML = '';
+
+                    isValid = true;
                 }
             });
         })(i);
