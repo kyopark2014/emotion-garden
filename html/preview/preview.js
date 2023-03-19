@@ -36,8 +36,9 @@ function retrieveFile(emotionStr) {
             if(previewUrl.length) {
                 for (let i=0;i<nRow;i++) {
                     if(i+start>=previewUrl.length) break;
-                    console.log("start "+start);
-                    console.log("previewUrl "+previewUrl[i+start]);
+                    console.log("start: "+start);
+                    console.log("i+start: "+(i+start));
+                    console.log("previewUrl "+previewUrl[i]);
                     
                     let pos = previewUrl[i+start].indexOf('.jpeg');
                     // console.log("pos: ", pos);
