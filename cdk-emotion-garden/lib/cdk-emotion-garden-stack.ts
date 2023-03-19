@@ -383,7 +383,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     const lambdaRemoveImage = new lambda.Function(this, 'lambda-remove-image', {
       runtime: lambda.Runtime.NODEJS_16_X,
       functionName: "lambda-remove-image",
-      code: lambda.Code.fromAsset("../lambda-remove-image"),
+      code: lambda.Code.fromAsset("../lambda-remove-images"),
       handler: "index.handler",
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
