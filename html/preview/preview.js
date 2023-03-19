@@ -111,7 +111,9 @@ form.elements.retrieve.onclick = function () {
     console.log('previewUrls: ', JSON.stringify(previewUrl));
 
     for (let i=0;i<nRow;i++) {
-        if(i>previewUrl.length) break;
+        console.log('i: '+i+", previewUrl.length: "+previewUrl.length);
+        console.log("previewUrl "+previewUrl[i]);
+        //if(i>previewUrl.length) break;
         
         let htmlsrc = `<H5>${previewUrl[i]}</H5>
             <img id="${id}" src="${previewUrl[i]}" height="800"/>
