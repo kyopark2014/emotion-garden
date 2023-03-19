@@ -45,9 +45,9 @@ function retrieveFile(emotionStr) {
                 profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}/h3>`;
             }
             else {
-                profileInfo_emotion.innerHTML = `<h3>No Image/h3>`;
+                profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
 
-                alert("이미지 조회되지 않습니다.");
+                alert("이미지가 조회되지 않습니다.");
             }                                    
         }
     };
