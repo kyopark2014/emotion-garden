@@ -137,6 +137,16 @@ form.elements.retrieve.onclick = function () {
 
                 likeList[i] = like;
                 console.log('like: ' + likeList[i] + ' filename: ' + fileList[i]);
+
+                // check validity
+                const url = cloudfrntUrl+fileList[i];
+
+                if(checkFile(url)) {
+                    console.log('ok');
+                }
+                else {
+                    console.log('remove dynamodb index');
+                }
             });
         })(i);
     }
@@ -207,3 +217,30 @@ function sleep(ms) {
     while (Date.now() < wakeUpTime) { }
 }
 
+function checkFile(url) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("GET", url, true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("--> OK, responseText: " + xhr.responseText);
+
+            return true;
+        }
+        else {
+            console.log("--> NOK, responseText: " + xhr.responseText);
+
+            return false;
+        }
+    };
+
+/*    let requestObj = {
+        "emotion": JSON.stringify(emotionStr),
+    };
+    console.log("request: " + JSON.stringify(requestObj));
+
+    let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
+
+    xhr.send(blob); */
+    xhr.send();
+}
