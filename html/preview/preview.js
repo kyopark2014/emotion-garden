@@ -111,10 +111,13 @@ form.elements.retrieve.onclick = function () {
     console.log('previewUrls: ', JSON.stringify(previewUrl));
 
     for (let i=0;i<nRow;i++) {
+        if(i>previewUrl.length) break;
+        
         let htmlsrc = `<H5>${previewUrl[i]}</H5>
             <img id="${id}" src="${previewUrl[i]}" height="800"/>
             <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
         
+        console.log('htmlsrc: ', htmlsrc);
         //if(!deletedList[i])
             previewlist[i].innerHTML = htmlsrc;
     }
