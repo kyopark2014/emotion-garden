@@ -120,6 +120,7 @@ let fileList = [];
 
 form.elements.retrieve.onclick = function () {
     start = document.forms.input_row3.elements.start.value;
+    start = start*1; // string to number
     console.log("start: " + start);
     nRow = document.forms.input_row3.elements.nRow.value;
     console.log("nRow: " + nRow);
