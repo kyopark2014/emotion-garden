@@ -379,6 +379,33 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
     dataTable.grantReadWriteData(lambdaGetList); // permission for dynamo 
 
+    // POST method
+    const retrieve = api.root.addResource('retrieve');
+    retrieve.addMethod('POST', new apiGateway.LambdaIntegration(lambdaGetList, {
+      passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      credentialsRole: role,
+      integrationResponses: [{
+        statusCode: '200',
+      }],
+      proxy: true,
+    }), {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apiGateway.Model.EMPTY_MODEL,
+          },
+        }
+      ]
+    });
+
+    // cloudfront setting for api gateway of retrieve
+    distribution.addBehavior("/retrieve", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });
+
     // Lambda for bulk-stable-diffusion
     const lambdaRemoveImage = new lambda.Function(this, 'lambda-remove-image', {
       runtime: lambda.Runtime.NODEJS_16_X,
