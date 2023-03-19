@@ -6,6 +6,10 @@ const retrieveUrl = cloudfrntUrl+"retrieve";
 let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
 
+let start=0, nRow=50;
+let previewUrl;
+let previewlist = [];
+
 function retrieveFile(emotionStr) {    
     const xhr = new XMLHttpRequest();
 
@@ -16,7 +20,8 @@ function retrieveFile(emotionStr) {
 
             let response = JSON.parse(xhr.responseText)
 
-            console.log('resonse: ', JSON.stringify(response[i]));     
+            previewUrl = response;
+            console.log('previewUrl: ', JSON.stringify(previewUrl));                 
         }
     };
 
@@ -39,7 +44,9 @@ function deleteFile(objName) {
             console.log("--> responseText: " + xhr.responseText);
 
             // let response = JSON.parse(xhr.responseText)
-            // console.log("response: " + response.text);                    
+            // console.log("response: " + response.text);       
+            
+            
         }
     };
 
@@ -54,13 +61,15 @@ function deleteFile(objName) {
 }
 
 let form = document.forms.input_row3;
-let nRow;
+
 let fname;
 let likeList = [];
 let deletedList = [];
 let fileList = [];
 
 form.elements.retrieve.onclick = function () {
+    start = document.forms.input_row3.elements.start.value;
+    console.log("start: " + start);
     nRow = document.forms.input_row3.elements.nRow.value;
     console.log("nRow: " + nRow);
 
@@ -68,7 +77,20 @@ form.elements.retrieve.onclick = function () {
         likeList[i] = true;
         deletedList[i] = false;
         fileList[i] = "";
-    }
+
+        previewlist.push(document.getElementById('preview'+i));
+        // add listener        
+        (function(index) {
+            previewlist[index].addEventListener("click", function() {
+                i = index;
+
+                console.log('click! index: '+index);
+
+                // likeList[i] = like;
+                // console.log('like: '+likeList[i]+' filename: '+fileList[i]);
+            });
+        })(i);
+    }     
 
     let selectedEmotion = document.getElementById("emoitonId");
     console.log("emotion: " + selectedEmotion.value);
@@ -86,14 +108,23 @@ form.elements.retrieve.onclick = function () {
     }
     
     retrieveFile(emotionStr);            
+    console.log('previewUrls: ', JSON.stringify(previewUrl));
 
-    //alert("이미지 생성이 요청되었습니다. 이미지 한장당 22초가 소요됩니다. 전체 생성 예상 시간은 "+(22*repeatCount*2)+"초 입니다. 이후에 [Update] 버튼을 선택하면 생성된 이미지를 볼 수 있습니다.");    
+    for (let i=0;i<nRow;i++) {
+        let htmlsrc = `<H5>${previewUrl[i]}</H5>
+            <img id="${id}" src="${previewUrl[i]}" height="800"/>
+            <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
+        
+        //if(!deletedList[i])
+            previewlist[i].innerHTML = htmlsrc;
+    }
+    
+    alert("이미지 조회를 요청되었습니다.");    
 };
 
 //repeatCount=10;
 //fname="emotions/happy/cat/img_20230319-131015"
 let like = true;
-let previewlist = [];
 
 form.elements.remove.onclick = function () {    
     console.log("nRow: " + nRow);
