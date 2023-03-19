@@ -10,6 +10,7 @@ profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
 let start = 0, nRow = 50;
 let previewUrl = [];
 let previewlist = [];
+let isValid = true;
 
 function retrieveFile(emotionStr) {
     const xhr = new XMLHttpRequest();
@@ -166,10 +167,9 @@ form.elements.retrieve.onclick = function () {
                 const url = cloudfrntUrl+fileList[i];
                 console.log('url: ', url);
 
-                if(checkFile(url)) {
-                    console.log('ok');
-                }
-                else {
+                checkFile(url);
+
+                if(!isValid) {
                     console.log('No file, clear index of dynamodb');
                     clearIndexDynamoDB(fileList[i]);
                     deletedList[i] = true;
@@ -245,6 +245,7 @@ function sleep(ms) {
     while (Date.now() < wakeUpTime) { }
 }
 
+
 function checkFile(url) {
     const xhr = new XMLHttpRequest();
 
@@ -253,12 +254,10 @@ function checkFile(url) {
         console.log("xhr.statu: ", xhr.status);
 
         if(xhr.status === 403){
-            console.log("--> NOK, responseText: " + xhr.responseText);            
-            return false;
+            isValid = false;
         }
         else {
-            console.log("--> OK");
-            return true;
+            isValid = true;
         }
     };
 
