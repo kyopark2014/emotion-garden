@@ -113,7 +113,7 @@ form.elements.remove.onclick = function () {
     let dislike = [];
     for (let i=0;i<repeatCount*2;i++) {
         if(!likeList[i]) {            
-            console.log(`${fileList[i]} will be removed.`);
+            console.log(`${cloudfrntUrl+fileList[i]} will be removed.`);
 
             dislike.push(fileList[i]);
         }
