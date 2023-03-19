@@ -106,7 +106,7 @@ function deleteFile(objName) {
     xhr.send(blob);
 }
 
-function clearIndex(objName) {   
+function clearIndexDynamoDB(objName) {   
     const xhr = new XMLHttpRequest();
 
     xhr.open("POST", clearIndexUrl, true);
@@ -167,6 +167,12 @@ form.elements.retrieve.onclick = function () {
 
                 if(checkFile(url)) {
                     console.log('ok');
+                }
+                else {
+                    console.log('NOK, clear index of dynamodb');
+                    clearIndexDynamoDB(fileList[i]);
+                    deletedList[i] = true;
+                    previewlist[i].innerHTML = '';
                 }
             });
         })(i);
@@ -248,10 +254,7 @@ function checkFile(url) {
             return true;
         }
         else {
-            console.log("--> NOK, responseText: " + xhr.responseText);
-            clearIndex(fileList[i]);
-            deletedList[i] = true;
-            previewlist[i].innerHTML = '';
+            console.log("--> NOK, responseText: " + xhr.responseText);            
             return false;
         }
     };
