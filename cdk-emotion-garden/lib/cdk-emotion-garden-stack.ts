@@ -376,7 +376,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       environment: {
         tableName: tableName,
         indexName: indexName,
-        domain: cloudFrontDomain,
+        domainName: cloudFrontDomain,
       }
     });
     dataTable.grantReadWriteData(lambdaRetrieve); // permission for dynamo 
