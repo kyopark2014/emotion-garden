@@ -4,7 +4,7 @@ const bucketName = process.env.bucketName;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
-    console.log('## EVENT: ' + JSON.stringify(event))
+    console.log('## EVENT: ' + JSON.stringify(event));
 
     const body = JSON.parse(Buffer.from(event["body"], "base64"));
     console.log('body: ' + JSON.stringify(body));
@@ -35,10 +35,10 @@ exports.handler = async (event, context) => {
     function wait() {
         return new Promise((resolve, reject) => {
             if (!isCompleted) {
-                setTimeout(() => resolve("wait..."), 1000)
+                setTimeout(() => resolve("wait..."), 1000);
             }
             else {
-                setTimeout(() => resolve("done..."), 0)
+                setTimeout(() => resolve("done..."), 0);
             }
         });
     }
