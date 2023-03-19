@@ -1,11 +1,13 @@
 <html lang="en-US">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Emotion Garden</title>    
+    <meta charset="UTF-8">
+    <title>Emotion Garden</title>
+    <link rel="stylesheet" , href="style.css">
 </head>
 <body>
     <h1>Stable Diffusion Image Generator</h1>
-    <h4>You can enter your text as bellows.</h4>
+    <p>You can enter your text as bellows.</p>
     <form id="input_row0">
         <H4>RepeatCount</H4><input type="text" name="repeatCount" autofocus size="50" value="10">
     </form>
@@ -18,28 +20,32 @@
                     <option value="surprised">놀람 (SURPRISED)</option>
                     <option value="calm">평온 (CALM)</option>
                     <option value="angry">화남 (ANGRY)</option>
-                    <option value="fear">공포 (FEAR)</option>                
+                    <option value="fear">공포 (FEAR)</option>
                     <option value="confused">혼란스러움 (CONFUSED)</option>
                     <option value="disgusted">역겨움 (DISGUSTED)</option>
                     <option value="sad">슬픔 (SAD)</option>
                 </select>
             </form>
-            <form id="input_row2">                
+            <form id="input_row2">
                 <input type="text" name="favorite" autofocus size="50" value="cat">
             </form>
             <form id="input_row3">
-                <input type="text" name="others" autofocus size="100" value="garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
+                <input type="text" name="others" autofocus size="100"
+                    value="garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
                 <input type="button" name="send" value="Generate">
                 <input type="button" name="update" value="Update">
-            </form>                               
+                <input type="button" name="remove" value="Remove">
+            </form>
         </form>
-    </div>   
-    <text>Generate 선택후에 이미지가 생성될때까지 기다린 후에 Update를 누르면 이미지를 확인할 수 있습니다..</text>
-    <div class="result-container">
-        <div id="status"></div>             
     </div>
-    <div class="chat-panel" id="chatPanel">     
-        <H3>Horizontal</H3>
+    <text>[Generate] 선택후에 이미지가 생성될때까지 기다린 후에 [Update]를 누르면 이미지를 확인할 수 있습니다.</text>
+    <text>또한, 이미지 오른쪽의 like/dislike를 선택한후에 [Remove]를 선택하면 삭제할 수 있습니다.</text>
+    
+    <div class="result-container">
+        <div id="status"></div>
+    </div>
+    <div class="chat-panel" id="chatPanel">
+        <H3>Landscape</H3>
         <div id="preview0h"></div>
         <div id="preview1h"></div>
         <div id="preview2h"></div>
@@ -101,7 +107,7 @@
         <div id="preview48h"></div>
         <div id="preview49h"></div>
         <div id="preview50h"></div>
-        <H3>Vertical</H3>
+        <H3>Portrait</H3>
         <div id="preview0v"></div>
         <div id="preview1v"></div>
         <div id="preview2v"></div>
@@ -156,12 +162,8 @@
     </div>
     <script src="bulk.js"></script>
 
-    <a href="#pop_info_1" class="btn_open">팝업 열기</a>
-    <div id="pop_info_1" class="pop_wrap" style="display:none;">
-        <div class="pop_inner">
-            <p class="dsc">팝업 안내문구 입니다.</p>
-            <button type="button" class="btn_close">닫기</button>
-        </div>
-    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
 </body>
 </html>

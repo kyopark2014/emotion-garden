@@ -70,19 +70,46 @@ form.elements.send.onclick = function () {
     } else {
         alert("No prompt.");
     }
+
+    alert("이미지 생성이 요청되었습니다. 이미지 한장당 22초가 소요됩니다. 전체 생성 예상 시간은 "+(22*repeatCount*2)+"초 입니다. 이후에 [Update] 버튼을 선택하면 생성된 이미지를 볼 수 있습니다.");    
 };
 
-// repeatCount=1;
-// fname="emotions/happy/cat/img_20230318-82016"
+repeatCount=10;
+fname="emotions/sad/cat/img_20230319-91557"
+let like = true;
 
-form.elements.update.onclick = function () {
-    let previewlist = [];
-    let fileList = [];
+let previewlist = [];
+let fileList = [];
+let likeList = [];
+form.elements.remove.onclick = function () {    
+    console.log("repeatCount: " + repeatCount);
+    console.log("fname: " + fname);
+
+    let dislike = [];
+    for (let i=0;i<repeatCount*2;i++) {
+        if(!likeList[i]) {            
+            console.log(`${fileList[i]} will be removed.`);
+
+            dislike.push(fileList[i]);
+        }
+    }
+
+    let message = "";
+    for(let i in dislike) {
+        message += dislike[i]+'\n';
+    }
+    
+    alert("dislike로 설정한 이미지가 삭제되었습니다. 삭제된 이미지는 아래와 같습니다.\n"+message); 
+}
+
+form.elements.update.onclick = function () {    
     console.log("repeatCount: " + repeatCount);
     console.log("fname: " + fname);
     
     // previews
     for (let i=0;i<repeatCount*2;i++) {
+        likeList[i] = true;
+
         if(i<repeatCount)
             previewlist.push(document.getElementById('preview'+i+'h'));
         else
@@ -91,12 +118,13 @@ form.elements.update.onclick = function () {
         // add listener        
         (function(index) {
             previewlist[index].addEventListener("click", function() {
-                if(previewlist.length < repeatCount) i = index;
-                else i = index + repeatCount;
+                i = index;
 
                 console.log('click! index: '+index);
 
-                console.log('filename: ', fileList[i]);
+                likeList[i] = like;
+
+                console.log('like: '+likeList[i]+' filename: '+fileList[i]);
             });
         })(i);
     }    
@@ -121,12 +149,29 @@ form.elements.update.onclick = function () {
         }
         console.log('previewUrl: ', previewUrl);
         
-        const htmlsrc = `<H5>${previewUrl}</H5><img id="${id}" src="${previewUrl}" width="500"/>`;
-        console.log('htmlsrc: ', htmlsrc);
+        const htmlsrc = `<H5>${previewUrl}</H5>
+        <img id="${id}" src="${previewUrl}" width="500"/>
+        <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
+        // console.log('htmlsrc: ', htmlsrc);
 
         previewlist[i].innerHTML = htmlsrc;
     }    
+
+    // alert("생성된 이미지를 볼 수 있습니다. 생성중일때는 빈칸으로 표시됩니다. 이미지 옆의 like/dislike를 선택한 후에 [Remove] 버튼을 선택하면 dislike 이미지를 삭제할 수 있습니다.");  
 };
+
+function likeOrDislike(x) {
+    if(x.classList.value == "fa fa-thumbs-up fa-thumbs-down") {
+        console.log('like!');
+        like = true;
+    }
+    else    {
+        console.log('dislike!');
+        like = false;
+    }
+
+    x.classList.toggle("fa-thumbs-down");           
+}
 
 function sleep(ms) {
     const wakeUpTime = Date.now() + ms;
