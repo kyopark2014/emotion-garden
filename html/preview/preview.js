@@ -10,11 +10,11 @@ let start=0, nRow=50;
 let previewUrl = [];
 let previewlist = [];
 
-/*
-let str = "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/happy/img_20230319-225620_5h.jpeg";console.log("str: ", str);
-let pos = str.indexOf('.jpeg');
-console.log("pos: ", pos);
-console.log("charactor: ", str[pos-1]);      */
+/*let str = "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/happy/img_20230319-231538_2v.jpeg";
+console.log('str: ', str);
+let pos = str.lastIndexOf('emotions');
+console.log('pos: ', pos);
+console.log(str.substring(pos));*/
 
 function retrieveFile(emotionStr) {    
     const xhr = new XMLHttpRequest();
@@ -34,23 +34,28 @@ function retrieveFile(emotionStr) {
 
             if(previewUrl.length) {
                 for (let i=0;i<nRow;i++) {
-                    if(i>=previewUrl.length) break;
-                    console.log("previewUrl "+previewUrl[i]);
+                    if(i+start>=previewUrl.length) break;
+                    console.log("previewUrl "+previewUrl[i+start]);
                     
-                    let pos = previewUrl[i].indexOf('.jpeg');
-                    console.log("pos: ", pos);
-                    let identifier = previewUrl[i][pos-1];
-                    console.log("identifier: ", identifier);      
+                    let pos = previewUrl[i+start].indexOf('.jpeg');
+                    // console.log("pos: ", pos);
+                    let identifier = previewUrl[i+start][pos-1];
+                    // console.log("identifier: ", identifier);      
+
+                    let pos2 = previewUrl[i+start].lastIndexOf('emotions');
+                    console.log('pos: ', pos2);
+                    fileList[i] = str.substring(pos)
+                    console.log("fname: ", fileList[i]);
 
                     let htmlsrc;
                     if(identifier=='v') {
-                        htmlsrc = `<H5>${previewUrl[i]}</H5>
-                        <img id="${i}" src="${previewUrl[i]}" height="800"/>
+                        htmlsrc = `<H5>${previewUrl[i+start]}</H5>
+                        <img id="${i}" src="${previewUrl[i+start]}" height="800"/>
                         <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
                     }              
                     else {
-                        htmlsrc = `<H5>${previewUrl[i]}</H5>
-                        <img id="${i}" src="${previewUrl[i]}" width="800"/>
+                        htmlsrc = `<H5>${previewUrl[i+start]}</H5>
+                        <img id="${i}" src="${previewUrl[i+start]}" width="800"/>
                         <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
                     }                                            
                         
@@ -89,9 +94,7 @@ function deleteFile(objName) {
             console.log("--> responseText: " + xhr.responseText);
 
             // let response = JSON.parse(xhr.responseText)
-            // console.log("response: " + response.text);       
-            
-            
+            // console.log("response: " + response.text);                               
         }
     };
 
@@ -131,8 +134,8 @@ form.elements.retrieve.onclick = function () {
 
                 console.log('click! index: '+index);
 
-                // likeList[i] = like;
-                // console.log('like: '+likeList[i]+' filename: '+fileList[i]);
+                likeList[i] = like;
+                console.log('like: '+likeList[i]+' filename: '+fileList[i]);
             });
         })(i);
     }     
