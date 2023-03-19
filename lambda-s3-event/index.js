@@ -53,7 +53,7 @@ exports.handler = async (event, context) => {
                 searchKey = emotion + '/' + favorite
             }
             else if (splitKey.length == 3) {
-                searchKey = emotion + '/' + favorite
+                searchKey = emotion
             }
             else {
                 return response = {
