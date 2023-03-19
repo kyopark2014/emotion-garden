@@ -1,5 +1,7 @@
-const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/bulk";
 const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
+
+const bulkUrl = cloudfrntUrl+"bulk";
+const removeUrl = cloudfrntUrl+"remove";
 
 let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
@@ -7,7 +9,7 @@ profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
 function sendFile(prompt, fname, index) {    
     const xhr = new XMLHttpRequest();
 
-    xhr.open("POST", uri, true);
+    xhr.open("POST", bulkUrl, true);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("--> responseText: " + xhr.responseText);
@@ -21,6 +23,29 @@ function sendFile(prompt, fname, index) {
         "index": index,
         "prompt": JSON.stringify(prompt),
         "fname": fname
+    };
+    console.log("request: " + JSON.stringify(requestObj));
+
+    let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
+
+    xhr.send(blob);
+}
+
+function deleteFile(objName) {    
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", removeUrl, true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("--> responseText: " + xhr.responseText);
+
+            // let response = JSON.parse(xhr.responseText)
+            // console.log("response: " + response.text);                    
+        }
+    };
+
+    let requestObj = {
+        "objName": JSON.stringify(objName),
     };
     console.log("request: " + JSON.stringify(requestObj));
 
@@ -94,11 +119,13 @@ form.elements.remove.onclick = function () {
         }
     }
 
+    // delete dislike files
+    deleteFile(dislike);
+
     let message = "";
     for(let i in dislike) {
         message += dislike[i]+'\n';
     }
-    
     alert("dislike로 설정한 이미지가 삭제되었습니다. 삭제된 이미지는 아래와 같습니다.\n"+message); 
 }
 
