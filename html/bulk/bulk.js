@@ -171,7 +171,7 @@ form.elements.update.onclick = function () {
             fileList[i] = fname+'_'+index+'h.jpeg';
 
             htmlsrc = `<H5>${previewUrl}</H5>
-        <img id="${id}" src="${previewUrl}" width="500"/>
+        <img id="${id}" src="${previewUrl}" width="800"/>
         <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
         }
         else {
@@ -182,7 +182,7 @@ form.elements.update.onclick = function () {
             fileList[i] = fname+'_'+index+'v.jpeg';
 
             htmlsrc = `<H5>${previewUrl}</H5>
-        <img id="${id}" src="${previewUrl}" height="500"/>
+        <img id="${id}" src="${previewUrl}" height="800"/>
         <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
         }
         console.log('previewUrl: ', previewUrl);
