@@ -164,6 +164,7 @@ form.elements.retrieve.onclick = function () {
 
                 // check validity
                 const url = cloudfrntUrl+fileList[i];
+                console.log('url: ', url);
 
                 if(checkFile(url)) {
                     console.log('ok');
@@ -249,6 +250,8 @@ function checkFile(url) {
 
     xhr.open("GET", url, true);
     xhr.onreadystatechange = () => {
+        console.log("xhr.statu: ", xhr.status);
+
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("--> OK, responseText: " + xhr.responseText);
             return true;
