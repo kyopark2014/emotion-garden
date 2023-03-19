@@ -84,23 +84,18 @@ form.elements.send.onclick = function () {
     console.log("timestr: ", timestr);
     
     let prompt;
-    if(favorite && favorite!=undefined) {
+    if(favorite) {
         fname = 'emotions/'+selectedEmotion.value+'/'+favorite+'/img_'+timestr;
-
-        prompt = {
-            "emotion": selectedEmotion.value,
-            "favorite": favorite,
-            "others": others
-        };
     }
     else { 
         fname = 'emotions/'+selectedEmotion.value+'/img_'+timestr; 
-
-        prompt = {
-            "emotion": selectedEmotion.value,
-            "others": others
-        };
     }    
+
+    prompt = {
+        "emotion": selectedEmotion.value,
+        "favorite": favorite,
+        "others": others
+    };
     console.log("prompt: " + JSON.stringify(prompt));
     
     if (prompt) {
