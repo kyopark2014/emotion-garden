@@ -24,7 +24,23 @@ function retrieveFile(emotionStr) {
                 console.log(response[i]);    
 
                 previewUrl.push(response[i]);
-            }                                   
+            }           
+            
+            for (let i=0;i<nRow;i++) {
+                console.log('i: '+i+", previewUrl.length: "+previewUrl.length);
+                console.log("previewUrl "+previewUrl[i]);
+                if(i>=previewUrl.length) break;
+                    
+                let htmlsrc = `<H5>${previewUrl[i]}</H5>
+                    <img id="${i}" src="${previewUrl[i]}" height="800"/>
+                    <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
+                    
+                console.log('htmlsrc: ', htmlsrc);
+                //if(!deletedList[i])
+                previewlist[i].innerHTML = htmlsrc;
+            }
+                
+            alert("이미지 조회를 요청되었습니다.");                        
         }
     };
 
@@ -110,23 +126,7 @@ form.elements.retrieve.onclick = function () {
         emotionStr = selectedEmotion.value;
     }
     
-    retrieveFile(emotionStr);       
-
-    for (let i=0;i<nRow;i++) {
-        console.log('i: '+i+", previewUrl.length: "+previewUrl.length);
-        console.log("previewUrl "+previewUrl[i]);
-        if(i>=previewUrl.length) break;
-            
-        let htmlsrc = `<H5>${previewUrl[i]}</H5>
-            <img id="${i}" src="${previewUrl[i]}" height="800"/>
-            <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
-            
-        console.log('htmlsrc: ', htmlsrc);
-        //if(!deletedList[i])
-        previewlist[i].innerHTML = htmlsrc;
-    }
-        
-    alert("이미지 조회를 요청되었습니다.");
+    retrieveFile(emotionStr);           
 };
 
 //repeatCount=10;
