@@ -87,10 +87,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     }
 
     // copy web application files into s3 bucket
-    new s3Deploy.BucketDeployment(this, "upload-HTML-stable-diffusion", {
+  /*  new s3Deploy.BucketDeployment(this, "upload-HTML-stable-diffusion", {
       sources: [s3Deploy.Source.asset("../html")],
       destinationBucket: s3Bucket,
-    });
+    }); */
 
     // cloudfront
     const distribution = new cloudFront.Distribution(this, 'cloudfront-emotion-garden', {
