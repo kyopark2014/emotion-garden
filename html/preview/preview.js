@@ -117,6 +117,9 @@ form.elements.retrieve.onclick = function () {
     nRow = document.forms.input_row3.elements.nRow.value;
     console.log("nRow: " + nRow);
 
+    previewUrl = [];
+    previewlist = [];
+
     for (let i = 0; i < nRow; i++) {
         likeList[i] = true;
         deletedList[i] = false;
