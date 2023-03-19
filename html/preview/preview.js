@@ -84,7 +84,7 @@ function retrieveFile(emotionStr) {
     xhr.send(blob);
 }
 
-function deleteFile(objName) {   
+function removeFile(objName) {   
     const xhr = new XMLHttpRequest();
 
     xhr.open("POST", removeUrl, true);
@@ -219,8 +219,11 @@ form.elements.remove.onclick = function () {
         }
     }
 
-    // delete dislike files
-    deleteFile(dislike);
+    // remove dislike files
+    removeFile(dislike);
+
+    for(let i in dislike)  // remove dynamodb index
+        clearIndexDynamoDB(dislike[i]);
 
     let message = "";
     for (let i in dislike) {

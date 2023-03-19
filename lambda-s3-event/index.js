@@ -84,7 +84,7 @@ exports.handler = async (event, context) => {
             console.log('i: ', i);
             isCompleted = true;
         }
-        else {
+        else if(eventName == 'ObjectRemoved:Delete') {
             var params = {
                 TableName: tableName,
                 Key: {
@@ -99,7 +99,6 @@ exports.handler = async (event, context) => {
                     console.log("DeleteItem succeeded:", JSON.stringify(data, null, 2));
                 }
             });
-
         }
     }
 
