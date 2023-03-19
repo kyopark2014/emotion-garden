@@ -20,10 +20,10 @@ function retrieveFile(emotionStr) {
 
             let response = JSON.parse(xhr.responseText)
 
-            previewUrl = response;
-
-            for(let i in previewUrl) {
-                console.log(previewUrl[i]);    
+            for(let i in response) {
+                console.log(response[i]);    
+                
+                previewUrl.push(response[i]);
             }        
             
             for (let i=0;i<nRow;i++) {
