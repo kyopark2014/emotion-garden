@@ -54,8 +54,9 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
+    const indexName = 'Emotion-index';
     dataTable.addGlobalSecondaryIndex({ // GSI
-      indexName: 'Emotion-index',
+      indexName: indexName,
       partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
     });
 
@@ -374,8 +375,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         tableName: tableName,
-        bucketName: s3Bucket.bucketName,
-        // domainName: 'https://' + distribution.domainName
+        indexName: indexName,
         domain: cloudFrontDomain,
       }
     });

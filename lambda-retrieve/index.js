@@ -1,14 +1,14 @@
 const aws = require('aws-sdk');
 const dynamo = new aws.DynamoDB.DocumentClient();
-const bucketName = process.env.bucketName;
 const tableName = process.env.tableName;
+const indexName = process.env.indexName;
 const domainName = process.env.domainName;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
     console.log('## EVENT: ' + JSON.stringify(event))
     
-    const indexName = "Emotion-index"; // GSI
+    //const indexName = "Emotion-index"; // GSI
     let emotion = event.emotion;
     
     let queryParams = {
