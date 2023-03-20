@@ -1,7 +1,3 @@
-const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
-const retrieveUrl = cloudfrntUrl + "retrieve";
-const text2imagUrl = cloudfrntUrl + "text2imag";
-
 //DOM
 const startButton =document.querySelector(".start-button");
 const previewButton =document.querySelector(".preview-button");
@@ -62,7 +58,7 @@ function preview() {
 function getEmotion() {
     canvas.getContext('2d').drawImage(previewPlayer, 0, 0, canvas.width, canvas.height);  
 
-    const uri = cloudfrntUrl+"emotion";
+    const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/emotion";
     const xhr = new XMLHttpRequest();
 
     xhr.open("POST", uri, true);
@@ -160,81 +156,8 @@ function getEmotion() {
     });
 }
 
-function retrieveFile(emotionStr) {
-    const xhr = new XMLHttpRequest();
-
-    xhr.open("POST", retrieveUrl, true);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("--> responseText: " + xhr.responseText);
-
-            let response = JSON.parse(xhr.responseText)
-
-            for (let i in response) {
-                console.log(response[i]);
-
-                previewUrl.push(response[i]);
-            }
-
-            console.log('previewUrl length: ', previewUrl.length);
-            if (previewUrl.length) {
-                for (let i = 0; i < nRow; i++) {
-                    if (i + start >= previewUrl.length) break;
-                    console.log("previewUrl " + previewUrl[i + start]);
-
-                    let pos = previewUrl[i + start].indexOf('.jpeg');
-                    // console.log("pos: ", pos);
-                    let identifier = previewUrl[i + start][pos - 1];
-                    // console.log("identifier: ", identifier);      
-
-                    let pos2 = previewUrl[i + start].lastIndexOf('emotions');
-                    // console.log('pos: ', pos2);
-                    fileList[i] = previewUrl[i + start].substring(pos2)
-                    console.log("fname: ", fileList[i]);
-
-                    let htmlsrc;
-                    if (identifier == 'v') {
-                        htmlsrc = `<H5>${previewUrl[i + start]}</H5>
-                        <img id="${i}" src="${previewUrl[i + start]}" height="800"/>
-                        <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
-                    }
-                    else {
-                        htmlsrc = `<H5>${previewUrl[i + start]}</H5>
-                        <img id="${i}" src="${previewUrl[i + start]}" width="800"/>
-                        <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
-                    }
-                    console.log('htmlsrc: ', htmlsrc);
-
-                    if (!deletedList[i])
-                        previewlist[i].innerHTML = htmlsrc;
-                }
-
-                alert("이미지 조회를 요청되었습니다.");
-                profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}</h3>`;
-            }
-            else {
-                profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
-                previewUrl = [];
-                previewlist = [];
-
-                alert("이미지가 조회되지 않습니다.");
-            }
-        }
-    };
-
-    let requestObj = {
-        "emotion": emotionStr,
-    };
-    console.log("request: " + JSON.stringify(requestObj));
-
-    let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
-
-    xhr.send(blob);
-}
-
-
 function getStableDiffusion(emotionValue) {
-    const uri = cloudfrntUrl+"text2image";
+    const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image";
     const xhr = new XMLHttpRequest();
 
     console.log("start making images...");
@@ -265,7 +188,14 @@ function getStableDiffusion(emotionValue) {
         }
     };
 
-    var requestObj = {"text":text}
+    // request
+    let width = 768;
+    let height = 512;
+    var requestObj = { 
+        "text": text,
+        "width": width,
+        "height": height
+    }
     console.log("request: " + JSON.stringify(requestObj));
 
     var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
