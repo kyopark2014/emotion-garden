@@ -23,6 +23,7 @@ promptText = document.getElementById('promptText');
 let previewUrl = [];
 let previewlist = [];
 const maxImgItems = 100;
+const start = 0;
 
 for (let i=0;i<maxImgItems;i++) {
     previewlist.push(document.getElementById('preview'+i));
