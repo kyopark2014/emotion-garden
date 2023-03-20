@@ -22,8 +22,8 @@ promptText = document.getElementById('promptText');
 
 let previewUrl = [];
 let previewlist = [];
-
 const maxImgItems = 100;
+
 for (let i=0;i<maxImgItems;i++) {
     previewlist.push(document.getElementById('preview'+i));
     
@@ -156,6 +156,11 @@ function getEmotion() {
             profileInfo_features.innerHTML = ``
         }
     };    
+
+    for (let i=0;i<maxImgItems;i++) {
+        previewUrl[i] = "";
+        previewlist[i] = "";
+    }
 
     canvas.toBlob(function(blob){
         xhr.send(blob);
