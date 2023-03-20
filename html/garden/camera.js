@@ -160,7 +160,8 @@ function getEmotion() {
     previewUrl = [];
     previewlist = [];
     for (let i=0;i<maxImgItems;i++) {
-        fileList[i] = "";        
+        fileList[i] = "";      
+        previewlist[i].innerHTML = '';  
     }
 
     canvas.toBlob(function(blob){
