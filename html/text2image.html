@@ -10,6 +10,19 @@
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = () => {
                 let previewlist= [];
+                for(let i=0;i<10;i++) {
+                    previewlist[i].innerHTML = '';
+
+                    previewlist.push(document.getElementById('preview' + i));
+                    // add listener        
+                    (function (index) {
+                        previewlist[index].addEventListener("click", function () {
+                            i = index;
+                            console.log('click! index: ' + index);
+                        });
+                    })(i);
+                }
+                
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     let response = JSON.parse(xhr.responseText);
                     console.log("response: " + JSON.stringify(response));
