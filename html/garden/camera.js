@@ -1,22 +1,21 @@
-const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
-
-//DOM
 const startButton =document.querySelector(".start-button");
 const previewButton =document.querySelector(".preview-button");
 const downloadButton =document.querySelector(".download-button");
 const emotionButton =document.querySelector(".emotion-button");
-
 const previewPlayer = document.querySelector("#preview");
-let canvas = document.getElementById('canvas');     
+  
+let profileInfo_emotion, profileInfo_age, profileInfo_features;
 
+//event
+startButton.addEventListener("click",videoStart);
+// previewButton.addEventListener("click",preview);
+emotionButton.addEventListener("click",emotion);
+
+const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
+
+let canvas = document.getElementById('canvas');   
 canvas.width = previewPlayer.width;
 canvas.height = previewPlayer.height;
-
-let profileInfo_emotion, profileInfo_age, profileInfo_features;
-profileInfo_emotion = document.getElementById('profile-emotion');
-profileInfo_age = document.getElementById('profile-age');
-profileInfo_features = document.getElementById('profile-features');
-promptText = document.getElementById('promptText');
 
 let previewUrl = [];
 let previewlist = [];
@@ -47,6 +46,11 @@ function preview() {
 }
 
 function getEmotion() {
+    profileInfo_emotion = document.getElementById('profile-emotion');
+    profileInfo_age = document.getElementById('profile-age');
+    profileInfo_features = document.getElementById('profile-features');
+    promptText = document.getElementById('promptText');
+
     canvas.getContext('2d').drawImage(previewPlayer, 0, 0, canvas.width, canvas.height);  
 
     const uri = cloudfrntUrl+"emotion";
@@ -133,8 +137,6 @@ function getEmotion() {
             },'image/png');   
 
             // alert(xhr.responseText); // handle response.
-
-            // getStableDiffusion(emotionValue);
             retrieveFile(emotionValue);
         }
         else {
@@ -240,53 +242,3 @@ function retrieveFile(emotionStr) {
 
     xhr.send(blob);
 }
-
-
-function getStableDiffusion(emotionValue) {
-    const uri = cloudfrntUrl+"text2image";
-    const xhr = new XMLHttpRequest();
-
-    console.log("start making images...");
-
-    let text = emotionValue+ ', garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art';
-    console.log('promptText: ', text);
-
-    promptText.innerHTML = `<h3>${text}</h3>`;
-
-    xhr.open("POST", uri, true);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            let response = JSON.parse(xhr.responseText);
-            console.log("response: " + JSON.stringify(response));
-            let result = JSON.parse(response.body);
-            console.log("time: " + JSON.parse(response.time));                    
-
-            console.log("result1: " + JSON.stringify(result[0]));
-            console.log("result2: " + JSON.stringify(result[1]));
-                    
-            imgList[0].innerHTML = `<form id="preview_row"></form>
-                <img id="previewImg0" width="512" alt="Preview" />
-                <img id="previewImg1" width="512" alt="Preview" />
-            </form>`
-
-            previewImg0.src = result[0];
-            previewImg1.src = result[1];               
-        }
-    };
-
-    var requestObj = {"text":text}
-    console.log("request: " + JSON.stringify(requestObj));
-
-    var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
-
-    xhr.send(blob);
-}
-
-function emotion() {
-    getEmotion();    
-}
-
-//event
-startButton.addEventListener("click",videoStart);
-// previewButton.addEventListener("click",preview);
-emotionButton.addEventListener("click",emotion);
