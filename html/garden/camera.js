@@ -21,16 +21,15 @@ profileInfo_features = document.getElementById('profile-features');
 promptText = document.getElementById('promptText');
 
 let imgList = [];
-const maxImgItems = 10;
+const maxImgItems = 100;
 for (let i=0;i<maxImgItems;i++) {
-    imgList.push(document.getElementById('garden'+i));
+    imgList.push(document.getElementById('preview'+i));
     
     // add listener        
     (function(index) {
         imgList[index].addEventListener("click", function() {
-            if(imgList.length < maxImgItems) i = index;
-            else i = index + maxMsgItems;
-
+            i = index;
+            
             console.log('click! index: '+index);
         })
     })(i); 
