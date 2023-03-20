@@ -207,11 +207,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'The web url of request for text2image',
     });
 
-    new cdk.CfnOutput(this, 'UpdateCommend', {
-      value: 'aws s3 cp ../html/text2image.html ' + 's3://' + s3Bucket.bucketName,
-      description: 'The url of web file upload',
-    });
-
     // Lambda - emotion
     const lambdaEmotion = new lambda.Function(this, "lambdaEmotion", {
       runtime: lambda.Runtime.NODEJS_16_X,
@@ -487,7 +482,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
 
-    new cdk.CfnOutput(this, 'UpdateCommend-bulk', {
+    new cdk.CfnOutput(this, 'UpdateCommend', {
       value: 'aws s3 cp ../html/ ' + 's3://' + s3Bucket.bucketName + '/html --recursive',
       description: 'copy commend for web pages',
     });

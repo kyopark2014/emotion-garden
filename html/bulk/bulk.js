@@ -137,6 +137,9 @@ form.elements.remove.onclick = function () {
     // delete dislike files
     deleteFile(dislike);
 
+    for(let i in dislike)  // remove dynamodb index
+        clearIndexDynamoDB(dislike[i]);
+
     let message = "";
     for(let i in dislike) {
         message += dislike[i]+'\n';
@@ -258,3 +261,25 @@ function gettimestr() {
     return timestr;
 }
 
+function clearIndexDynamoDB(objName) {   
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", clearIndexUrl, true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("--> responseText: " + xhr.responseText);
+
+            // let response = JSON.parse(xhr.responseText)
+            // console.log("response: " + response.text);                               
+        }
+    };
+
+    let requestObj = {
+        "objName": objName,
+    };
+    console.log("request: " + JSON.stringify(requestObj));
+
+    let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
+
+    xhr.send(blob);
+}
