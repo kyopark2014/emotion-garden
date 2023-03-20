@@ -58,10 +58,10 @@ exports.handler = async (event, context) => {
     let portrait = [];
     for(let i in urlList) {
         let pos = urlList[i].indexOf('.jpeg');
-        console.log("pos: ", pos);
+        // console.log("pos: ", pos);
         
         let identifier = urlList[i][pos - 1];
-        console.log("identifier: ", identifier);    
+        // console.log("identifier: ", identifier);    
 
         if (identifier == 'v') {
             portrait.push(urlList[i]);
@@ -73,9 +73,13 @@ exports.handler = async (event, context) => {
     console.log('landscape: ', JSON.stringify(landscape));
     console.log('portrait: ', JSON.stringify(portrait));
     
+    let result = {
+        landscape: landscape,
+        portrait: portrait
+    }
     const response = {
         statusCode: 200,
-        body: JSON.stringify(urlList)
+        body: JSON.stringify(result)
     };
 
     return response;

@@ -184,11 +184,18 @@ function retrieveFile(emotionStr) {
             console.log("--> responseText: " + xhr.responseText);
 
             let response = JSON.parse(xhr.responseText)
+            let landscape = [];
+            let portrait = [];
 
-            for (let i in response) {
-                console.log(response[i]);
-
-                previewUrl.push(response[i]);
+            landscape = response['landscape'];
+            console.log("landscape: " + landscape);
+            portrait = response['portrait'];
+            console.log("portrait: " + portrait);            
+            
+            for (let i in portrait) {
+                console.log(portrait[i]);
+                
+                previewUrl.push(portrait[i]);
             }
             console.log('previewUrl length: ', previewUrl.length);
 
