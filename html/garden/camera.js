@@ -22,6 +22,7 @@ promptText = document.getElementById('promptText');
 
 let previewUrl = [];
 let previewlist = [];
+let fileList = [];
 const maxImgItems = 100;
 const start = 0;
 
@@ -161,6 +162,7 @@ function getEmotion() {
     for (let i=0;i<maxImgItems;i++) {
         previewUrl[i] = "";
         previewlist[i] = "";
+        fileList[i] = "";
     }
 
     canvas.toBlob(function(blob){
@@ -216,8 +218,6 @@ function retrieveFile(emotionStr) {
                     if (!deletedList[i])
                         previewlist[i].innerHTML = htmlsrc;
                 }
-
-                alert("이미지 조회를 요청되었습니다.");
                 profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}</h3>`;
             }
             else {
