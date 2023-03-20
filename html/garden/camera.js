@@ -185,7 +185,7 @@ function retrieveFile(emotionStr) {
 
             console.log('previewUrl length: ', previewUrl.length);
             if (previewUrl.length) {
-                for (let i = 0; i < nRow; i++) {
+                for (let i = 0; i < maxImgItems; i++) {
                     if (i + start >= previewUrl.length) break;
                     console.log("previewUrl " + previewUrl[i + start]);
 
