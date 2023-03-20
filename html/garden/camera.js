@@ -196,8 +196,7 @@ function retrieveFile(emotionStr) {
                 console.log(portrait[i]);
                 
                 previewUrl.push(portrait[i]);
-            }
-            console.log('previewUrl length: ', previewUrl.length);
+            }            
 
             drawGarden(previewUrl);
             //  imgPanel.scrollTop = imgPanel.scrollHeight;  // scroll needs to move bottom            

@@ -18,7 +18,7 @@ html,body{
 
 .video-container{
     display: flex;
-    width: 550px;
+    width: 450px;
     padding: 1rem;
     justify-content: space-around;
 }
