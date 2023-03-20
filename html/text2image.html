@@ -33,18 +33,12 @@
 
                         let htmlsrc;
                         htmlsrc = `<H5>${result[i]}</H5>
-                            <img id="${i}" src="${result[i]}" height="800"/>
+                            <img id="${i}" src="${result[i]}" height="600"/>
                             <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
                         console.log('htmlsrc: ', htmlsrc);
 
                         previewlist[i].innerHTML = htmlsrc;
                     }
-                    
-                    // console.log("result1: " + JSON.stringify(result[0]));
-                    // console.log("result2: " + JSON.stringify(result[1]));
-
-                    previewImg0.src = result[0];
-                    previewImg1.src = result[1];
                 }
             };
 
@@ -94,14 +88,6 @@
         <div id="preview9"></div>
         <div id="preview10"></div>
     </div>
-    <form id="preview_row1"></form>
-        <img id="previewImg0" width="512" alt="Preview" />
-        <img id="previewImg1" width="512" alt="Preview" />
-    </form>
-    <form id="preview_row1"></form>
-        <img id="previewImg2" width="512" alt="Preview" />
-        <img id="previewImg3" width="512" alt="Preview" />
-    </form>
     <h4>Stable diffusion images will be generated from your text and then served in CloudFront.</h4>
 </body>
 </html>
