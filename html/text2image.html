@@ -10,10 +10,9 @@
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = () => {
                 let previewlist= [];
-                for(let i=0;i<10;i++) {
-                    previewlist[i].innerHTML = '';
-
+                for(let i=0;i<10;i++) {                    
                     previewlist.push(document.getElementById('preview' + i));
+                    previewlist[i].innerHTML = '';
                     // add listener        
                     (function (index) {
                         previewlist[index].addEventListener("click", function () {
