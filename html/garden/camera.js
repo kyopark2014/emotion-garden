@@ -144,8 +144,6 @@ function getEmotion() {
         }
     };    
 
-    imgPanel.scrollTop = imgPanel.scrollHeight;  // scroll needs to move bottom
-
     previewUrl = [];
     previewlist = [];
 
@@ -220,8 +218,8 @@ function retrieveFile(emotionStr) {
 
                     previewlist[i].innerHTML = htmlsrc;
                 }
-                //profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}</h3>`;
-                // profileInfo_emotion.innerHTML = `<h3>${emotionText}</h3>`
+
+                imgPanel.scrollTop = imgPanel.scrollHeight;  // scroll needs to move bottom
             }
             else {
                 profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
