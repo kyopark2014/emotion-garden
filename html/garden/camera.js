@@ -192,10 +192,10 @@ function retrieveFile(emotionStr) {
             portrait = response['portrait'];
             console.log("portrait: " + portrait);            
             
-            for (let i in portrait) {
-                console.log(portrait[i]);
+            for (let i in landscape) {
+                console.log(landscape[i]);
                 
-                previewUrl.push(portrait[i]);
+                previewUrl.push(landscape[i]);
             }            
 
             drawGarden(previewUrl);
