@@ -23,19 +23,6 @@ let previewlist = [];
 let fileList = [];
 const maxImgItems = 100;
 
-for (let i=0;i<maxImgItems;i++) {
-    previewlist.push(document.getElementById('preview'+i));
-    
-    // add listener        
-    (function(index) {
-        previewlist[index].addEventListener("click", function() {
-            i = index;
-            
-            console.log('click! index: '+index);
-        })
-    })(i); 
-}
-
 //functions
 function videoStart() {
     navigator.mediaDevices.getUserMedia({ video:true,audio:false })
@@ -159,6 +146,20 @@ function getEmotion() {
 
     previewUrl = [];
     previewlist = [];
+
+    for (let i=0;i<maxImgItems;i++) {
+        previewlist.push(document.getElementById('preview'+i));
+        
+        // add listener        
+        (function(index) {
+            previewlist[index].addEventListener("click", function() {
+                i = index;
+                
+                console.log('click! index: '+index);
+            })
+        })(i); 
+    }
+    
     for (let i=0;i<maxImgItems;i++) {
         fileList[i] = "";      
         previewlist[i].innerHTML = '';  
