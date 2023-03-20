@@ -1,6 +1,4 @@
 const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
-const retrieveUrl = cloudfrntUrl + "retrieve";
-const text2imagUrl = cloudfrntUrl + "text2imag";
 
 //DOM
 const startButton =document.querySelector(".start-button");
@@ -107,14 +105,14 @@ function getEmotion() {
             let emotionValue = response.emotions;
             console.log("emotion: " + emotionValue);          
             let emotionText = "Emotion: ";
-            if(emotionValue == "HAPPY") emotionText += "행복 (HAPPY)";
-            else if(emotionValue == "SURPRISED") emotionText += "놀람 (SURPRISED)";
-            else if(emotionValue == "CALM") emotionText += "평온 (CALM)";
-            else if(emotionValue == "ANGRY") emotionText += "화남 (ANGRY)";
-            else if(emotionValue == "FEAR") emotionText += "공포 (FEAR)";
-            else if(emotionValue == "CONFUSED") emotionText += "혼란스러움 (CONFUSED)";
-            else if(emotionValue == "DISGUSTED") emotionText += "역겨움 (DISGUSTED)";
-            else if(emotionValue == "SAD") emotionText += "슬픔 (SAD)";
+            if(emotionValue == "happy") emotionText += "행복 (HAPPY)";
+            else if(emotionValue == "surprised") emotionText += "놀람 (SURPRISED)";
+            else if(emotionValue == "calm") emotionText += "평온 (CALM)";
+            else if(emotionValue == "angry") emotionText += "화남 (ANGRY)";
+            else if(emotionValue == "fear") emotionText += "공포 (FEAR)";
+            else if(emotionValue == "confused") emotionText += "혼란스러움 (CONFUSED)";
+            else if(emotionValue == "disgusted") emotionText += "역겨움 (DISGUSTED)";
+            else if(emotionValue == "sad") emotionText += "슬픔 (SAD)";
             
             let features = "Features:";
             if(smile) features += ' 웃음';
@@ -171,9 +169,10 @@ function getEmotion() {
 }
 
 function retrieveFile(emotionStr) {
+    const url = cloudfrntUrl + "retrieve";
     const xhr = new XMLHttpRequest();
 
-    xhr.open("POST", retrieveUrl, true);
+    xhr.open("POST", url, true);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("--> responseText: " + xhr.responseText);
