@@ -144,6 +144,8 @@ function getEmotion() {
         }
     };    
 
+    imgPanel.scrollTop = imgPanel.scrollHeight;  // scroll needs to move bottom
+
     previewUrl = [];
     previewlist = [];
 
@@ -159,7 +161,7 @@ function getEmotion() {
             })
         })(i); 
     }
-    
+
     for (let i=0;i<maxImgItems;i++) {
         fileList[i] = "";      
         previewlist[i].innerHTML = '';  
