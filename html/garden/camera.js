@@ -146,7 +146,8 @@ function getEmotion() {
 
             // alert(xhr.responseText); // handle response.
 
-            getStableDiffusion(emotionValue);
+            // getStableDiffusion(emotionValue);
+            retrieveFile(emotionValue);
         }
         else {
             profileInfo_emotion.innerHTML = `<h3>No Face</h3>`

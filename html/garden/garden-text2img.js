@@ -162,7 +162,7 @@ function getStableDiffusion(emotionValue) {
 
     console.log("start making images...");
 
-    let text = emotionValue+ ', garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art';
+    let text = emotionValue+ ', white flowers, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art';
     console.log('promptText: ', text);
 
     promptText.innerHTML = `<h3>${text}</h3>`;
