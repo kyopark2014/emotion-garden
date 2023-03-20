@@ -44,7 +44,7 @@ def stable_diffusion(num, txt, width, height, mybucket, fname, endpoint):
         img_str = base64.b64decode(generated_images[0])
         buffer = io.BytesIO(img_str) 
 
-        s3.upload_fileobj(buffer, mybucket, mykey, ExtraArgs={"ContentType": "image/jpeg"})
+        s3.upload_fileobj(buffer, mybucket+'/images/', mykey, ExtraArgs={"ContentType": "image/jpeg"})
         
         print("---> run time(sec): ", int(time.time()) - start)
     
