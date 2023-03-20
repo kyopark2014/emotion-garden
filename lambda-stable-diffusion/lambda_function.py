@@ -44,7 +44,7 @@ def stable_diffusion(num, txt, width, height, mybucket, fname, endpoint):
         img_str = base64.b64decode(generated_images[0])
         buffer = io.BytesIO(img_str) 
 
-        s3.upload_fileobj(buffer, mybucket+'/images/', mykey, ExtraArgs={"ContentType": "image/jpeg"})
+        s3.upload_fileobj(buffer, mybucket, mykey, ExtraArgs={"ContentType": "image/jpeg"})
         
         print("---> run time(sec): ", int(time.time()) - start)
     
@@ -81,7 +81,7 @@ def lambda_handler(event, context):
     for num in range(0,nproc): # 2 processes
         print('num:', num)
         proc = Process(target=stable_diffusion, args=(num, txt, width, height, mybucket, fname, endpoints[num],))
-        urls.append("https://"+domain+'/images/'+fname+'_'+str(num)+'.jpeg')    
+        urls.append("https://"+domain+'/'+fname+'_'+str(num)+'.jpeg')    
         procs.append(proc)
         proc.start()
         
