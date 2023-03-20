@@ -157,10 +157,10 @@ function getEmotion() {
         }
     };    
 
+    previewUrl = [];
+    previewlist = [];
     for (let i=0;i<maxImgItems;i++) {
-        previewUrl[i] = "";
-        previewlist[i] = "";
-        fileList[i] = "";
+        fileList[i] = "";        
     }
 
     canvas.toBlob(function(blob){
