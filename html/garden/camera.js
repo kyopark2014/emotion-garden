@@ -21,7 +21,7 @@ promptText = document.getElementById('promptText');
 let previewUrl = [];
 let previewlist = [];
 let fileList = [];
-const maxImgItems = 100;
+const maxImgItems = 2;
 
 //functions
 function videoStart() {
