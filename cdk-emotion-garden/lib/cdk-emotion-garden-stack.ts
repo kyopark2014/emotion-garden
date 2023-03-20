@@ -312,11 +312,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
 
-    new cdk.CfnOutput(this, 'UpdateCommend-bulk', {
-      value: 'aws s3 cp ../html/bulk/bulk.html ' + 's3://' + s3Bucket.bucketName + '/bulk',
-      description: 'The url of web (bulk)',
-    });
-
     // Lambda for bulk-stable-diffusion
     const lambdaBulkStableDiffusion = new lambda.Function(this, 'lambda-bulk-stable-diffusion', {
       description: 'lambda for bulk emotion',
@@ -490,6 +485,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });
+
+    new cdk.CfnOutput(this, 'UpdateCommend-bulk', {
+      value: 'aws s3 cp ../html/ ' + 's3://' + s3Bucket.bucketName + '/html --recursive',
+      description: 'copy commend for web pages',
     });
   }
 }
