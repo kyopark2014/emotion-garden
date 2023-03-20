@@ -216,7 +216,8 @@ function retrieveFile(emotionStr) {
 
                     previewlist[i].innerHTML = htmlsrc;
                 }
-                profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}</h3>`;
+                //profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}</h3>`;
+                // profileInfo_emotion.innerHTML = `<h3>${emotionText}</h3>`
             }
             else {
                 profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
