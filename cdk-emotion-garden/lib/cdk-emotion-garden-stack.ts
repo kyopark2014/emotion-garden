@@ -116,6 +116,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-stable-diffusion')),
       timeout: cdk.Duration.seconds(120),
+      logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         bucket: s3Bucket.bucketName,
         endpoints: JSON.stringify(endpoints),
@@ -324,6 +325,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-bulk-stable-diffusion')),
       timeout: cdk.Duration.seconds(300),
+      logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         bucket: s3Bucket.bucketName,
         endpoints: JSON.stringify(endpoints),

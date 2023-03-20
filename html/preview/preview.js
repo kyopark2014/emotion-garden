@@ -171,11 +171,10 @@ form.elements.retrieve.onclick = function () {
 
                 if(!isValid) {
                     console.log('No file, clear index of dynamodb');
+                    isValid = true;
                     clearIndexDynamoDB(fileList[i]);
                     deletedList[i] = true;
                     previewlist[i].innerHTML = '';
-
-                    isValid = true;
                 }
             });
         })(i);
