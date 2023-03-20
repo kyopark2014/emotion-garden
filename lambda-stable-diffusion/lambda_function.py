@@ -12,7 +12,7 @@ def parse_response(query_response):
     response_dict = json.loads(query_response)
     return response_dict["generated_images"], response_dict["prompt"]
 
-def stable_diffusion(num, txt, mybucket, fname, endpoint):
+def stable_diffusion(num, txt, width, height, mybucket, fname, endpoint):
     mykey = fname+'_'+str(num)+'.jpeg'  
     start = int(time.time())
 
@@ -20,8 +20,8 @@ def stable_diffusion(num, txt, mybucket, fname, endpoint):
 
     payload = {        
         "prompt": txt,
-        "width": 1024,
-        "height": 600,
+        "width": width,
+        "height": height,
         "num_images_per_prompt": 1,
         "num_inference_steps": 50,
         "guidance_scale": 7.5,
@@ -60,6 +60,12 @@ def lambda_handler(event, context):
     txt = event['text']
     print("text: ", txt)
 
+    width = event['width']
+    print("width: ", width)
+
+    height = event['height']
+    print("height: ", height)
+
     mybucket = os.environ.get('bucket')
     print("bucket: ", mybucket)
 
@@ -74,8 +80,8 @@ def lambda_handler(event, context):
     urls = []
     for num in range(0,nproc): # 2 processes
         print('num:', num)
-        proc = Process(target=stable_diffusion, args=(num, txt, mybucket, fname, endpoints[num],))
-        urls.append("https://"+domain+'/'+fname+'_'+str(num)+'.jpeg')    
+        proc = Process(target=stable_diffusion, args=(num, txt, width, height, mybucket, fname, endpoints[num],))
+        urls.append("https://"+domain+'/images/'+fname+'_'+str(num)+'.jpeg')    
         procs.append(proc)
         proc.start()
         
