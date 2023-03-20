@@ -21,7 +21,7 @@ promptText = document.getElementById('promptText');
 let previewUrl = [];
 let previewlist = [];
 let fileList = [];
-const maxImgItems = 2;
+const maxImgItems = 100;
 
 //functions
 function videoStart() {
@@ -219,7 +219,7 @@ function retrieveFile(emotionStr) {
                     previewlist[i].innerHTML = htmlsrc;
                 }
 
-                imgPanel.scrollTop = imgPanel.scrollHeight;  // scroll needs to move bottom
+              //  imgPanel.scrollTop = imgPanel.scrollHeight;  // scroll needs to move bottom
             }
             else {
                 profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
