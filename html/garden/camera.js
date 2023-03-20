@@ -22,8 +22,6 @@ let previewUrl = [];
 let previewlist = [];
 let fileList = [];
 const maxImgItems = 100;
-let start = 0;
-start = start * 1; // string to number
 
 for (let i=0;i<maxImgItems;i++) {
     previewlist.push(document.getElementById('preview'+i));
@@ -190,28 +188,28 @@ function retrieveFile(emotionStr) {
             console.log('previewUrl length: ', previewUrl.length);
             if (previewUrl.length) {
                 for (let i = 0; i < maxImgItems; i++) {
-                    if (i + start >= previewUrl.length) break;
-                    console.log("previewUrl " + previewUrl[i + start]);
+                    if (i >= previewUrl.length) break;
+                    console.log("previewUrl " + previewUrl[i]);
 
-                    let pos = previewUrl[i + start].indexOf('.jpeg');
+                    let pos = previewUrl[i].indexOf('.jpeg');
                     // console.log("pos: ", pos);
-                    let identifier = previewUrl[i + start][pos - 1];
+                    let identifier = previewUrl[i][pos - 1];
                     // console.log("identifier: ", identifier);      
 
-                    let pos2 = previewUrl[i + start].lastIndexOf('emotions');
+                    let pos2 = previewUrl[i].lastIndexOf('emotions');
                     // console.log('pos: ', pos2);
-                    fileList[i] = previewUrl[i + start].substring(pos2)
+                    fileList[i] = previewUrl[i].substring(pos2)
                     console.log("fname: ", fileList[i]);
 
                     let htmlsrc;
                     if (identifier == 'v') {
-                        htmlsrc = `<H5>${previewUrl[i + start]}</H5>
-                        <img id="${i}" src="${previewUrl[i + start]}" height="800"/>
+                        htmlsrc = `<H5>${previewUrl[i]}</H5>
+                        <img id="${i}" src="${previewUrl[i]}" height="800"/>
                         <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
                     }
                     else {
-                        htmlsrc = `<H5>${previewUrl[i + start]}</H5>
-                        <img id="${i}" src="${previewUrl[i + start]}" width="800"/>
+                        htmlsrc = `<H5>${previewUrl[i]}</H5>
+                        <img id="${i}" src="${previewUrl[i]}" width="800"/>
                         <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
                     }
                     console.log('htmlsrc: ', htmlsrc);
