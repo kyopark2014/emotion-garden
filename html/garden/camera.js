@@ -215,8 +215,7 @@ function retrieveFile(emotionStr) {
                     }
                     console.log('htmlsrc: ', htmlsrc);
 
-                    if (!deletedList[i])
-                        previewlist[i].innerHTML = htmlsrc;
+                    previewlist[i].innerHTML = htmlsrc;
                 }
                 profileInfo_emotion.innerHTML = `<h3>Total: ${previewUrl.length}</h3>`;
             }
