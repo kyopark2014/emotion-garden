@@ -102,8 +102,9 @@ function getEmotion() {
             let mouthOpen = response.mouthOpen;
             console.log("mouthOpen: " + mouthOpen);   
 
-            let emotionValue = response.emotions;
+            let emotionValue = response.emotions.toLowerCase();
             console.log("emotion: " + emotionValue);          
+            
             let emotionText = "Emotion: ";
             if(emotionValue == "happy") emotionText += "행복 (HAPPY)";
             else if(emotionValue == "surprised") emotionText += "놀람 (SURPRISED)";
