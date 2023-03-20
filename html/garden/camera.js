@@ -184,9 +184,7 @@ function retrieveFile(emotionStr) {
 
                 previewUrl.push(response[i]);
             }
-
             console.log('previewUrl length: ', previewUrl.length);
-            console.log('previewUrl: ', previewUrl);
             
             if (previewUrl.length) {
                 for (let i = 0; i < maxImgItems; i++) {
