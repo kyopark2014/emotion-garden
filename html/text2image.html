@@ -1,14 +1,15 @@
 <html lang="en-US">
 <head>
   <meta charset="UTF-8">
-  <title>Emotion Garden</title>
-    <script type="application/javascript">
+  <title>Stable Diffusion</title>
+    <script type="application/javascript">        
         function sendFile(text) {
             const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image";
             const xhr = new XMLHttpRequest();
 
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = () => {
+                let previewlist= [];
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     let response = JSON.parse(xhr.responseText);
                     console.log("response: " + JSON.stringify(response));
