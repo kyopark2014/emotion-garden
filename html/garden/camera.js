@@ -182,7 +182,7 @@ function retrieveFile(emotionStr) {
             for (let i in response) {
                 console.log(response[i]);
 
-                previewUrl.push(response[i]);
+                previewUrl[i] = response[i];
             }
 
             console.log('previewUrl length: ', previewUrl.length);
