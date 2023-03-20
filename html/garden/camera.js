@@ -21,7 +21,7 @@ promptText = document.getElementById('promptText');
 let previewUrl = [];
 let previewlist = [];
 let fileList = [];
-const maxImgItems = 2;
+const maxImgItems = 1;
 
 //functions
 function videoStart() {
@@ -206,12 +206,12 @@ function retrieveFile(emotionStr) {
                     let htmlsrc;
                     if (identifier == 'v') {
                         htmlsrc = `<H5>${previewUrl[i]}</H5>
-                        <img id="${i}" src="${previewUrl[i]}" height="800"/>
+                        <img id="${i}" src="${previewUrl[i]}" height="400"/>
                         <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
                     }
                     else {
                         htmlsrc = `<H5>${previewUrl[i]}</H5>
-                        <img id="${i}" src="${previewUrl[i]}" width="800"/>
+                        <img id="${i}" src="${previewUrl[i]}" width="400"/>
                         <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
                     }
                     console.log('htmlsrc: ', htmlsrc);
