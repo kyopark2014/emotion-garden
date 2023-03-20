@@ -22,7 +22,8 @@ let previewUrl = [];
 let previewlist = [];
 let fileList = [];
 const maxImgItems = 100;
-const start = 0;
+let start = 0;
+start = start * 1; // string to number
 
 for (let i=0;i<maxImgItems;i++) {
     previewlist.push(document.getElementById('preview'+i));
@@ -104,7 +105,7 @@ function getEmotion() {
 
             let emotionValue = response.emotions.toLowerCase();
             console.log("emotion: " + emotionValue);          
-            
+
             let emotionText = "Emotion: ";
             if(emotionValue == "happy") emotionText += "행복 (HAPPY)";
             else if(emotionValue == "surprised") emotionText += "놀람 (SURPRISED)";
