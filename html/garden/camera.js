@@ -182,7 +182,7 @@ function retrieveFile(emotionStr) {
             for (let i in response) {
                 console.log(response[i]);
 
-                previewUrl[i] = response[i];
+                previewUrl.push(response[i]);
             }
 
             console.log('previewUrl length: ', previewUrl.length);
@@ -190,7 +190,7 @@ function retrieveFile(emotionStr) {
             
             if (previewUrl.length) {
                 for (let i = 0; i < maxImgItems; i++) {
-                    if (i >= previewUrl.length) break;
+                    if (i > previewUrl.length) break;
                     console.log("previewUrl: " + previewUrl[i]);
 
                     let pos = previewUrl[i].indexOf('.jpeg');
