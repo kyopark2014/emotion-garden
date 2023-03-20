@@ -17,7 +17,7 @@ canvas.height = previewPlayer.height;
 let profileInfo_emotion, profileInfo_age, profileInfo_features;
 profileInfo_emotion = document.getElementById('profile-emotion');
 profileInfo_age = document.getElementById('profile-age');
-profileInfo_features = document.getElementById('profile-features');
+// profileInfo_features = document.getElementById('profile-features');
 promptText = document.getElementById('promptText');
 
 const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
@@ -123,7 +123,7 @@ function getEmotion() {
 
             profileInfo_emotion.innerHTML = `<h3>${emotionText}</h3>`
             profileInfo_age.innerHTML = `<h3>${profileText}</h3>`
-            profileInfo_features.innerHTML = `<h3>${features}</h3>`
+            // profileInfo_features.innerHTML = `<h3>${features}</h3>`
 
             canvas.toBlob(function(blob){
                 const img = new Image();
@@ -144,7 +144,7 @@ function getEmotion() {
         else {
             profileInfo_emotion.innerHTML = `<h3>No Face</h3>`
             profileInfo_age.innerHTML = ``
-            profileInfo_features.innerHTML = ``
+            // profileInfo_features.innerHTML = ``
         }
     };    
 
@@ -209,14 +209,16 @@ function retrieveFile(emotionStr) {
 
                     let htmlsrc;
                     if (identifier == 'v') {
-                        htmlsrc = `<H5>${previewUrl[i]}</H5>
+                        htmlsrc = 
+                        `<img id="${i}" src="${previewUrl[i]}" height="400"/>
                         <img id="${i}" src="${previewUrl[i]}" height="400"/>
-                        <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
+                        <img id="${i}" src="${previewUrl[i]}" height="400"/>`;
                     }
                     else {
-                        htmlsrc = `<H5>${previewUrl[i]}</H5>
+                        htmlsrc = `
                         <img id="${i}" src="${previewUrl[i]}" width="400"/>
-                        <i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
+                        <img id="${i}" src="${previewUrl[i]}" width="400"/>
+                        <img id="${i}" src="${previewUrl[i]}" width="400"/>`;
                     }
                     console.log('htmlsrc: ', htmlsrc);
 
