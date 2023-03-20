@@ -249,7 +249,6 @@ function sleep(ms) {
     while (Date.now() < wakeUpTime) { }
 }
 
-
 function checkFile(url) {
     const xhr = new XMLHttpRequest();
 
