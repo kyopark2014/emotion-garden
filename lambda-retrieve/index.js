@@ -6,7 +6,7 @@ const domainName = process.env.domainName;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
-    console.log('## EVENT: ' + JSON.stringify(event))
+    console.log('## EVENT: ' + JSON.stringify(event));
     
     console.log('indexName: ' + indexName);
 
@@ -54,6 +54,25 @@ exports.handler = async (event, context) => {
 
     console.log('urlList: ', JSON.stringify(urlList));
 
+    let landscape = [];
+    let portrait = [];
+    for(let i in urlList) {
+        let pos = urlList[i].indexOf('.jpeg');
+        console.log("pos: ", pos);
+        
+        let identifier = urlList[i][pos - 1];
+        console.log("identifier: ", identifier);    
+
+        if (identifier == 'v') {
+            portrait.push(urlList[i]);
+        }
+        else {
+            landscape.push(urlList[i]);
+        }
+    }
+    console.log('landscape: ', JSON.stringify(landscape));
+    console.log('portrait: ', JSON.stringify(portrait));
+    
     const response = {
         statusCode: 200,
         body: JSON.stringify(urlList)
