@@ -2,20 +2,25 @@ const startButton =document.querySelector(".start-button");
 const previewButton =document.querySelector(".preview-button");
 const downloadButton =document.querySelector(".download-button");
 const emotionButton =document.querySelector(".emotion-button");
-const previewPlayer = document.querySelector("#preview");
-  
-let profileInfo_emotion, profileInfo_age, profileInfo_features;
 
 //event
 startButton.addEventListener("click",videoStart);
 // previewButton.addEventListener("click",preview);
 emotionButton.addEventListener("click",emotion);
 
-const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
+const previewPlayer = document.querySelector("#preview");
+let canvas = document.getElementById('canvas');     
 
-let canvas = document.getElementById('canvas');   
 canvas.width = previewPlayer.width;
 canvas.height = previewPlayer.height;
+
+let profileInfo_emotion, profileInfo_age, profileInfo_features;
+profileInfo_emotion = document.getElementById('profile-emotion');
+profileInfo_age = document.getElementById('profile-age');
+profileInfo_features = document.getElementById('profile-features');
+promptText = document.getElementById('promptText');
+
+const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
 
 let previewUrl = [];
 let previewlist = [];
@@ -46,11 +51,6 @@ function preview() {
 }
 
 function getEmotion() {
-    profileInfo_emotion = document.getElementById('profile-emotion');
-    profileInfo_age = document.getElementById('profile-age');
-    profileInfo_features = document.getElementById('profile-features');
-    promptText = document.getElementById('promptText');
-
     canvas.getContext('2d').drawImage(previewPlayer, 0, 0, canvas.width, canvas.height);  
 
     const uri = cloudfrntUrl+"emotion";
@@ -137,6 +137,8 @@ function getEmotion() {
             },'image/png');   
 
             // alert(xhr.responseText); // handle response.
+
+            // getStableDiffusion(emotionValue);
             retrieveFile(emotionValue);
         }
         else {
@@ -242,3 +244,5 @@ function retrieveFile(emotionStr) {
 
     xhr.send(blob);
 }
+
+
