@@ -20,14 +20,16 @@ profileInfo_age = document.getElementById('profile-age');
 profileInfo_features = document.getElementById('profile-features');
 promptText = document.getElementById('promptText');
 
-let imgList = [];
+let previewUrl = [];
+let previewlist = [];
+
 const maxImgItems = 100;
 for (let i=0;i<maxImgItems;i++) {
-    imgList.push(document.getElementById('preview'+i));
+    previewlist.push(document.getElementById('preview'+i));
     
     // add listener        
     (function(index) {
-        imgList[index].addEventListener("click", function() {
+        previewlist[index].addEventListener("click", function() {
             i = index;
             
             console.log('click! index: '+index);
