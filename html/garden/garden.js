@@ -57,7 +57,7 @@ function getEmotion() {
     const xhr = new XMLHttpRequest();
 
     xhr.open("POST", uri, true);
-    xhr.setRequestHeader('X-user-id', uuid);    
+    
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let response = JSON.parse(xhr.responseText);
@@ -187,6 +187,8 @@ function getEmotion() {
     }
 
     canvas.toBlob(function (blob) {
+        xhr.setRequestHeader('X-user-id', uuid);   
+        
         xhr.send(blob);
     });
 }

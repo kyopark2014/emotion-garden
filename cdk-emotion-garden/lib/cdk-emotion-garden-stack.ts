@@ -264,7 +264,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
             'application/json': apiGateway.Model.EMPTY_MODEL,
           },
         }
-      ]
+      ],
+      requestParameters: {
+        'method.request.path.id': true
+      }
     });
 
     // cloudfront setting for api gateway of emotion
