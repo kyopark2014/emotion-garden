@@ -47,7 +47,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     // DynamoDB
     const tableName = 'db-emotion-garden';
-    const dataTable = new dynamodb.Table(this, 'dynamodb-emotion-garden', {
+    const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
       tableName: tableName,
       partitionKey: { name: 'ObjKey', type: dynamodb.AttributeType.STRING },
       //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
