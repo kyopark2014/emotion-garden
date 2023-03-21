@@ -1,6 +1,6 @@
 # Rekognition을 이용한 Emotion 분석
 
-Amazon Rekognition을 이용하여 Emotion을 분석하는 Architecture는 아래와 같습니다. 웹브라우저를 접속할 경우에는 [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)를 우회하기 위하여 CloudFront 도메인을 Endpoint로 합니다. Device는 API Gateway로 바로 접속합니다.
+Amazon Rekognition을 이용하여 Emotion을 분석하는 Architecture는 아래와 같습니다. 웹브라우저를 접속할 경우에는 [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)를 우회하기 위하여 CloudFront 도메인을 Endpoint로 합니다. Device는 CORS이슈가 없으므로 API Gateway로 바로 접속가능합니다.
 
 ![image](https://user-images.githubusercontent.com/52392004/226761472-f18dd4c3-2e87-4dc3-9710-4881adcace89.png)
 
@@ -85,4 +85,11 @@ x-amz-cf-id: 6zrBBy0NAKT7ARC_dARICyzWAk2i78FWni5MIOl_oj8wZQxcnB77lg==
 
 {"Id":"f10595b9-a664-4b99-a971-ea54ee359edf","Bucket":"cdkemotiongardenstack-emotiongardenstorage163b614-18zt1jiogggyl","Key":"profile/f10595b9-a664-4b99-a971-ea54ee359edf.jpeg","ageRange":{"Low":13,"High":21},"smile":true,"eyeglasses":true,"sunglasses":false,"gender":"Male","beard":false,"mustache":false,"eyesOpen":true,"mouthOpen":true,"emotions":"HAPPY"}%
 ```
+
+#### API Gateway로 바로 접속할 경우
+
+API Gateway로 바로 접속할 경우는 uuid를 header를 통해 지정할 수 있습니다. 이때 사용하는 header의 이믈은 'X-user-id"입니다.
+
+
+
 
