@@ -1,5 +1,42 @@
 # Stable Diffusion 이미지 생성하기
 
+## Stable Diffusion 이미지를 생성하는 API
+
+API의 Resouce는 '/text2image'으로 아래와 같이 CloudFront Domain을 활용하여 RESTful API의 POST method로 요청합니다.
+
+```java
+https://d3ic6ryvcaoqdy.cloudfront.net/emotion
+```
+
+이것을 구현하기 위한 java script 예제 코드는 아래와 같습니다. response의 'body'에 생성된 이미지의 URL들이 내려옵니다.
+
+```java
+const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image";
+const xhr = new XMLHttpRequest();
+
+xhr.open("POST", uri, true);
+xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        response = JSON.parse(xhr.responseText);
+        console.log("response: " + response);
+        result = JSON.parse(response.body);
+        console.log("result: " + result);                    
+
+        console.log("result1: " + JSON.stringify(result[0]));
+        console.log("result2: " + JSON.stringify(result[1]));
+        console.log("result3: " + JSON.stringify(result[2]));
+        console.log("result4: " + JSON.stringify(result[3]));
+    }
+};
+
+var requestObj = {"text":text}
+console.log("request: " + JSON.stringify(requestObj));
+
+var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
+xhr.send(blob); 
+```
+
+
 ## Stable Diffusion 이미지를 Parallel Processing을 이용해 생성하기
 
 Stable Diffusion 이미지를 생성하기 위한 Architecture는 아래와 같습니다. 여기서는 데모의 원할한 진행을 위하여 여러개의 Endpoint를 만들어서 실행속도를 향상합니다. p3 2xlarge로 진행시 endpoint로 진행시 약 50초정도 소요되지만, 2개의 p3 2xlarge로 진행시는 14초 소요됩니다. 
