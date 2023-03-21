@@ -96,7 +96,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       originRequestPolicyName: 'Policy-Custom-Header',
       comment: 'A policy for custom header',
       cookieBehavior: cloudFront.OriginRequestCookieBehavior.none(),
-      headerBehavior: cloudFront.OriginRequestHeaderBehavior.all('CloudFront-Viewer-Country-KR'),
+      headerBehavior: cloudFront.OriginRequestHeaderBehavior.all(),
       // queryStringBehavior: cloudFront.OriginRequestQueryStringBehavior.allowList('username'),
     });
 
