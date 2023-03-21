@@ -123,11 +123,6 @@ https://d3ic6ryvcaoqdy.cloudfront.net/html/bulk/bulk.html
 4) 불필요한 이미지는 dislike 선택후 [Remove] 버튼을 통해 삭제합니다. 
 
 
-## ETC
-
-- A flower with cat, fantasy, very happy, immature, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art
-
-<img width="1427" alt="image" src="https://user-images.githubusercontent.com/52392004/220819859-0c211084-6feb-4032-a365-b960044942a4.png">
 
 
 ## Reference
