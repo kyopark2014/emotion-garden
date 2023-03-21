@@ -77,10 +77,13 @@ exports.handler = async (event, context) => {
         landscape: landscape,
         portrait: portrait
     }
+    console.info('result: ', JSON.stringify(result));
+
     const response = {
         statusCode: 200,
         body: JSON.stringify(result)
     };
+    console.debug('response: ', JSON.stringify(response));
 
     return response;
 };
