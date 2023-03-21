@@ -58,7 +58,7 @@ Rekognition의 감정분석 API는 아래를 참조합니다.
 
 #### Test Page Web을 접속하여 확인하는 방법
 
-Test Page에 접속합니다. 여기서 test page의 주소는 "https://d3ic6ryvcaoqdy.cloudfront.net/emotion.html" 입니다. CloudFront의 도메인은 변경될 수 있습니다. 
+Test Page에 접속합니다. 여기서 test page의 주소는 "https://d3ic6ryvcaoqdy.cloudfront.net/html/emotion.html" 입니다. CloudFront의 도메인은 변경될 수 있습니다. 
 
 #### Curl 명령어로 확인하는 방법
 
