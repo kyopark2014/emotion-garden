@@ -3,13 +3,19 @@ const startButton =document.querySelector(".start-button");
 const previewButton =document.querySelector(".preview-button");
 const downloadButton =document.querySelector(".download-button");
 const emotionButton =document.querySelector(".emotion-button");
-
 const previewPlayer = document.querySelector("#preview");
-let canvas = document.getElementById('canvas');     
 
+//event
+startButton.addEventListener("click",videoStart);
+// previewButton.addEventListener("click",preview);
+emotionButton.addEventListener("click",emotion);
+
+let canvas = document.getElementById('canvas');     
 canvas.width = previewPlayer.width;
 canvas.height = previewPlayer.height;
 let emotionValue;
+let uuid = uuidv4();
+console.log('uuid: ', uuid);
 
 let profileInfo_emotion, profileInfo_age, profileInfo_features;
 
@@ -46,6 +52,7 @@ function getEmotion() {
     const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/emotion";
     const xhr = new XMLHttpRequest();
 
+    xhr.setRequestHeader('X-uuid', uuid);
     xhr.open("POST", uri, true);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -143,7 +150,8 @@ function emotion() {
     getEmotion();
 }
 
-//event
-startButton.addEventListener("click",videoStart);
-// previewButton.addEventListener("click",preview);
-emotionButton.addEventListener("click",emotion);
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
