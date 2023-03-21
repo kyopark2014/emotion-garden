@@ -100,7 +100,7 @@ aws s3 cp s3://demo-emotion-garden/emotions/ . --recursive
 
 ```java
 aws s3 cp emotions/ s3://demo-emotion-garden/emotions/ --recursive
-``
+```
 
 ## Bulk로 이미지 생성 방법
 
