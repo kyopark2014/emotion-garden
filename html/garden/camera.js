@@ -160,6 +160,8 @@ function getEmotion() {
 
                 console.log('click! index: ' + index);
 
+                console.log('drawingIndex: ' + drawingIndex);
+
                 if(previewUrl-drawingIndex<3) drawingIndex = 0;
                 else drawingIndex += 3;
 
@@ -220,7 +222,7 @@ function retrieveFile(emotionStr) {
 function emotion() {
     canvas.getContext('2d').drawImage(previewPlayer, 0, 0, canvas.width, canvas.height);
     drawingIndex = 0;
-    
+
     getEmotion();
 }
 
