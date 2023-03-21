@@ -84,7 +84,7 @@ exports.handler = async (event, context) => {
             console.log('i: ', i);
             isCompleted = true;
         }
-        else if(eventName == 'ObjectRemoved:Delete') {
+        else if (eventName == 'ObjectRemoved:Delete') {
             var params = {
                 TableName: tableName,
                 Key: {
@@ -102,21 +102,21 @@ exports.handler = async (event, context) => {
         }
     }
 
-    /*    function wait() {
-            return new Promise((resolve, reject) => {
-                if (!isCompleted) {
-                    setTimeout(() => resolve("wait..."), 1000)
-                }
-                else {
-                    setTimeout(() => resolve("done..."), 0)
-                }
-            });
-        }
-        console.log(await wait());
-        console.log(await wait());
-        console.log(await wait());
-        console.log(await wait());
-        console.log(await wait()); */
+    function wait() {
+        return new Promise((resolve, reject) => {
+            if (!isCompleted) {
+                setTimeout(() => resolve("wait..."), 1000)
+            }
+            else {
+                setTimeout(() => resolve("done..."), 0)
+            }
+        });
+    }
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
 
     const response = {
         statusCode: 200,
