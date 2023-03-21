@@ -45,9 +45,9 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       });
     }
 
-    // DynamoDB 
+    // DynamoDB
     const tableName = 'db-emotion-garden';
-    const dataTable = new dynamodb.Table(this, 'dynamodb-emotion-garden', {
+    const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
       tableName: tableName,
       partitionKey: { name: 'ObjKey', type: dynamodb.AttributeType.STRING },
       //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
@@ -58,22 +58,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     dataTable.addGlobalSecondaryIndex({ // GSI
       indexName: indexName,
       partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
-    }); 
-
-    // DynamoDB - emotion
-  /*  const emotionTableName = 'db-emotion';
-    const emotionTable = new dynamodb.Table(this, 'dynamodb-emotion', {
-      tableName: emotionTableName,
-      partitionKey: { name: 'uuid', type: dynamodb.AttributeType.STRING },
-      //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
-    const emotionIndexName = 'index-emotion';
-    emotionTable.addGlobalSecondaryIndex({ // GSI
-      indexName: emotionIndexName,
-      partitionKey: { name: 'emotion', type: dynamodb.AttributeType.STRING },
-    }); */
 
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage", {
@@ -107,7 +92,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       destinationBucket: s3Bucket,
     }); */
 
-    // cloudfront
     const customOriginRequestPolicy = new cloudFront.OriginRequestPolicy(this, 'OriginRequestPolicy', {
       originRequestPolicyName: 'Policy-Custom-Header',
       comment: 'A policy for custom header',
@@ -116,6 +100,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       // queryStringBehavior: cloudFront.OriginRequestQueryStringBehavior.allowList('username'),
     });
 
+    // cloudfront
     const distribution = new cloudFront.Distribution(this, 'cloudfront-emotion-garden', {
       defaultBehavior: {
         origin: new origins.S3Origin(s3Bucket),
@@ -273,10 +258,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
             'application/json': apiGateway.Model.EMPTY_MODEL,
           },
         }
-      ],
-      requestParameters: {
-        'method.request.path.id': true
-      }
+      ]
     });
 
     // cloudfront setting for api gateway of emotion
