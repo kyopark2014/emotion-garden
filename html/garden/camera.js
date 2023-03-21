@@ -190,13 +190,13 @@ function retrieveFile(emotionStr) {
             landscape = response['landscape'];
             console.log("landscape: " + landscape);
             portrait = response['portrait'];
-            console.log("portrait: " + portrait);            
-            
+            console.log("portrait: " + portrait);
+
             for (let i in landscape) {
                 console.log(landscape[i]);
-                
+
                 previewUrl.push(landscape[i]);
-            }            
+            }
 
             drawGarden(previewUrl);
             //  imgPanel.scrollTop = imgPanel.scrollHeight;  // scroll needs to move bottom            
@@ -219,37 +219,44 @@ function emotion() {
 
 function drawGarden(previewUrl) {
     if (previewUrl.length) {
-        for (let i = 0; i < maxImgItems; i++) {
-            if (i >= previewUrl.length) break;
-            console.log("previewUrl: " + previewUrl[i]);
+        let start = 0;
+        let htmlsrc;
 
-            let pos = previewUrl[i].indexOf('.jpeg');
-            // console.log("pos: ", pos);
-            let identifier = previewUrl[i][pos - 1];
-            // console.log("identifier: ", identifier);      
-
-            let pos2 = previewUrl[i].lastIndexOf('emotions');
-            // console.log('pos: ', pos2);
-            fileList[i] = previewUrl[i].substring(pos2)
-            console.log("fname: ", fileList[i]);
-
-            let htmlsrc;
+        if (previewUrl.length - start >= 3) {
             if (identifier == 'v') {
-                htmlsrc =
-                    `<img id="${i}" src="${previewUrl[i]}" height="400"/>
-                <img id="${i}" src="${previewUrl[i]}" height="400"/>
-                <img id="${i}" src="${previewUrl[i]}" height="400"/>`;
+                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" height="400"/>
+                    <img id="${i + 1}" src="${previewUrl[i + 1]}" height="400"/>
+                    <img id="${i + 2}" src="${previewUrl[i + 2]}" height="400"/>`;
             }
             else {
-                htmlsrc = `
-                <img id="${i}" src="${previewUrl[i]}" width="400"/>
-                <img id="${i}" src="${previewUrl[i]}" width="400"/>
-                <img id="${i}" src="${previewUrl[i]}" width="400"/>`;
+                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
+                    <img id="${i + 1}" src="${previewUrl[i + 1]}" width="400"/>
+                    <img id="${i + 2}" src="${previewUrl[i + 2]}" width="400"/>`;
             }
             console.log('htmlsrc: ', htmlsrc);
-
-            previewlist[i].innerHTML = htmlsrc;
         }
+        else if (previewUrl.length - start >= 2) {
+            if (identifier == 'v') {
+                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" height="400"/>
+                    <img id="${i + 1}" src="${previewUrl[i + 1]}" height="400"/>`;
+            }
+            else {
+                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
+                    <img id="${i}" src="${previewUrl[i]}" width="400"/>`;
+            }
+            console.log('htmlsrc: ', htmlsrc);
+        }
+        else {
+            if (identifier == 'v') {
+                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" height="400"/>`;
+            }
+            else {
+                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>`;
+            }
+            console.log('htmlsrc: ', htmlsrc);
+        }
+
+        previewlist[i].innerHTML = htmlsrc;
     }
     else {
         profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
