@@ -26,6 +26,7 @@ let previewUrl = [];
 let previewlist = [];
 let fileList = [];
 const maxImgItems = 1;
+let drawingIndex = 0;
 
 //functions
 function videoStart() {
@@ -219,29 +220,7 @@ function emotion() {
 
 function drawGarden(previewUrl) {
     if (previewUrl.length) {
-        let i = 0;
-        let htmlsrc;
-
-        while(previewUrl.length - i > 0) {
-            if (previewUrl.length - i >= 3) {
-                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
-                        <img id="${i + 1}" src="${previewUrl[i + 1]}" width="400"/>
-                        <img id="${i + 2}" src="${previewUrl[i + 2]}" width="400"/>`;
-                console.log('htmlsrc: ', htmlsrc);
-            }
-            else if (previewUrl.length - i >= 2) {
-                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
-                        <img id="${i}" src="${previewUrl[i]}" width="400"/>`;
-                console.log('htmlsrc: ', htmlsrc);
-            }
-            else {
-                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>`;
-                console.log('htmlsrc: ', htmlsrc);
-            }
-
-            previewlist[0].innerHTML = htmlsrc;
-            i = i+3;
-        }
+        updateImages(previewUrl, drawingIndex)            
     }
     else {
         profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
@@ -250,4 +229,26 @@ function drawGarden(previewUrl) {
 
         alert("이미지가 조회되지 않습니다.");
     }
+}
+
+function updateImages(previewUrl, i) {
+    let htmlsrc;
+
+    if (previewUrl.length - i >= 3) {
+        htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
+                <img id="${i + 1}" src="${previewUrl[i + 1]}" width="400"/>
+                <img id="${i + 2}" src="${previewUrl[i + 2]}" width="400"/>`;
+        console.log('htmlsrc: ', htmlsrc);
+    }
+    else if (previewUrl.length - i >= 2) {
+        htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
+                <img id="${i}" src="${previewUrl[i]}" width="400"/>`;
+        console.log('htmlsrc: ', htmlsrc);
+    }
+    else {
+        htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>`;
+        console.log('htmlsrc: ', htmlsrc);
+    }
+
+    previewlist[0].innerHTML = htmlsrc;
 }
