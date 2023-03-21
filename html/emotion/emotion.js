@@ -58,6 +58,8 @@ function getEmotion() {
             let response = JSON.parse(xhr.responseText);
             console.log("response: " + JSON.stringify(response));
 
+            console.log('uuid: ', uuid);
+            
             let gender = response.gender;
             console.log("gender: " + gender);   
 
@@ -139,8 +141,6 @@ function getEmotion() {
             profileInfo_features.innerHTML = ``
         }
     };    
-
-    console.log('uuid: ', uuid);
 
     canvas.toBlob(function(blob){
         xhr.send(blob);
