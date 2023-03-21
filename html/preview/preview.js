@@ -234,15 +234,7 @@ function initiatePreview() {
                 const url = cloudfrntUrl+fileList[i];
                 console.log('url: ', url);
 
-                checkFile(url);
-
-                if(!isValid) {
-                    console.log('No file, clear index of dynamodb');
-                    isValid = true;
-                    clearIndexDynamoDB(fileList[i]);
-                    deletedList[i] = true;
-                    previewlist[i].innerHTML = '';
-                }
+                checkFile(url, i);                
             });
         })(i);
     }    
@@ -266,7 +258,7 @@ function sleep(ms) {
     while (Date.now() < wakeUpTime) { }
 }
 
-function checkFile(url) {
+function checkFile(url, i) {
     const xhr = new XMLHttpRequest();
 
     xhr.open("GET", url, true);
@@ -274,10 +266,10 @@ function checkFile(url) {
         console.log("xhr.statu: ", xhr.status);
 
         if(xhr.status === 403){
-            isValid = false;
-        }
-        else {
-            isValid = true;
+            console.log('No file, clear index of dynamodb');
+            clearIndexDynamoDB(fileList[i]);
+            deletedList[i] = true;
+            previewlist[i].innerHTML = '';
         }
     };
 
