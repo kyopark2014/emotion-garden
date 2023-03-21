@@ -149,7 +149,7 @@ function getEmotion() {
         }
         else {
             profileInfo_emotion.innerHTML = `<h3>No Face</h3>`
-            profileInfo_age.innerHTML = `<h5></h5>`
+            profileInfo_age.innerHTML = ``
             // profileInfo_features.innerHTML = ""
         }
     };
@@ -239,6 +239,8 @@ function drawGarden(previewUrl) {
     }
     else {
         profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
+        profileInfo_age.innerHTML = ``
+
         previewUrl = [];
         previewlist = [];
 
