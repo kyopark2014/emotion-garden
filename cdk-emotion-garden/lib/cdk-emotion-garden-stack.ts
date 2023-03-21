@@ -92,13 +92,13 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       destinationBucket: s3Bucket,
     }); */
 
-    const customOriginRequestPolicy = new cloudFront.OriginRequestPolicy(this, 'OriginRequestPolicy', {
+ /*   const customOriginRequestPolicy = new cloudFront.OriginRequestPolicy(this, 'OriginRequestPolicy', {
       originRequestPolicyName: 'Policy-Custom-Header',
       comment: 'A policy for custom header',
       // cookieBehavior: cloudFront.OriginRequestCookieBehavior.none(),
       headerBehavior: cloudFront.OriginRequestHeaderBehavior.all(),
       // queryStringBehavior: cloudFront.OriginRequestCookieBehavior.none(),
-    }); 
+    }); */
 
     // cloudfront
     const distribution = new cloudFront.Distribution(this, 'cloudfront-emotion-garden', {
@@ -265,7 +265,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     distribution.addBehavior("/emotion", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
-      originRequestPolicy: customOriginRequestPolicy,
+      // originRequestPolicy: customOriginRequestPolicy,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     }); 
 
