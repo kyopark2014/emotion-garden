@@ -52,8 +52,6 @@ function preview() {
 }
 
 function getEmotion() {
-    canvas.getContext('2d').drawImage(previewPlayer, 0, 0, canvas.width, canvas.height);
-
     const uri = cloudfrntUrl + "emotion";
     const xhr = new XMLHttpRequest();
 
@@ -220,6 +218,9 @@ function retrieveFile(emotionStr) {
 }
 
 function emotion() {
+    canvas.getContext('2d').drawImage(previewPlayer, 0, 0, canvas.width, canvas.height);
+    drawingIndex = 0;
+    
     getEmotion();
 }
 
