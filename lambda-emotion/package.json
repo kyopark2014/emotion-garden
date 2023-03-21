@@ -1,7 +1,6 @@
 {
   "name": "lambda-upload",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +11,6 @@
   "dependencies": {
     "uuid": "^9.0.0",
     "winston": "^3.8.2"
-  }
+  },
+  "description": ""
 }
