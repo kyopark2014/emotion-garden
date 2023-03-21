@@ -164,6 +164,7 @@ function getEmotion() {
 
                 updateImages(previewUrl, drawingIndex);
                 if(previewUrl-drawingIndex<3) drawingIndex = 0;
+                else drawingIndex += 3;
             })
         })(i);
     }
