@@ -6,8 +6,8 @@ const s3 = new aws.S3({ apiVersion: '2006-03-01' });
 const bucketName = process.env.bucketName;
 
 exports.handler = async (event, context) => {
-    //console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
-    //console.log('## EVENT: ' + JSON.stringify(event))
+    // console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
+    // console.log('## EVENT: ' + JSON.stringify(event))
     
     const body = Buffer.from(event["body"], "base64");
     // console.log('body: ' + body)
@@ -15,15 +15,15 @@ exports.handler = async (event, context) => {
     // console.log('header: ' + JSON.stringify(header));
             
     let contentType;
-    if(header['Content-Type']) {
-        contentType = String(header['Content-Type']);
+    if(header['content-type']) {
+        contentType = String(header['content-type']);
     } 
-    console.log('contentType = '+contentType);     
+    // console.log('contentType = '+contentType);     
 
     const uuid = uuidv4();
     
     const fileName = 'profile/'+uuid+'.jpeg';
-    console.log('fileName = '+fileName);
+    // console.log('fileName = '+fileName);
     
     try {
         const destparams = {
@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
       //  console.log('destparams: ' + JSON.stringify(destparams));
         const {putResult} = await s3.putObject(destparams).promise(); 
 
-        console.log('### finish upload: ' + uuid);
+        // console.log('### finish upload: ' + uuid);
     } catch (error) {
         console.log(error);
         return;
@@ -44,7 +44,7 @@ exports.handler = async (event, context) => {
     
     let response = "";
     try {
-        console.log('**start emotion detection');
+        // console.log('**start emotion detection');
         const rekognition = new aws.Rekognition();
         const rekognitionParams = {
             Image: {
@@ -55,7 +55,7 @@ exports.handler = async (event, context) => {
             },
             Attributes: ['ALL']
         }
-        console.log('rekognitionParams = '+JSON.stringify(rekognitionParams))
+        // console.log('rekognitionParams = '+JSON.stringify(rekognitionParams))
 
         const data = await rekognition.detectFaces(rekognitionParams).promise();
         // console.log('data: '+JSON.stringify(data));
@@ -84,7 +84,7 @@ exports.handler = async (event, context) => {
             const emotions = profile['Emotions'][0]['Type'];
             // console.log('emotions: ', emotions);
 
-            console.log('**finish emotion detection');
+            // console.log('**finish emotion detection');
             const emotionInfo = {
                 id: uuid,
                 bucket: bucketName, 
