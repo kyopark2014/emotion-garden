@@ -121,8 +121,8 @@ function getEmotion() {
             let profileText = ageRange + ' (' + genderText + ')';
             console.log("profileText: " + profileText);
 
-            profileInfo_emotion.innerHTML = `<h3>${emotionText}</h3>`
-            profileInfo_age.innerHTML = `<h3>${profileText}</h3>`
+            profileInfo_emotion.innerHTML = `<h5>${emotionText}</h5>`
+            profileInfo_age.innerHTML = `<h5>${profileText}</h5>`
             // profileInfo_features.innerHTML = `<h3>${features}</h3>`
 
             canvas.toBlob(function (blob) {
