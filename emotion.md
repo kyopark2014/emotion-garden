@@ -1,8 +1,8 @@
 # Rekognition을 이용한 Emotion 분석
 
-Amazon Rekognition을 이용하여 Emotion을 분석하는 Architecture는 아래와 같습니다. 
+Amazon Rekognition을 이용하여 Emotion을 분석하는 Architecture는 아래와 같습니다. 웹브라우저를 접속할 경우에는 [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)를 우회하기 위하여 CloudFront 도메인을 Endpoint로 합니다. Device는 API Gateway로 바로 접속합니다.
 
-![image](https://user-images.githubusercontent.com/52392004/220984943-6299c008-b778-408c-b4a6-e975a720f45f.png)
+![image](https://user-images.githubusercontent.com/52392004/226761472-f18dd4c3-2e87-4dc3-9710-4881adcace89.png)
 
 API의 Resouce는 '/emotion'으로 아래와 같이 CloudFront Domain을 활용하여 RESTful API의 POST method로 요청합니다.
 
