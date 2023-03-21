@@ -219,16 +219,16 @@ function emotion() {
 
 function drawGarden(previewUrl) {
     if (previewUrl.length) {
-        let start = 0;
+        let i = 0;
         let htmlsrc;
 
-        if (previewUrl.length - start >= 3) {
+        if (previewUrl.length - i >= 3) {
             htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
                     <img id="${i + 1}" src="${previewUrl[i + 1]}" width="400"/>
                     <img id="${i + 2}" src="${previewUrl[i + 2]}" width="400"/>`;
             console.log('htmlsrc: ', htmlsrc);
         }
-        else if (previewUrl.length - start >= 2) {
+        else if (previewUrl.length - i >= 2) {
             htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
                     <img id="${i}" src="${previewUrl[i]}" width="400"/>`;
             console.log('htmlsrc: ', htmlsrc);
