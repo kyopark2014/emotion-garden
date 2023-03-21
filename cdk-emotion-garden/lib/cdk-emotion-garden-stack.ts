@@ -262,11 +262,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
 
     // cloudfront setting for api gateway of emotion
-  /*  distribution.addBehavior("/emotion", new origins.RestApiOrigin(api), {
+    distribution.addBehavior("/emotion", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-    }); */
+    }); 
 
     new cdk.CfnOutput(this, 'EmotionWebUrl', {
       value: 'https://' + distribution.domainName + '/emotion.html',
