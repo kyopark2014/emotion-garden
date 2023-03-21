@@ -55,16 +55,10 @@ Rekognition의 감정분석 API는 아래를 참조합니다.
 [Facial analysis](https://github.com/kyopark2014/emotion-garden/blob/main/facial-analysis.md)
 
 ### 시험 방법
-#### 브라우저로 Test Page Web을 접속하여 확인하는 방법
 
-1) Test Page에 접속합니다. 여기서 test page의 주소는 "https://d3ic6ryvcaoqdy.cloudfront.net/emotion.html"입니다. CloudFront의 도메인은 변경될 수 있습니다. 
+#### Test Page Web을 접속하여 확인하는 방법
 
-![noname](https://user-images.githubusercontent.com/52392004/221028091-bccaa180-896c-4fed-a2ec-859711cfe8b9.png)
-
-2) [Choose File]로 파일을 선택하고, [Send]를 선택하면 아래와 같은 결과를 얻습니다.
-
-![image](https://user-images.githubusercontent.com/52392004/221026247-82f891f6-0064-4a94-a80d-75a85a027719.png)
-
+Test Page에 접속합니다. 여기서 test page의 주소는 "https://d3ic6ryvcaoqdy.cloudfront.net/emotion.html" 입니다. CloudFront의 도메인은 변경될 수 있습니다. 
 
 #### Curl 명령어로 확인하는 방법
 
