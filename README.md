@@ -2,82 +2,22 @@
 
 ## Client에서 Emoton Garden을 구성하기 위해 필요한 API
 
-### Emotion 분석 API
+### Emotion API
 
-이미지로부터 Emotion 분석을 하기 위한 API는 아래와 같습니다. CloudFront를 이용한 Endpoint는 아래와 같습니다. HTTPS POST Method로 이미지를 전송하면 Emotion 결과를 리턴합니다. 상세한 정보는 [Emotion 분석](https://github.com/kyopark2014/emotion-garden/blob/main/emotion.md)에서 확인합니다.
+이미지로부터 Emotion 분석을 하기 위한 Emotion API는 아래와 같습니다. CloudFront를 이용한 Endpoint는 아래와 같습니다. HTTPS POST Method로 이미지를 전송하면 Emotion 결과를 리턴합니다. 상세한 정보는 [Emotion 분석](https://github.com/kyopark2014/emotion-garden/blob/main/emotion.md)에서 확인합니다.
 
 ```java
 https://d3ic6ryvcaoqdy.cloudfront.net/emotion
 ```
 
-### Emotion으로 생성한 이미지를 조회하는 API
+### Garden API
 
-이미지 조회를 위한 API의 리소스 이름은 /garden 이고, HTTPS POST Method로 요청을 수행합니다.
+Emotion으로 생성한 이미지를 조회하는 Garden API는 아래와 같습니다. 이미지 조회를 위한 API의 리소스 이름은 /garden 이고, HTTPS POST Method로 요청을 수행합니다. 상세한 정보는 [Garden 생성](https://github.com/kyopark2014/emotion-garden/blob/main/garden.md)에서 확인합니다.  
 
 ```java
 https://d3ic6ryvcaoqdy.cloudfront.net/garden
 ```
 
-이때 전달하는 값은 "emotion", "generation", "gender"입니다. 
-
-```java
-{
-    "emotion": "calm",
-    "generation": "adult",
-    "gender": "Male"
-}
-```
-
-javascript로 API를 호출하고, landscape와 portrait를 구분하는 예제는 아래와 같습니다.  
-
-```java
-const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/garden";
-const xhr = new XMLHttpRequest();
-
-xhr.open("POST", uri, true);
-xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        let response = JSON.parse(xhr.responseText)
-        let landscape = response['landscape'];
-        console.log("landscape: " + landscape);
-        let portrait = response['portrait'];
-        console.log("portrait: " + portrait);
-    }
-};
-
-let requestObj = {
-    "emotion": emotionValue,
-    "generation": generation,
-    "gender": gender,
-};
-
-let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
-
-xhr.send(blob);
-```
-
-API로 호출로 얻은 결과는 아래와 같습니다.
-
-```java
-{
-   "landscape":[
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_0h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_5h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_6h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_3h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-00504_2h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_7h.jpeg"
-   ],
-   "portrait":[
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_8v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_2v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_9v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_7v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_1v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-00504_5v.jpeg"
-   ]
-}
-```
 
 
 ## 이미지 추천 API
