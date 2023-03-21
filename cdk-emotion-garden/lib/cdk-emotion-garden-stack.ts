@@ -358,11 +358,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
     lambdaS3event.addEventSource(s3PutEventSource);
 
-    // Lambda for retrieve
-    const lambdaRetrieve = new lambda.Function(this, 'lambda-retrieve', {
+    // Lambda for garden
+    const lambdaGarden = new lambda.Function(this, 'lambda-garden', {
       runtime: lambda.Runtime.NODEJS_16_X,
-      functionName: "lambda-retrieve",
-      code: lambda.Code.fromAsset("../lambda-retrieve"),
+      functionName: "lambda-garden",
+      code: lambda.Code.fromAsset("../lambda-garden"),
       handler: "index.handler",
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
@@ -372,11 +372,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         domainName: cloudFrontDomain,
       }
     });
-    dataTable.grantReadWriteData(lambdaRetrieve); // permission for dynamo 
+    dataTable.grantReadWriteData(lambdaGarden); // permission for dynamo 
 
     // POST method
-    const retrieve = api.root.addResource('retrieve');
-    retrieve.addMethod('POST', new apiGateway.LambdaIntegration(lambdaRetrieve, {
+    const garden = api.root.addResource('garden');
+    garden.addMethod('POST', new apiGateway.LambdaIntegration(lambdaGarden, {
       passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
       credentialsRole: role,
       integrationResponses: [{
@@ -394,8 +394,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       ]
     });
 
-    // cloudfront setting for api gateway of retrieve
-    distribution.addBehavior("/retrieve", new origins.RestApiOrigin(api), {
+    // cloudfront setting for api gateway of garden
+    distribution.addBehavior("/garden", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
