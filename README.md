@@ -18,7 +18,17 @@ https://d3ic6ryvcaoqdy.cloudfront.net/emotion
 https://d3ic6ryvcaoqdy.cloudfront.net/garden
 ```
 
-이때 전달하는 값은 "emotion", "generation", "gender"입니다. javascript 예제는 아래와 같습니다.  
+이때 전달하는 값은 "emotion", "generation", "gender"입니다. 
+
+```java
+{
+    "emotion": "calm",
+    "generation": "adult",
+    "gender": "Male"
+}
+```
+
+javascript로 API를 호출하고, landscape와 portrait를 구분하는 예제는 아래와 같습니다.  
 
 ```java
 const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/garden";
@@ -46,7 +56,7 @@ let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
 xhr.send(blob);
 ```
 
-이때의 결과 예는 아래와 같이 "landscape"와 "portrait"를 구분하여 전달합니다.
+API로 호출로 얻은 결과는 아래와 같습니다.
 
 ```java
 {
