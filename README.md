@@ -33,9 +33,9 @@ Rekognition을 이용하여 emotion을 분석후 아래와 같은 결과를 리�
 
 ```java
 {
-    "Id": "bfc150a5-07ad-45a0-87e8-435e8a21d6ee",
-    "Bucket": "cdkemotiongardenstack-emotiongardenstorage163b614-18zt1jiogggyl",
-    "Key": "profile/bfc150a5-07ad-45a0-87e8-435e8a21d6ee.jpeg",
+    "id": "bfc150a5-07ad-45a0-87e8-435e8a21d6ee",
+    "bucket": "cdkemotiongardenstack-emotiongardenstorage163b614-18zt1jiogggyl",
+    "key": "profile/bfc150a5-07ad-45a0-87e8-435e8a21d6ee.jpeg",
     "ageRange": {
         "Low": 13,
         "High": 21
