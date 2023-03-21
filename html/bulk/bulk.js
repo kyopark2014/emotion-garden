@@ -2,6 +2,7 @@ const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
 
 const bulkUrl = cloudfrntUrl+"bulk";
 const removeUrl = cloudfrntUrl+"remove";
+const clearIndexUrl = cloudfrntUrl + "clearIndex";
 
 let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
