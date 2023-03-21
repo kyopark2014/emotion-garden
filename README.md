@@ -1,9 +1,24 @@
 # Emotion Garden
 
-## Emotion 분석
+## Client에서 Emoton Garden을 구성하기 위해 필요한 API
 
-[Emotion 분석](https://github.com/kyopark2014/emotion-garden/blob/main/emotion.md)에서는 Rekognition을 이용하여 이미지에서 Face를 찾아내서 감정(Emotion)을 분석합니다.
+### Emotion 분석 API
 
+이미지로부터 Emotion 분석을 하기 위한 API는 아래와 같습니다. CloudFront를 이용한 Endpoint는 아래와 같습니다. HTTPS POST Method로 이미지를 전송하면 Emotion 결과를 리턴합니다. 상세한 정보는 [Emotion 분석](https://github.com/kyopark2014/emotion-garden/blob/main/emotion.md)에서 확인합니다.
+
+```java
+https://d3ic6ryvcaoqdy.cloudfront.net/emotion
+```
+
+### Emotion으로 생성한 이미지를 조회하는 API
+
+
+
+
+
+
+
+## 이미지 추천 API
 
 ## Stable Diffusion 이미지를 Parallel Processing을 이용해 생성하기
 
