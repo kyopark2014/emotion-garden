@@ -82,14 +82,7 @@ cloud9에서 "emotion-garden/cdk-emotion-garden/lib/cdk-emotion-garden-stack.ts"
 cdk deploy
 ```
 
-브라우저에서 WebUrl인 "https://d3ic6ryvcaoqdy.cloudfront.net/text2image.html" 로 접속합니다. 아래처럼 prompt를 변경하고 Send를 선택하여 Stable Image를 생성합니다.
 
-![noname](https://user-images.githubusercontent.com/52392004/220824739-764a848a-d98c-4884-847c-8b8b12ecbf90.png)
-
-
-## Stable Diffusion Image Generator
-
-[이미지 생성](https://github.com/kyopark2014/emotion-garden/blob/main/image-generator.md)에서는 다수의 이미지 생성 및 관리 방법에 대해 설명합니다.
 
 ## 이미지 백업 및 복구
 
