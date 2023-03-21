@@ -241,8 +241,6 @@ function drawGarden(previewUrl) {
 
             previewlist[0].innerHTML = htmlsrc;
             i = i+3;
-
-            console.log(wait());
         }
     }
     else {
@@ -252,22 +250,4 @@ function drawGarden(previewUrl) {
 
         alert("이미지가 조회되지 않습니다.");
     }
-}
-
-function wait() {
-    isCompleted = false;
-    return new Promise((resolve, reject) => {
-        if (!isCompleted) {
-            setTimeout(() => resolve("wait..."), 1000)
-        }
-        else {
-            setTimeout(() => resolve("done..."), 0)
-        }
-    });
-}
-
-
-function sleep(ms) {
-    const wakeUpTime = Date.now() + ms;
-    while (Date.now() < wakeUpTime) { }
 }
