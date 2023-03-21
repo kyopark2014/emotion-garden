@@ -108,9 +108,18 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     }); */
 
     // cloudfront
+    const customOriginRequestPolicy = new cloudFront.OriginRequestPolicy(this, 'OriginRequestPolicy', {
+      originRequestPolicyName: 'Policy-Custom-Header',
+      comment: 'A policy for custom header',
+      cookieBehavior: cloudFront.OriginRequestCookieBehavior.none(),
+      headerBehavior: cloudFront.OriginRequestHeaderBehavior.all('X-user-id'),
+      //queryStringBehavior: cloudFront.OriginRequestQueryStringBehavior.allowList('username'),
+    });
+
     const distribution = new cloudFront.Distribution(this, 'cloudfront-emotion-garden', {
       defaultBehavior: {
         origin: new origins.S3Origin(s3Bucket),
+        originRequestPolicy: customOriginRequestPolicy,
         allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
         cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
         viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
