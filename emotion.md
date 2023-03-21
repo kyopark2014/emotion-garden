@@ -88,7 +88,7 @@ x-amz-cf-id: 6zrBBy0NAKT7ARC_dARICyzWAk2i78FWni5MIOl_oj8wZQxcnB77lg==
 
 #### API Gateway로 바로 접속할 경우
 
-API Gateway로 바로 접속할 경우는 uuid를 header를 통해 지정할 수 있습니다. 이때 사용하는 header의 이믈은 'X-user-id"입니다.
+API Gateway로 바로 접속할 경우는 uuid를 header를 통해 지정할 수 있습니다. 이때 사용하는 header의 이믈은 'X-user-id"입니다. 서버는 해당 헤더가 없는 경우에는 uuid를 생성합니다. 
 
 
 
