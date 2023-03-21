@@ -85,6 +85,9 @@ function retrieveFile(emotionStr) {
         }
     };
 
+    previewUrl = [];
+    previewlist = [];
+
     let requestObj = {
         "emotion": emotionStr,
     };
