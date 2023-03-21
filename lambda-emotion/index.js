@@ -18,11 +18,17 @@ exports.handler = async (event, context) => {
     if(header['content-type']) {
         contentType = String(header['content-type']);
     } 
-    // console.log('contentType = '+contentType);     
-
-    const uuid = uuidv4();
+    // console.log('contentType = '+contentType);    
     
-    const fileName = 'profile/'+uuid+'.jpeg';
+    let userId;
+    if(header['X-user-id']) {
+        userId = String(header['X-user-id']);
+    } 
+    else {
+        userId = uuidv4();
+    }
+    
+    const fileName = 'profile/'+userId+'.jpeg';
     // console.log('fileName = '+fileName);
     
     try {
@@ -36,7 +42,7 @@ exports.handler = async (event, context) => {
       //  console.log('destparams: ' + JSON.stringify(destparams));
         const {putResult} = await s3.putObject(destparams).promise(); 
 
-        // console.log('### finish upload: ' + uuid);
+        // console.log('### finish upload: ' + userId);
     } catch (error) {
         console.log(error);
         return;
@@ -86,7 +92,7 @@ exports.handler = async (event, context) => {
 
             // console.log('**finish emotion detection');
             const emotionInfo = {
-                id: uuid,
+                id: userId,
                 bucket: bucketName, 
                 key: fileName,
                 ageRange: ageRange,
