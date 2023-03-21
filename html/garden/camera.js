@@ -223,36 +223,18 @@ function drawGarden(previewUrl) {
         let htmlsrc;
 
         if (previewUrl.length - start >= 3) {
-            if (identifier == 'v') {
-                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" height="400"/>
-                    <img id="${i + 1}" src="${previewUrl[i + 1]}" height="400"/>
-                    <img id="${i + 2}" src="${previewUrl[i + 2]}" height="400"/>`;
-            }
-            else {
-                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
+            htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
                     <img id="${i + 1}" src="${previewUrl[i + 1]}" width="400"/>
                     <img id="${i + 2}" src="${previewUrl[i + 2]}" width="400"/>`;
-            }
             console.log('htmlsrc: ', htmlsrc);
         }
         else if (previewUrl.length - start >= 2) {
-            if (identifier == 'v') {
-                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" height="400"/>
-                    <img id="${i + 1}" src="${previewUrl[i + 1]}" height="400"/>`;
-            }
-            else {
-                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
+            htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
                     <img id="${i}" src="${previewUrl[i]}" width="400"/>`;
-            }
             console.log('htmlsrc: ', htmlsrc);
         }
         else {
-            if (identifier == 'v') {
-                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" height="400"/>`;
-            }
-            else {
-                htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>`;
-            }
+            htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>`;
             console.log('htmlsrc: ', htmlsrc);
         }
 
