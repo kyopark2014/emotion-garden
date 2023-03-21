@@ -97,3 +97,10 @@ A flower, fantasy, very happy, immature, smile, concept art, trending on artstat
 ## Stable Diffusion Image Generator
 
 [이미지 생성](https://github.com/kyopark2014/emotion-garden/blob/main/image-generator.md)에서는 다수의 이미지 생성 및 관리 방법에 대해 설명합니다.
+
+
+## ETC
+
+- A flower with cat, fantasy, very happy, immature, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art
+
+<img width="1427" alt="image" src="https://user-images.githubusercontent.com/52392004/220819859-0c211084-6feb-4032-a365-b960044942a4.png">
