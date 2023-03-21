@@ -251,6 +251,26 @@ aws s3 cp s3://demo-emotion-garden/emotions/ . --recursive
 aws s3 cp emotions/ s3://demo-emotion-garden/emotions/ --recursive
 ``
 
+## Bulk로 이미지 생성 방법
+
+1) 아래 사이트 접속
+https://d3ic6ryvcaoqdy.cloudfront.net/html/bulk/bulk.html
+2) RepeatCount는 같은 prompt로 생성하는 이미지의 숫자를 의미합니다.
+3) Emotion을 선택하고,
+4) 추가로 넣을 값 (Favorite)이 있을 경우에 입력합니다.
+5) prompt에 넣을 여타 다른값들은 기본값을 유지. (수정할 수 있음)
+기본값: garden, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art
+
+- [Generate]: 이미지 생성 버튼
+- [Update] 생성된 이미지 확인
+- [Remove] dislike로 불필요한 이미지 삭제
+
+## S3에 저장된 이미지 확인
+1) Preview에 접속합니다. https://d3ic6ryvcaoqdy.cloudfront.net/html/preview/preview.html
+2) Emotion, Favorite를 선택합니다.
+3) Retrieve를 선택하여 S3에 있는 이미지를 가져옵니다. 이미지가 많은 경우에 “Start”를 조정하면 뒤쪽의 이미지를 확인할 수 있습니다.
+4) 불필요한 이미지는 dislike 선택후 [Remove] 버튼을 통해 삭제합니다. 
+
 
 ## ETC
 
