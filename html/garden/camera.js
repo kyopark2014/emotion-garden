@@ -161,6 +161,9 @@ function getEmotion() {
                 i = index;
 
                 console.log('click! index: ' + index);
+
+                updateImages(previewUrl, drawingIndex);
+                if(previewUrl-drawingIndex<3) drawingIndex = 0;
             })
         })(i);
     }
