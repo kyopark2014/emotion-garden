@@ -27,6 +27,7 @@ let previewlist = [];
 let fileList = [];
 const maxImgItems = 1;
 let drawingIndex = 0;
+let uuid = uuidv4();
 
 //functions
 function videoStart() {
@@ -157,6 +158,8 @@ function getEmotion() {
     previewUrl = [];
     previewlist = [];
 
+    console.log('uuid: ', uuid);
+
     for (let i = 0; i < maxImgItems; i++) {
         previewlist.push(document.getElementById('preview' + i));
 
@@ -268,4 +271,10 @@ function updateImages(previewUrl, i) {
     }
 
     previewlist[0].innerHTML = htmlsrc;
+}
+
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
 }
