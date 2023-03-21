@@ -5,6 +5,15 @@ const s3 = new aws.S3({ apiVersion: '2006-03-01' });
 
 const bucketName = process.env.bucketName;
 
+import winston from 'winston';
+const logger = winston.createLogger({
+    level: process.env.LOG_LEVEL || 'info',
+    format: winston.format.json(),
+    transports: [
+        new winston.transports.Console(),
+    ],
+});
+
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
     console.log('## EVENT: ' + JSON.stringify(event))
@@ -110,7 +119,10 @@ exports.handler = async (event, context) => {
                 mouthOpen: mouthOpen,
                 emotions: emotions
             }; 
-            console.log('file info: ' + JSON.stringify(emotionInfo));
+            console.log('emotion info: ' + JSON.stringify(emotionInfo));
+
+            logger.defaultMeta = {requestId: context.awsRequestId};
+            logger.info('emotion', emotionInfo);
             
             response = {
                 statusCode: 200,
