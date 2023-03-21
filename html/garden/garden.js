@@ -188,7 +188,8 @@ function getEmotion() {
 
     canvas.toBlob(function (blob) {
         xhr.setRequestHeader('X-user-id', uuid);   
-        
+        xhr.setRequestHeader('Content-Disposition', uuid);   
+
         xhr.send(blob);
     });
 }
