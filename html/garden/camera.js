@@ -1,6 +1,6 @@
 const startButton = document.querySelector(".start-button");
 const previewButton = document.querySelector(".preview-button");
-const downloadButton = document.querySelector(".download-button");
+// const downloadButton = document.querySelector(".download-button"); 
 const emotionButton = document.querySelector(".emotion-button");
 
 //event
@@ -132,9 +132,9 @@ function getEmotion() {
 
                 console.log(blob);
 
-                downloadButton.href = img.src;
-                console.log(downloadButton.href);
-                downloadButton.download = `capture_${emotionValue}_${gender}_${middleAge}_${new Date()}.jpeg`;
+            //    downloadButton.href = img.src;
+            //    console.log(downloadButton.href);
+            //    downloadButton.download = `capture_${emotionValue}_${gender}_${middleAge}_${new Date()}.jpeg`;
             }, 'image/png');
 
             // alert(xhr.responseText); // handle response.
@@ -162,9 +162,10 @@ function getEmotion() {
 
                 console.log('click! index: ' + index);
 
-                updateImages(previewUrl, drawingIndex);
                 if(previewUrl-drawingIndex<3) drawingIndex = 0;
                 else drawingIndex += 3;
+
+                updateImages(previewUrl, drawingIndex);                
             })
         })(i);
     }
