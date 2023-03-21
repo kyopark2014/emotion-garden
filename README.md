@@ -1,26 +1,6 @@
 # Emotion Garden
 
-## Stable Diffusion Image Generator
-
-[이미지 생성](https://github.com/kyopark2014/emotion-garden/blob/main/image-generator.md)에서는 다수의 이미지 생성 및 관리 방법에 대해 설명합니다.
-
-## 이미지 백업 및 복구
-
-#### 이미지 백업
-
-아래 명령어로 이미지를 다운로드 합니다. 
-
-```java
-aws s3 cp s3://demo-emotion-garden/emotions/ . --recursive
-```
-
-#### 이미지 복원
-
-아래 명령어로 이미지들을 다시 S3로 업로드 할 수 있습니다. 업로드되는 이미지는 S3 put event를 이용하여 DynamoDB의 "db-emotion-garden"에 저장됩니다. 
-
-```java
-aws s3 cp emotions/ s3://demo-emotion-garden/emotions/ --recursive
-```
+`
 
 ## Emotion 분석
 
@@ -265,6 +245,28 @@ cdk deploy
 
 ![noname](https://user-images.githubusercontent.com/52392004/220824739-764a848a-d98c-4884-847c-8b8b12ecbf90.png)
 
+
+## Stable Diffusion Image Generator
+
+[이미지 생성](https://github.com/kyopark2014/emotion-garden/blob/main/image-generator.md)에서는 다수의 이미지 생성 및 관리 방법에 대해 설명합니다.
+
+## 이미지 백업 및 복구
+
+#### 이미지 백업
+
+아래 명령어로 이미지를 다운로드 합니다. 
+
+```java
+aws s3 cp s3://demo-emotion-garden/emotions/ . --recursive
+```
+
+#### 이미지 복원
+
+아래 명령어로 이미지들을 다시 S3로 업로드 할 수 있습니다. 업로드되는 이미지는 S3 put event를 이용하여 DynamoDB의 "db-emotion-garden"에 저장됩니다. 
+
+```java
+aws s3 cp emotions/ s3://demo-emotion-garden/emotions/ --recursive
+``
 
 
 ## ETC
