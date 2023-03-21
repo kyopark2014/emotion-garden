@@ -4,6 +4,16 @@
 
 [이미지 생성](https://github.com/kyopark2014/emotion-garden/blob/main/image-generator.md)에서는 다수의 이미지 생성 및 관리 방법에 대해 설명합니다.
 
+## 이미지 백업 및 복구
+
+#### 이미지 백업
+
+아래 명령어로 이미지를 다운로드 합니다. 
+
+```java
+aws s3 cp s3://demo-emotion-garden/ . --recursive
+```
+
 ## Emotion 분석
 
 Amazon Rekognition을 이용하여 Emotion을 분석하는 Architecture는 아래와 같습니다. 
