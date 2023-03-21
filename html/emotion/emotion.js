@@ -51,8 +51,7 @@ function getEmotion() {
     const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/emotion";
     const xhr = new XMLHttpRequest();
 
-    xhr.setRequestHeader('X-uuid', uuid);
-    console.log('uuid: ', uuid);
+    xhr.setRequestHeader('X-uuid', uuid);    
     xhr.open("POST", uri, true);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -140,6 +139,8 @@ function getEmotion() {
             profileInfo_features.innerHTML = ``
         }
     };    
+
+    console.log('uuid: ', uuid);
 
     canvas.toBlob(function(blob){
         xhr.send(blob);
