@@ -77,16 +77,15 @@ function retrieveFile(emotionStr) {
             }
             else {
                 profileInfo_emotion.innerHTML = `<h3>No Image</h3>`;
-                previewUrl = [];
-                previewlist = [];
+                
+                initiatePreview();
 
                 alert("이미지가 조회되지 않습니다.");
             }
         }
     };
 
-    previewUrl = [];
-    previewlist = [];
+    initiatePreview();
 
     let requestObj = {
         "emotion": emotionStr,
@@ -158,41 +157,7 @@ form.elements.retrieve.onclick = function () {
     nRow = document.forms.input_row3.elements.nRow.value;
     console.log("nRow: " + nRow);
 
-    previewUrl = [];
-    previewlist = [];
-
-    for (let i = 0; i < nRow; i++) {
-        likeList[i] = true;
-        deletedList[i] = false;
-        fileList[i] = "";
-
-        previewlist.push(document.getElementById('preview' + i));
-        // add listener        
-        (function (index) {
-            previewlist[index].addEventListener("click", function () {
-                i = index;
-
-                console.log('click! index: ' + index);
-
-                likeList[i] = like;
-                console.log('like: ' + likeList[i] + ' filename: ' + fileList[i]);
-
-                // check validity
-                const url = cloudfrntUrl+fileList[i];
-                console.log('url: ', url);
-
-                checkFile(url);
-
-                if(!isValid) {
-                    console.log('No file, clear index of dynamodb');
-                    isValid = true;
-                    clearIndexDynamoDB(fileList[i]);
-                    deletedList[i] = true;
-                    previewlist[i].innerHTML = '';
-                }
-            });
-        })(i);
-    }
+    initiatePreview();
 
     let selectedEmotion = document.getElementById("emoitonId");
     console.log("emotion: " + selectedEmotion.value);
@@ -243,6 +208,44 @@ form.elements.remove.onclick = function () {
         message += dislike[i] + '\n';
     }
     alert("dislike로 설정한 이미지가 삭제되었습니다. 삭제된 이미지는 아래와 같습니다.\n" + message);
+}
+
+function initiatePreview() {
+    previewUrl = [];
+    previewlist = [];
+
+    for (let i = 0; i < nRow; i++) {
+        likeList[i] = true;
+        deletedList[i] = false;
+        fileList[i] = "";
+
+        previewlist.push(document.getElementById('preview' + i));
+        // add listener        
+        (function (index) {
+            previewlist[index].addEventListener("click", function () {
+                i = index;
+
+                console.log('click! index: ' + index);
+
+                likeList[i] = like;
+                console.log('like: ' + likeList[i] + ' filename: ' + fileList[i]);
+
+                // check validity
+                const url = cloudfrntUrl+fileList[i];
+                console.log('url: ', url);
+
+                checkFile(url);
+
+                if(!isValid) {
+                    console.log('No file, clear index of dynamodb');
+                    isValid = true;
+                    clearIndexDynamoDB(fileList[i]);
+                    deletedList[i] = true;
+                    previewlist[i].innerHTML = '';
+                }
+            });
+        })(i);
+    }    
 }
 
 function likeOrDislike(x) {
