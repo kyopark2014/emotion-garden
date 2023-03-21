@@ -86,9 +86,9 @@ exports.handler = async (event, context) => {
 
             console.log('**finish emotion detection');
             const emotionInfo = {
-                Id: uuid,
-                Bucket: bucketName, 
-                Key: fileName,
+                id: uuid,
+                bucket: bucketName, 
+                key: fileName,
                 ageRange: ageRange,
                 smile: smile,
                 eyeglasses: eyeglasses,
