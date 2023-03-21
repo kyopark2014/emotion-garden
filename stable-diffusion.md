@@ -87,3 +87,13 @@ A flower, fantasy, very happy, immature, smile, concept art, trending on artstat
 ```
 
 <img width="817" alt="image" src="https://user-images.githubusercontent.com/52392004/220795334-92ca5cfb-4ffb-44f2-9eac-45797a57dd24.png">
+
+
+브라우저에서 WebUrl인 "https://d3ic6ryvcaoqdy.cloudfront.net/text2image.html" 로 접속합니다. 아래처럼 prompt를 변경하고 Send를 선택하여 Stable Image를 생성합니다.
+
+![noname](https://user-images.githubusercontent.com/52392004/220824739-764a848a-d98c-4884-847c-8b8b12ecbf90.png)
+
+
+## Stable Diffusion Image Generator
+
+[이미지 생성](https://github.com/kyopark2014/emotion-garden/blob/main/image-generator.md)에서는 다수의 이미지 생성 및 관리 방법에 대해 설명합니다.
