@@ -6,21 +6,31 @@ const s3 = new aws.S3({ apiVersion: '2006-03-01' });
 const bucketName = process.env.bucketName;
 
 exports.handler = async (event, context) => {
-    //console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
-    //console.log('## EVENT: ' + JSON.stringify(event))
+    console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
+    console.log('## EVENT: ' + JSON.stringify(event))
     
     const body = Buffer.from(event["body"], "base64");
     // console.log('body: ' + body)
     const header = event['multiValueHeaders'];
     // console.log('header: ' + JSON.stringify(header));
             
+    let userId = "";
+    if(header['X-user-id']) {
+        userId = String(header['X-user-id']);
+    } 
+    console.log('userId: ', userId);
+
     let contentType;
     if(header['Content-Type']) {
         contentType = String(header['Content-Type']);
     } 
-    console.log('contentType = '+contentType);     
+    console.log('contentType: ', contentType);     
 
-    const uuid = uuidv4();
+    let uuid = "";
+    if(userId)
+        uuid = userId;
+    else
+        uuid = uuidv4();
     
     const fileName = 'profile/'+uuid+'.jpeg';
     console.log('fileName = '+fileName);
