@@ -149,8 +149,8 @@ function getEmotion() {
         }
         else {
             profileInfo_emotion.innerHTML = `<h3>No Face</h3>`
-            profileInfo_age.innerHTML = ``
-            // profileInfo_features.innerHTML = ``
+            profileInfo_age.innerHTML = ""
+            // profileInfo_features.innerHTML = ""
         }
     };
 
