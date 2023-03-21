@@ -18,14 +18,13 @@ Emotion으로 생성한 이미지를 조회하는 Garden API는 아래와 같습
 https://d3ic6ryvcaoqdy.cloudfront.net/garden
 ```
 
-### Stable Diffusion 이미지 생성하기
+## Stable Diffusion 이미지 생성하기
 
-이미지 생성시간을 단축하기 위하여 병렬처리를 [Stable Diffusion 이미지 생성하기](https://github.com/kyopark2014/emotion-garden/blob/main/stable-diffusion.md)
-### Stable Diffusion 이미지 생성하기
-
-## 이미지 추천 API
+이미지 생성시간을 단축하기 위하여 병렬처리를 수행합니다. 상세한 내용은 [Stable Diffusion 이미지 생성하기](https://github.com/kyopark2014/emotion-garden/blob/main/stable-diffusion.md)를 참조합니다.
 
 ### 지원해상도 및 소요시간
+
+현재 GPU를 이용해 계산한 결과는 아래와 같습니다.
 
 #### Stable Diffusion 2.1
 - XGA 1024 x 768 (x)
@@ -54,66 +53,6 @@ https://d3ic6ryvcaoqdy.cloudfront.net/garden
 - WXGA: 1280 x 800 (26s)
 
 
-### Stable Diffusion 이미지를 생성하는 API
-
-API의 Resouce는 '/text2image'으로 아래와 같이 CloudFront Domain을 활용하여 RESTful API의 POST method로 요청합니다.
-
-```java
-https://d3ic6ryvcaoqdy.cloudfront.net/emotion
-```
-
-이것을 구현하기 위한 java script 예제 코드는 아래와 같습니다. response의 'body'에 생성된 이미지의 URL들이 내려옵니다.
-
-```java
-const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image";
-const xhr = new XMLHttpRequest();
-
-xhr.open("POST", uri, true);
-xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        response = JSON.parse(xhr.responseText);
-        console.log("response: " + response);
-        result = JSON.parse(response.body);
-        console.log("result: " + result);                    
-
-        console.log("result1: " + JSON.stringify(result[0]));
-        console.log("result2: " + JSON.stringify(result[1]));
-        console.log("result3: " + JSON.stringify(result[2]));
-        console.log("result4: " + JSON.stringify(result[3]));
-    }
-};
-
-var requestObj = {"text":text}
-console.log("request: " + JSON.stringify(requestObj));
-
-var blob = new Blob([JSON.stringify(requestObj)], {type: 'application/json'});
-xhr.send(blob); 
-```
-
-### 시험 결과의 예 
-
-- happy 
-
-```java
-A flower, fantasy, happy, young, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art, 8 k
-```
-
-<img width="814" alt="image" src="https://user-images.githubusercontent.com/52392004/220794172-ff8e29ae-381c-475c-b968-f88cec6ee908.png">
-
-- unhappy
-
-```java
-- A flower, fantasy, unhappy, young, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art, 8 k
-```
-<img width="818" alt="image" src="https://user-images.githubusercontent.com/52392004/220794856-9910072d-0bf6-465b-af11-ac70923d18b7.png">
-
-- very happy, immature
-
-```java
-A flower, fantasy, very happy, immature, smile, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art
-```
-
-<img width="817" alt="image" src="https://user-images.githubusercontent.com/52392004/220795334-92ca5cfb-4ffb-44f2-9eac-45797a57dd24.png">
 
 ## 배포방법
 
