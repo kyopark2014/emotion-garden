@@ -28,6 +28,9 @@ let fileList = [];
 const maxImgItems = 1;
 let drawingIndex = 0;
 let uuid = uuidv4();
+let emotionValue;
+let generation;
+let gender;
 
 //functions
 function videoStart() {
@@ -63,12 +66,20 @@ function getEmotion() {
             let response = JSON.parse(xhr.responseText);
             console.log("response: " + JSON.stringify(response));
 
-            let gender = response.gender;
+            gender = response.gender;
             console.log("gender: " + gender);
 
             let ageRangeLow = JSON.parse(response.ageRange.Low);
             let ageRangeHigh = JSON.parse(response.ageRange.High);
             let middleAge = (ageRangeLow + ageRangeHigh) / 2;
+            if(middleAge<=5) generation = 'toddler'; // 유아
+            else if(middleAge<=12) generation = 'child'; // 아동
+            else if(middleAge<=18) generation = 'teenager'; // 청소년
+            else if(middleAge<=25) generation = 'young-adult'; // 청년
+            else if(middleAge<=49) generation = 'adult'; // 중년
+            else if(middleAge<=64) generation = 'middle-age'; // 장년
+            else if(middleAge>=65) generation = 'elder'; // 노년
+
             let ageRange = `Age: ${ageRangeLow} ~ ${ageRangeHigh}`; // age   
             console.log('ages: ' + ageRange);
 
@@ -93,7 +104,7 @@ function getEmotion() {
             let mouthOpen = response.mouthOpen;
             console.log("mouthOpen: " + mouthOpen);
 
-            let emotionValue = response.emotions.toLowerCase();
+            emotionValue = response.emotions.toLowerCase();
             console.log("emotion: " + emotionValue);
 
             let emotionText = "Emotion: ";
@@ -195,7 +206,7 @@ function getEmotion() {
     });
 }
 
-function drawGarden(emotionStr) {
+function drawGarden(emotionValue) {
     const url = cloudfrntUrl + "garden";
     const xhr = new XMLHttpRequest();
 
@@ -203,14 +214,11 @@ function drawGarden(emotionStr) {
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("--> responseText: " + xhr.responseText);
-
             let response = JSON.parse(xhr.responseText)
-            let landscape = [];
-            let portrait = [];
 
-            landscape = response['landscape'];
+            let landscape = response['landscape'];
             console.log("landscape: " + landscape);
-            portrait = response['portrait'];
+            let portrait = response['portrait'];
             console.log("portrait: " + portrait);
 
             for (let i in landscape) {
@@ -238,7 +246,9 @@ function drawGarden(emotionStr) {
     };
 
     let requestObj = {
-        "emotion": emotionStr,
+        "emotion": emotionValue,
+        "generation": generation,
+        "gender": gender,
     };
     console.log("request: " + JSON.stringify(requestObj));
 
