@@ -15,7 +15,6 @@ canvas.width = previewPlayer.width;
 canvas.height = previewPlayer.height;
 let emotionValue;
 let uuid = uuidv4();
-console.log('uuid: ', uuid);
 
 let profileInfo_emotion, profileInfo_age, profileInfo_features;
 
@@ -53,6 +52,7 @@ function getEmotion() {
     const xhr = new XMLHttpRequest();
 
     xhr.setRequestHeader('X-uuid', uuid);
+    console.log('uuid: ', uuid);
     xhr.open("POST", uri, true);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
