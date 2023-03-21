@@ -239,7 +239,7 @@ function drawGarden(previewUrl) {
                 console.log('htmlsrc: ', htmlsrc);
             }
 
-            previewlist[i].innerHTML = htmlsrc;
+            previewlist[0].innerHTML = htmlsrc;
             i = i+3;
 
             sleep(1000);
