@@ -47,7 +47,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     // DynamoDB
     const tableName = 'db-emotion-garden';
-    const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
+    const dataTable = new dynamodb.Table(this, 'dynamodb-emotion-garden', {
       tableName: tableName,
       partitionKey: { name: 'ObjKey', type: dynamodb.AttributeType.STRING },
       //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
@@ -90,14 +90,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
   /*  new s3Deploy.BucketDeployment(this, "upload-HTML-stable-diffusion", {
       sources: [s3Deploy.Source.asset("../html")],
       destinationBucket: s3Bucket,
-    }); */
-
- /*   const customOriginRequestPolicy = new cloudFront.OriginRequestPolicy(this, 'OriginRequestPolicy', {
-      originRequestPolicyName: 'Policy-Custom-Header',
-      comment: 'A policy for custom header',
-      // cookieBehavior: cloudFront.OriginRequestCookieBehavior.none(),
-      headerBehavior: cloudFront.OriginRequestHeaderBehavior.all(),
-      // queryStringBehavior: cloudFront.OriginRequestCookieBehavior.none(),
     }); */
 
     // cloudfront
@@ -265,7 +257,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     distribution.addBehavior("/emotion", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
-      // originRequestPolicy: customOriginRequestPolicy,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     }); 
 
