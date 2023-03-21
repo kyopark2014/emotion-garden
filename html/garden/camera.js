@@ -255,6 +255,7 @@ function drawGarden(previewUrl) {
 }
 
 function wait() {
+    isCompleted = false;
     return new Promise((resolve, reject) => {
         if (!isCompleted) {
             setTimeout(() => resolve("wait..."), 1000)
