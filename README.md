@@ -11,7 +11,15 @@
 아래 명령어로 이미지를 다운로드 합니다. 
 
 ```java
-aws s3 cp s3://demo-emotion-garden/ . --recursive
+aws s3 cp s3://demo-emotion-garden/emotions/ . --recursive
+```
+
+#### 이미지 복원
+
+아래 명령어로 이미지들을 다시 S3로 업로드 할 수 있습니다. 업로드되는 이미지는 S3 put event를 이용하여 DynamoDB의 "db-emotion-garden"에 저장됩니다. 
+
+```java
+aws s3 cp emotions/ s3://demo-emotion-garden/emotions/ --recursive
 ```
 
 ## Emotion 분석
