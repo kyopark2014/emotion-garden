@@ -300,7 +300,7 @@ function likeOrDislike(x) {
         console.log("fname: ", fname);
     }
 
-    x.classList.toggle("fa-thumbs-up");
+    x.classList.toggle("fa-thumbs-down");
 }
 
 function uuidv4() {
