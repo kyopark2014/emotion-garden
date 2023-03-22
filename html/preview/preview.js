@@ -1,7 +1,7 @@
 const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
 
 const removeUrl = cloudfrntUrl + "remove";
-const retrieveUrl = cloudfrntUrl + "retrieve";
+const gardenUrl = cloudfrntUrl + "garden";
 const clearIndexUrl = cloudfrntUrl + "clearIndex";
 
 let profileInfo_emotion = document.getElementById('status');
@@ -12,10 +12,10 @@ let previewUrl = [];
 let previewlist = [];
 let isValid = true;
 
-function retrieveFile(emotionStr) {
+function drawGarden(emotionValue) {
     const xhr = new XMLHttpRequest();
 
-    xhr.open("POST", retrieveUrl, true);
+    xhr.open("POST", gardenUrl, true);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("--> responseText: " + xhr.responseText);
@@ -88,7 +88,7 @@ function retrieveFile(emotionStr) {
     initiatePreview();
 
     let requestObj = {
-        "emotion": emotionStr,
+        "emotion": emotionValue,
     };
     console.log("request: " + JSON.stringify(requestObj));
 
@@ -166,15 +166,15 @@ form.elements.retrieve.onclick = function () {
     console.log("favorite: " + favorite);
     favorite = favorite.toLowerCase();
 
-    let emotionStr;
+    let emotionValue;
     if (favorite) {
-        emotionStr = selectedEmotion.value + '/' + favorite;
+        emotionValue = selectedEmotion.value + '/' + favorite;
     }
     else {
-        emotionStr = selectedEmotion.value;
+        emotionValue = selectedEmotion.value;
     }
 
-    retrieveFile(emotionStr);
+    drawGarden(emotionValue);
 };
 
 //repeatCount=10;
@@ -274,7 +274,7 @@ function checkFile(url, i) {
     };
 
 /*    let requestObj = {
-        "emotion": JSON.stringify(emotionStr),
+        "emotion": JSON.stringify(emotionValue),
     };
     console.log("request: " + JSON.stringify(requestObj));
 
