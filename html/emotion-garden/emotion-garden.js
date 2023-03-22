@@ -2,11 +2,12 @@ const startButton = document.querySelector(".start-button");
 const previewButton = document.querySelector(".preview-button");
 // const downloadButton = document.querySelector(".download-button"); 
 const emotionButton = document.querySelector(".emotion-button");
-
+const nextButton = document.querySelector(".next-button");
 //event
 startButton.addEventListener("click", videoStart);
 // previewButton.addEventListener("click",preview);
 emotionButton.addEventListener("click", emotion);
+nextButton.addEventListener("click", nextImages);
 
 const previewPlayer = document.querySelector("#preview");
 let canvas = document.getElementById('canvas');
@@ -183,12 +184,12 @@ function getEmotion() {
 
                 console.log('click! index: ' + index);
 
-             //   console.log('drawingIndex: ' + drawingIndex);
+                //   console.log('drawingIndex: ' + drawingIndex);
 
-              //  if (previewUrl.length - drawingIndex < 3) drawingIndex = 0;
-              //  else drawingIndex += 3;
+                //  if (previewUrl.length - drawingIndex < 3) drawingIndex = 0;
+                //  else drawingIndex += 3;
 
-             //   updateImages(previewUrl, drawingIndex);
+                //   updateImages(previewUrl, drawingIndex);
             })
         })(i);
     }
@@ -264,13 +265,22 @@ function emotion() {
     getEmotion();
 }
 
+function nextImages() {
+    console.log('drawingIndex: ' + drawingIndex);
+
+    if (previewUrl.length - drawingIndex < 3) drawingIndex = 0;
+    else drawingIndex += 3;
+
+    updateImages(previewUrl, drawingIndex);
+}
+
 function updateImages(previewUrl, i) {
     let htmlsrc;
 
     if (previewUrl.length - i >= 3) {
         htmlsrc = `<div><img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i></div>
-                <img id="${i + 1}" src="${previewUrl[i + 1]}" width="400"/>
-                <img id="${i + 2}" src="${previewUrl[i + 2]}" width="400"/>`;
+        <div><img id="${i + 1}" src="${previewUrl[i + 1]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i></div>
+        <div><img id="${i + 2}" src="${previewUrl[i + 2]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i></div>`;
         console.log('htmlsrc: ', htmlsrc);
     }
     else if (previewUrl.length - i >= 2) {
