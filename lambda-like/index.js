@@ -28,5 +28,9 @@ exports.handler = async (event, context) => {
         statusCode: 200,
         // body: JSON.stringify(urlList)
     }; */
+    const response = {
+        statusCode: 200,
+        // body: JSON.stringify(urlList)
+    };
     return response;
 };
