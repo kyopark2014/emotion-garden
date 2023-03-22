@@ -32,6 +32,7 @@ let uuid = uuidv4();
 let emotionValue;
 let generation;
 let gender;
+let like;
 
 //functions
 function videoStart() {
@@ -190,6 +191,13 @@ function getEmotion() {
                 // console.log('pos: ', pos2);
                 fname = previewUrl[i].substring(pos)
                 console.log("fname: ", fname);
+
+                if(like) {
+                    console.log('like!');
+                }
+                else {
+                    console.log('dislike!');
+                }
             })
         })(i);
     }
