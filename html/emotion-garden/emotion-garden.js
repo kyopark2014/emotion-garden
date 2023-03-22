@@ -299,7 +299,6 @@ function nextImages() {
     updateImages(previewUrl, drawingIndex);
 
     like = false;
-    x.classList.value = "fa a-thumbs-down"
 }
 
 function updateImages(previewUrl, i) {
