@@ -337,7 +337,7 @@ function likeOrDislike(col, x) {
         like[col] = false;
     }
     else {
-        console.log('like['+col+']: ', col);
+        console.log('like['+col+']: '+ col);
 
         if (!like[col]) {
             like[col] = true;
