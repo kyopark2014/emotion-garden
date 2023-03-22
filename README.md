@@ -27,7 +27,7 @@ Emotion Garden을 설치하는 방법은 [Emotion Garden 배포 방법](https://
 
 ### Emotion 
 
-Emotion 분석을 테스트할 수 있는 웹사이트입니다. 
+Emotion 분석을 테스트할 수 있습니다.
 
 1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/emotion/emotion.html" 로 접속합니다.
 2) [Video] 버튼을 선택하여 비디오 사용을 allow 해줍니다. 
