@@ -319,6 +319,7 @@ function nextImages() {
 function updateImages(previewUrl, i) {
     let htmlsrc;
 
+    console.log('previewUrl.length - i: ', previewUrl.length - i);
     if (previewUrl.length - i >= 3) {
         htmlsrc = `<ab><img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(0, this)" class="fa fa-thumbs-down"></i></ab>
         <ab><img id="${i+1}" src="${previewUrl[i+1]}" width="400"/><i onclick="likeOrDislike(1, this)" class="fa fa-thumbs-down"></i></ab>
