@@ -33,6 +33,8 @@ let emotionValue;
 let generation;
 let gender;
 let like = false;
+//let like = [];
+// for(let i=0;i<3;i++) like[i] = false;
 
 //functions
 function videoStart() {
@@ -324,15 +326,19 @@ function nextImages() {
 function updateImages(previewUrl, i) {
     let htmlsrc;
 
-    htmlsrc = `<ab><img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i></ab>
-    <ab><img id="${i+1}" src="${previewUrl[i+1]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i></ab>
-    <ab><img id="${i+2}" src="${previewUrl[i+2]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i></ab>`;
-    console.log('htmlsrc: ', htmlsrc);
+    if (previewUrl.length - i >= 3) {
+        htmlsrc = `<ab><img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(0, this)" class="fa fa-thumbs-down"></i></ab>
+        <ab><img id="${i+1}" src="${previewUrl[i+1]}" width="400"/><i onclick="likeOrDislike(1, this)" class="fa fa-thumbs-down"></i></ab>
+        <ab><img id="${i+2}" src="${previewUrl[i+2]}" width="400"/><i onclick="likeOrDislike(3,this)" class="fa fa-thumbs-down"></i></ab>`;
+        console.log('htmlsrc: ', htmlsrc);
+    }
 
     previewlist[0].innerHTML = htmlsrc;
 }
 
-function likeOrDislike(x) {
+function likeOrDislike(col, x) {
+    console.log("column: ", col);
+
     if (x.classList.value == "fa fa-thumbs-down fa-thumbs-up") {
         console.log('dislike!');
         like = false;
