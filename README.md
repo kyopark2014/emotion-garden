@@ -12,7 +12,7 @@ https://d3ic6ryvcaoqdy.cloudfront.net/emotion
 
 ### Garden API
 
-Emotion으로 생성한 이미지를 조회하는 Garden API는 아래와 같습니다. 이미지 조회를 위한 API의 리소스 이름은 /garden 이고, HTTPS POST Method로 요청을 수행합니다. 상세한 정보는 [Garden 생성](https://github.com/kyopark2014/emotion-garden/blob/main/garden.md)에서 확인합니다.  
+Emotion으로 생성한 이미지를 조회하는 Garden API는 아래와 같습니다. 이미지 조회를 위한 API의 리소스 이름은 /garden 이고, HTTPS POST Method로 요청을 수행합니다. 상세한 정보는 [Garden API](https://github.com/kyopark2014/emotion-garden/blob/main/garden.md)에서 확인합니다.  
 
 ```java
 https://d3ic6ryvcaoqdy.cloudfront.net/garden
