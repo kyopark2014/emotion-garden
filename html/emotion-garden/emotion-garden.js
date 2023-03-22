@@ -278,7 +278,7 @@ function nextImages() {
 function updateImages(previewUrl, i) {
     let htmlsrc;
 
-    htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i>`;
+    htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down fa-thumbs-up"></i>`;
     console.log('htmlsrc: ', htmlsrc);
 
     previewlist[0].innerHTML = htmlsrc;
@@ -288,7 +288,7 @@ function likeOrDislike(x) {
     if (x.classList.value == "fa fa-thumbs-up fa-thumbs-down") {
         console.log('dislike!');
         like = false;      
-        x.classList.toggle("fa-thumbs-up");  
+        
     }
     else {
         console.log('like!');
@@ -298,7 +298,9 @@ function likeOrDislike(x) {
 
         let pos = previewUrl[drawingIndex].lastIndexOf('emotions');
         fname = previewUrl[drawingIndex].substring(pos)
-        console.log("fname: ", fname);        
+        console.log("fname: ", fname);      
+        
+        x.classList.toggle("fa-thumbs-up");  
     }    
 }
 
