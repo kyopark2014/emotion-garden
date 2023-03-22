@@ -291,15 +291,18 @@ function likeOrDislike(x) {
     }
     else {
         console.log('like!');
-        like = true;
 
-        console.log('drawingIndex: ' + drawingIndex);
+        if(!like) {
+            like = true;
 
-        let pos = previewUrl[drawingIndex].lastIndexOf('emotions');
-        fname = previewUrl[drawingIndex].substring(pos)
-        console.log("fname: ", fname);      
-        
-        x.classList.value = "fa a-thumbs-up"
+            console.log('drawingIndex: ' + drawingIndex);
+
+            let pos = previewUrl[drawingIndex].lastIndexOf('emotions');
+            fname = previewUrl[drawingIndex].substring(pos)
+            console.log("fname: ", fname);      
+            
+            x.classList.value = "fa a-thumbs-up"
+        }
     }    
 
     x.classList.toggle("fa-thumbs-up");  
