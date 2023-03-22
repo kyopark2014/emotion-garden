@@ -300,10 +300,10 @@ function likeOrDislike(x) {
         fname = previewUrl[drawingIndex].substring(pos)
         console.log("fname: ", fname);      
         
-        
+        x.classList.value = "fa a-thumbs-up"
     }    
 
-    x.classList.toggle("fa-thumbs-up");  
+   // x.classList.toggle("fa-thumbs-up");  
 }
 
 function uuidv4() {
