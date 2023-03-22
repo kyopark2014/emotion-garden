@@ -288,7 +288,6 @@ function likeOrDislike(x) {
     if (x.classList.value == "fa fa-thumbs-down fa-thumbs-up") {
         console.log('dislike!');
         like = false;      
-        x.classList.value = "fa fa-thumbs-down"
     }
     else {
         console.log('like!');
