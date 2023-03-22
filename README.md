@@ -4,7 +4,7 @@
 
 전체적인 Architecture는 아래와 같습니다. 이미지를 Stable Diffusion으로 생성하고, emotion을 분석한 후에 적절한 이미지를 추천합니다. (추천은 구현중)
 
-![image](https://user-images.githubusercontent.com/52392004/226937882-c6380b65-cf7a-4081-85ed-a9b268fab05a.png)
+![image](https://user-images.githubusercontent.com/52392004/226938546-99d6b50b-90e1-4f66-a1dc-4375fe16b734.png)
 
 
 ## Client에서 Emoton Garden을 구성하기 위해 필요한 API
