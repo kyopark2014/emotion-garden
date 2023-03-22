@@ -492,6 +492,45 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       value: 'aws s3 cp ../html/ ' + 's3://' + s3Bucket.bucketName + '/html --recursive',
       description: 'copy commend for web pages',
     });
+
+    // Lambda - emotion
+    const lambdaLike = new lambda.Function(this, "lambdaLike", {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      functionName: "lambda-like",
+      code: lambda.Code.fromAsset("../lambda-like"),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+      }
+    });
+
+    // POST method
+    const resourceLike = api.root.addResource('like');
+    resourceLike.addMethod('POST', new apiGateway.LambdaIntegration(lambdaLike, {
+      passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      credentialsRole: role,
+      integrationResponses: [{
+        statusCode: '200',
+      }],
+      proxy: true,
+    }), {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apiGateway.Model.EMPTY_MODEL,
+          },
+        }
+      ]
+    });
+
+    // cloudfront setting for api gateway of clearIndex
+    distribution.addBehavior("/like", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });
   }
 }
 

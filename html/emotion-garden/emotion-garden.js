@@ -259,6 +259,30 @@ function drawGarden(emotionValue) {
     xhr.send(blob);
 }
 
+function sendLike(objKey) {
+    const url = "/like";
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", url, true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("--> responseText: " + xhr.responseText);
+            let response = JSON.parse(xhr.responseText)
+        }
+    };
+
+    let requestObj = {
+        "objKey": objKey,
+        "generation": generation,
+        "gender": gender,
+    };
+    console.log("request: " + JSON.stringify(requestObj));
+
+    let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
+
+    xhr.send(blob);
+}
+
 function emotion() {
     canvas.getContext('2d').drawImage(previewPlayer, 0, 0, canvas.width, canvas.height);
     drawingIndex = 0;
@@ -299,7 +323,9 @@ function likeOrDislike(x) {
 
             let pos = previewUrl[drawingIndex].lastIndexOf('emotions');
             fname = previewUrl[drawingIndex].substring(pos)
-            console.log("fname: ", fname);                          
+            console.log("fname: ", fname);         
+            
+            sendLike(fname);
         }
         x.classList.value = "fa a-thumbs-up"
     }    
