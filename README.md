@@ -88,8 +88,9 @@ Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를
 1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/preview/preview.html" 에 접속합니다.
 2) Emotion과 Favorite를 선택합니다.
 3) Retrieve를 선택하여 S3에 있는 이미지를 가져옵니다. 이미지가 많은 경우에 “Start”를 조정하면 뒤쪽의 이미지를 확인할 수 있습니다. 최대로 보여줄수 있는 이미지의 숫자는 "Number of Images"로 100개까지 지정할 수 있습니다.
-4) 불필요한 이미지는 dislike 선택후 [Remove] 버튼을 통해 삭제합니다. 
+4) 불필요한 이미지는 아래처럼 dislike 선택후 [Remove] 버튼을 통해 삭제합니다. 
 
+![noname](https://user-images.githubusercontent.com/52392004/226780516-579c7f8d-5b0d-4512-be48-b5de4c68bacc.png)
 
 
 ## 기타 중요한 내용
