@@ -54,3 +54,5 @@ Custom Domain이 없으므로, Cloud9에서 "emotion-garden/cdk-emotion-garden/l
 ```java
 cdk deploy
 ```
+
+현재 Stable Diffusion을 이용해 2개의 Endpoint를 사용하고 있으므로 nproc가 2입니다. 
