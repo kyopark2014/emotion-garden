@@ -190,6 +190,11 @@ function getEmotion() {
                 else drawingIndex++;
 
                 updateImages(previewUrl, drawingIndex);
+
+                let pos = previewUrl[i].lastIndexOf('emotions');
+                // console.log('pos: ', pos2);
+                fname = previewUrl[i].substring(pos)
+                console.log("fname: ", fname);
             })
         })(i);
     }
@@ -281,6 +286,19 @@ function updateImages(previewUrl, i) {
     console.log('htmlsrc: ', htmlsrc);
 
     previewlist[0].innerHTML = htmlsrc;
+}
+
+function likeOrDislike(x) {
+    if (x.classList.value == "fa fa-thumbs-up fa-thumbs-down") {
+        console.log('like!');
+        like = true;
+    }
+    else {
+        console.log('dislike!');
+        like = false;
+    }
+
+    x.classList.toggle("fa-thumbs-down");
 }
 
 function uuidv4() {
