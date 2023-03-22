@@ -183,7 +183,14 @@ function getEmotion() {
             previewlist[index].addEventListener("click", function () {
                 i = index;
 
-                console.log('click! index: ' + index);                
+                console.log('click! index: ' + index);      
+                
+                if (like) {
+                    console.log('like!');
+                }
+                else {
+                    console.log('dislike!');
+                }
             })
         })(i);
     }
