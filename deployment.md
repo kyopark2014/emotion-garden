@@ -1,5 +1,14 @@
 # Emotion Garden 배포 방법
 
+## Cloud9 생성 
+
+여기서는 Tokyo Resion에서 인프라를 구축합니다. [Cloud9 Console](https://ap-northeast-1.console.aws.amazon.com/cloud9control/home?region=ap-northeast-1#/)에 접속하여 [Create environment]를 선택하여 이름으로 "Emotion Garden"을 지정하고, EC2 instance는 편의상 "m5.large"를 선택합니다. 나머지는 기본값을 유지하고, 하단으로 스크롤하여 [Create]를 선택합니다.
+
+![noname](https://user-images.githubusercontent.com/52392004/226772045-160e70c1-ad24-4ea5-be97-2a5101392870.png)
+
+
+
+
 ### 코드 다운로드 및 CDK로 배포 
 
 ```java
