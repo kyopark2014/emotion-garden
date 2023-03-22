@@ -183,12 +183,12 @@ function getEmotion() {
 
                 console.log('click! index: ' + index);
 
-                console.log('drawingIndex: ' + drawingIndex);
+             //   console.log('drawingIndex: ' + drawingIndex);
 
-                if (previewUrl.length - drawingIndex < 3) drawingIndex = 0;
-                else drawingIndex += 3;
+              //  if (previewUrl.length - drawingIndex < 3) drawingIndex = 0;
+              //  else drawingIndex += 3;
 
-                updateImages(previewUrl, drawingIndex);
+             //   updateImages(previewUrl, drawingIndex);
             })
         })(i);
     }
