@@ -184,12 +184,12 @@ function getEmotion() {
 
                 console.log('click! index: ' + index);
 
-                //   console.log('drawingIndex: ' + drawingIndex);
+                console.log('drawingIndex: ' + drawingIndex);
 
-                //  if (previewUrl.length - drawingIndex < 3) drawingIndex = 0;
-                //  else drawingIndex += 3;
+                if (drawingIndex >= previewUrl.length) drawingIndex = 0;
+                else drawingIndex++;
 
-                //   updateImages(previewUrl, drawingIndex);
+                updateImages(previewUrl, drawingIndex);
             })
         })(i);
     }
@@ -268,8 +268,8 @@ function emotion() {
 function nextImages() {
     console.log('drawingIndex: ' + drawingIndex);
 
-    if (previewUrl.length - drawingIndex < 3) drawingIndex = 0;
-    else drawingIndex += 3;
+    if (drawingIndex >= previewUrl.length) drawingIndex = 0;
+    else drawingIndex++;
 
     updateImages(previewUrl, drawingIndex);
 }
@@ -277,21 +277,8 @@ function nextImages() {
 function updateImages(previewUrl, i) {
     let htmlsrc;
 
-    if (previewUrl.length - i >= 3) {
-        htmlsrc = `<div><img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i></div>
-        <div><img id="${i + 1}" src="${previewUrl[i + 1]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i></div>
-        <div><img id="${i + 2}" src="${previewUrl[i + 2]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i></div>`;
-        console.log('htmlsrc: ', htmlsrc);
-    }
-    else if (previewUrl.length - i >= 2) {
-        htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>
-                <img id="${i}" src="${previewUrl[i]}" width="400"/>`;
-        console.log('htmlsrc: ', htmlsrc);
-    }
-    else {
-        htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/>`;
-        console.log('htmlsrc: ', htmlsrc);
-    }
+    htmlsrc = `<img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-up"></i>`;
+    console.log('htmlsrc: ', htmlsrc);
 
     previewlist[0].innerHTML = htmlsrc;
 }
