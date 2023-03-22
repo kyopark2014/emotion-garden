@@ -32,7 +32,7 @@ let uuid = uuidv4();
 let emotionValue;
 let generation;
 let gender;
-let like;
+let like = true;
 
 //functions
 function videoStart() {
@@ -183,21 +183,7 @@ function getEmotion() {
             previewlist[index].addEventListener("click", function () {
                 i = index;
 
-                console.log('click! index: ' + index);
-
-                console.log('drawingIndex: ' + drawingIndex);
-
-                let pos = previewUrl[i].lastIndexOf('emotions');
-                // console.log('pos: ', pos2);
-                fname = previewUrl[i].substring(pos)
-                console.log("fname: ", fname);
-
-                if(like) {
-                    console.log('like!');
-                }
-                else {
-                    console.log('dislike!');
-                }
+                console.log('click! index: ' + index);                
             })
         })(i);
     }
@@ -295,6 +281,12 @@ function likeOrDislike(x) {
     if (x.classList.value == "fa fa-thumbs-up fa-thumbs-down") {
         console.log('like!');
         like = true;
+
+        console.log('drawingIndex: ' + drawingIndex);
+
+        let pos = previewUrl[drawingIndex].lastIndexOf('emotions');
+        fname = previewUrl[drawingIndex].substring(pos)
+        console.log("fname: ", fname);
     }
     else {
         console.log('dislike!');
