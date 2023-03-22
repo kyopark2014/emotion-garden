@@ -9,13 +9,13 @@
     <h1>Stable Diffusion Image Generator</h1>
     <p>You can enter your text as bellows.</p>
     <form id="input_row0">
-        <H4>RepeatCount</H4><input type="text" name="repeatCount" autofocus size="50" value="10">
+        <text>RepeatCount: </text><input type="text" name="repeatCount" autofocus size="50" value="10">
     </form>
     <div>
         <form id="myform">
             <form id="input_row1">
                 <H4>Features</H4>
-                <select name="emotion" id="emoitonId">
+                <text>Emotion: </text><select name="emotion" id="emoitonId">
                     <option type="text" value="happy" selected="selected">행복 (HAPPY)</option>
                     <option value="surprised">놀람 (SURPRISED)</option>
                     <option value="calm">평온 (CALM)</option>
@@ -27,10 +27,10 @@
                 </select>
             </form>
             <form id="input_row2">
-                <input type="text" name="favorite" autofocus size="50">
+                <text>Favorite: </text><input type="text" name="favorite" autofocus size="50">
             </form>
             <form id="input_row3">
-                <input type="text" name="others" autofocus size="100"
+                <text>Others: </text><input type="text" name="others" autofocus size="100"
                     value="white flowers, fantasy, concept art, trending on artstation, highly detailed, intricate, sharp focus, digital art">
                 <input type="button" name="send" value="Generate">
                 <input type="button" name="update" value="Update">
