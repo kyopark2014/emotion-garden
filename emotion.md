@@ -88,8 +88,16 @@ x-amz-cf-id: 6zrBBy0NAKT7ARC_dARICyzWAk2i78FWni5MIOl_oj8wZQxcnB77lg==
 
 #### API Gateway로 바로 접속할 경우
 
-API Gateway로 바로 접속할 경우는 uuid를 header를 통해 지정할 수 있습니다. 이때 사용하는 header의 이믈은 'X-user-id"입니다. 서버는 해당 헤더가 없는 경우에는 uuid를 생성합니다. 
+API Gateway로 바로 접속할 경우는 uuid를 header를 통해 지정할 수 있습니다. 이때 사용하는 header의 이믈은 'X-user-id"입니다. 서버는 해당 헤더가 없는 경우에는 uuid를 생성합니다. 여기서 접속하는 API Gateway Endpoint 주소는 "https://rzyoyd47yg.execute-api.ap-northeast-1.amazonaws.com/dev/emotion" 입니다.
 
+아래와 같이 "Content-Type"과 "X-user-id"를 설정합니다.
+
+![noname](https://user-images.githubusercontent.com/52392004/226769553-bc2fd3b4-d665-4368-9786-4c0d1837e8c2.png)
+
+이후 
+이후 아
+
+![noname](https://user-images.githubusercontent.com/52392004/226769785-53075a14-979e-4666-8d80-fcb909abee10.png)
 
 
 
