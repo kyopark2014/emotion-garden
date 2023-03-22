@@ -293,7 +293,7 @@ function likeOrDislike(x) {
         like = false;
     }
 
-    x.classList.toggle("fa-thumbs-up");
+    x.classList.toggle("fa-thumbs-down");
 }
 
 function uuidv4() {
