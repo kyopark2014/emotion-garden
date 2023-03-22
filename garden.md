@@ -69,3 +69,39 @@ API로 호출로 얻은 결과는 아래와 같습니다.
 }
 ```
 
+### Postman으로 시험하기
+
+CloudFront를 endpoint로 사용시 주소는 "https://d3ic6ryvcaoqdy.cloudfront.net/garden"이며 POST Method를 이용합니다. 이때 json 입력은 [Body]에서 raw 포맷으로 아래와 같이 입력합니다.
+
+```java
+{
+    "emotion": "calm",
+    "generation": "adult",
+    "gender": "Male"
+}
+```
+
+실제 입력은 아래와 같습니다. 
+
+![noname](https://user-images.githubusercontent.com/52392004/226770556-8ac006a6-1aef-4519-96cc-dbebe38d7c30.png)
+
+이때의 결과는 아래처럼 landscape와 portraid 이미지들을 구분하여 json 포맷으로 전달합니다.
+
+```java
+{
+    "landscape": [
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_0h.jpeg",
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_5h.jpeg",
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_6h.jpeg",
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_3h.jpeg",
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-00504_2h.jpeg",
+    ],
+    "portrait": [
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_8v.jpeg",
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_2v.jpeg",
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_9v.jpeg",
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_7v.jpeg",
+        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_1v.jpeg",
+    ]
+}
+```
