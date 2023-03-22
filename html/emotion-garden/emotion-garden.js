@@ -324,7 +324,9 @@ function nextImages() {
 function updateImages(previewUrl, i) {
     let htmlsrc;
 
-    htmlsrc = `<a><img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i></a><a><img id="${i+1}" src="${previewUrl[i+1]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i></a><a><img id="${i+2}" src="${previewUrl[i+2]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i></a>`;
+    htmlsrc = `<ab><img id="${i}" src="${previewUrl[i]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i></ab>
+    <ab><img id="${i+1}" src="${previewUrl[i+1]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i></ab>
+    <ab><img id="${i+2}" src="${previewUrl[i+2]}" width="400"/><i onclick="likeOrDislike(this)" class="fa fa-thumbs-down"></i></ab>`;
     console.log('htmlsrc: ', htmlsrc);
 
     previewlist[0].innerHTML = htmlsrc;
