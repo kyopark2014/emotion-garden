@@ -32,7 +32,7 @@ let uuid = uuidv4();
 let emotionValue;
 let generation;
 let gender;
-let like = true;
+let like = false;
 
 //functions
 function videoStart() {
@@ -293,7 +293,7 @@ function likeOrDislike(x) {
         like = false;
     }
 
-    x.classList.toggle("fa-thumbs-down");
+    x.classList.toggle("fa-thumbs-up");
 }
 
 function uuidv4() {
