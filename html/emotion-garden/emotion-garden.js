@@ -303,7 +303,7 @@ function likeOrDislike(x) {
         x.classList.value = "fa a-thumbs-up"
     }    
 
-   // x.classList.toggle("fa-thumbs-up");  
+    x.classList.toggle("fa-thumbs-up");  
 }
 
 function uuidv4() {
