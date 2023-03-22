@@ -203,9 +203,9 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
 
-    new cdk.CfnOutput(this, 'WebUrl', {
+    new cdk.CfnOutput(this, 'StableDiffusionWebUrl', {
       value: 'https://' + distribution.domainName + '/text2image.html',
-      description: 'The web url of request for text2image',
+      description: 'The web url for text2image',
     });
 
     // Lambda - emotion
@@ -399,6 +399,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });
+
+    new cdk.CfnOutput(this, 'GardenWebUrl', {
+      value: 'https://' + distribution.domainName + '/garden.html',
+      description: 'The web url of garden',
     });
 
     // Lambda for bulk-stable-diffusion
