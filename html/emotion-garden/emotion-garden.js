@@ -334,10 +334,10 @@ function likeOrDislike(col, x) {
 
     if (x.classList.value == "fa fa-thumbs-down fa-thumbs-up") {
         console.log('dislike!');
-        like = false;
+        like[col] = false;
     }
     else {
-        console.log('like: ', col);
+        console.log('like['+col+']: ', col);
 
         if (!like[col]) {
             like[col] = true;
