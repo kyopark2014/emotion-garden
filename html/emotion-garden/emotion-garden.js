@@ -279,6 +279,10 @@ function updateImages(previewUrl, i) {
 
 function likeOrDislike(x) {
     if (x.classList.value == "fa fa-thumbs-up fa-thumbs-down") {
+        console.log('dislike!');
+        like = false;        
+    }
+    else {
         console.log('like!');
         like = true;
 
@@ -288,12 +292,8 @@ function likeOrDislike(x) {
         fname = previewUrl[drawingIndex].substring(pos)
         console.log("fname: ", fname);
     }
-    else {
-        console.log('dislike!');
-        like = false;
-    }
 
-    x.classList.toggle("fa-thumbs-down");
+    x.classList.toggle("fa-thumbs-up");
 }
 
 function uuidv4() {
