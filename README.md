@@ -58,7 +58,7 @@ Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를
 
 ### Stable Diffusion 이미지 생성에 필요한 Prompt 준비
 
-1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/text2image.html"에 접속합니다. 
+1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/text2image.html" 에 접속합니다. 
 2) 적당한 이미지를 Prompt에 입력합니다. 
 3) Resolution에서 적절한 해상도를 선택합니다. 여기서는 기본(768x512), WXGA(1024x600), WXGA(1280x800)를 지정할 수 있습니다. 
 
