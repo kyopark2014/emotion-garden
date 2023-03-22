@@ -32,9 +32,8 @@ let uuid = uuidv4();
 let emotionValue;
 let generation;
 let gender;
-let like = false;
-//let like = [];
-// for(let i=0;i<3;i++) like[i] = false;
+let like = [];
+for(let i=0;i<3;i++) like[i] = false;
 
 //functions
 function videoStart() {
@@ -185,14 +184,8 @@ function getEmotion() {
             previewlist[index].addEventListener("click", function () {
                 i = index;
 
-                console.log('click! index: ' + index);
-
-                if (like) {
-                    console.log('like!');
-                }
-                else {
-                    console.log('dislike!');
-                }
+                // console.log('click! index: ' + index);
+                console.log('click!');
             })
         })(i);
     }
@@ -314,13 +307,13 @@ function emotion() {
 
 function nextImages() {
     console.log('drawingIndex: ' + drawingIndex);
-
+    
     if (drawingIndex >= previewUrl.length) drawingIndex = 0;
-    else drawingIndex++;
+    else drawingIndex += 3;
 
     updateImages(previewUrl, drawingIndex);
 
-    like = false;
+    for(let i=0;i<3;i++) like[i] = false;
 }
 
 function updateImages(previewUrl, i) {
@@ -344,15 +337,15 @@ function likeOrDislike(col, x) {
         like = false;
     }
     else {
-        console.log('like!');
+        console.log('like: ', col);
 
-        if (!like) {
-            like = true;
+        if (!like[col]) {
+            like[col] = true;
 
-            console.log('drawingIndex: ' + drawingIndex);
+            console.log('drawingIndex: ' + drawingIndex+col);
 
-            let pos = previewUrl[drawingIndex].lastIndexOf('emotions');
-            fname = previewUrl[drawingIndex].substring(pos)
+            let pos = previewUrl[drawingIndex+col].lastIndexOf('emotions');
+            fname = previewUrl[drawingIndex+col].substring(pos)
             console.log("fname: ", fname);
 
             sendLike(fname);
