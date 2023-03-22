@@ -118,6 +118,14 @@ Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를
 
 ![image](https://user-images.githubusercontent.com/52392004/226779121-12ef5889-22f7-4a07-86bd-d4e535dc9d2b.png)
 
+### Emotion Garden
+
+1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/emotion-garden/emotion-garden.html" 에 접속합니다.
+2) Video를 “allow”하고, 적당한 화면에서 “Emotion” 버튼을 누릅니다. 이때 화면캡춰 이미지가 오른쪽 Preview에 보여집니다.
+3) Preview 이미지를 Rekognition에 보내서 emotion을 분석하고 결과를 아래에 보여줍니다.
+4) DynamoDB에 저장된 emotion에 해당되는 이미지를 불러오고 아래에 3개를 보여줍니다. 서버에서는 landscape와 portrait 2개 타입으로 전체 이미지 리스트를 전달하고, client에서 일부를 보여주는 형태로 동작합니다. Test Page에서는 UI상 landscape만 보여줍니다. 
+5) 이미지 오른쪽에 dislike/like 버튼을 선택하여, like를 표시할 수 있습니다. like를 선택하면 어떤 연령, 성별의 사람이 어떤 이미지를 선택하였는지, 서버로 전달되어 추천용도로 사용됩니다. (dislike에서 like로 전환되고, 이후는 like를 유지)
+6) [Nex] 버튼을 선택하면 다음 이미지 3개를 보여주고, 모두 다 보여주면 처음으로 돌아갑니다.
 
 
 
