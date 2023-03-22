@@ -69,7 +69,11 @@ xhr.send(blob);
 
 ```
 
+## Personalize
 
+- 상호작용(interacion): Like 선택
+- 아이템(Item metadata): emotion
+- 사용자(User metadata): estimated age(->generation), gender(Male/Female)
 
 
 ## 배포방법
