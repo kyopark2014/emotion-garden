@@ -18,6 +18,11 @@ Emotion으로 생성한 이미지를 조회하는 Garden API는 아래와 같습
 https://d3ic6ryvcaoqdy.cloudfront.net/garden
 ```
 
+## 배포방법
+
+Emotion Garden을 설치하는 방법은 [Emotion Garden 배포 방법](https://github.com/kyopark2014/emotion-garden/blob/main/deployment.md)에 따라 진행합니다. 
+
+
 ## Stable Diffusion 이미지 생성하기
 
 이미지 생성시간을 단축하기 위하여 병렬처리를 수행합니다. 상세한 내용은 [Stable Diffusion 이미지 생성하기](https://github.com/kyopark2014/emotion-garden/blob/main/stable-diffusion.md)를 참조합니다.
@@ -52,11 +57,6 @@ https://d3ic6ryvcaoqdy.cloudfront.net/garden
 
 - WXGA: 1280 x 800 (26s)
 
-
-
-## 배포방법
-
-Emotion Garden을 설치하는 방법은 [Emotion Garden 배포 방법](https://github.com/kyopark2014/emotion-garden/blob/main/deployment.md)에 따라 진행합니다. 
 
 
 ## 이미지 백업 및 복구
