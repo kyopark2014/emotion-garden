@@ -228,7 +228,7 @@ function drawGarden(emotionValue) {
             }
 
             // draw
-            if (previewUrl.length-drawingIndex) {
+            if (previewUrl.length) {
                 updateImages(previewUrl, drawingIndex)
             }
             else {

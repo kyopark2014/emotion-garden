@@ -306,9 +306,10 @@ function emotion() {
 }
 
 function nextImages() {
+    console.log('previewUrl.length: ' + previewUrl.length);
     console.log('drawingIndex: ' + drawingIndex);
-    
-    if (previewUrl.length - drawingIndex < 3) drawingIndex = 0;
+
+    if (previewUrl.length - drawingIndex <= 3) drawingIndex = 0;
     else drawingIndex += 3;
 
     updateImages(previewUrl, drawingIndex);
