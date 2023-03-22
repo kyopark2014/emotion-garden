@@ -186,11 +186,6 @@ function getEmotion() {
 
                 console.log('drawingIndex: ' + drawingIndex);
 
-                if (drawingIndex >= previewUrl.length) drawingIndex = 0;
-                else drawingIndex++;
-
-                updateImages(previewUrl, drawingIndex);
-
                 let pos = previewUrl[i].lastIndexOf('emotions');
                 // console.log('pos: ', pos2);
                 fname = previewUrl[i].substring(pos)
