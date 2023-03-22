@@ -72,8 +72,11 @@ xhr.send(blob);
 ## Personalize
 
 - 상호작용(interacion): Like 선택
+    - PutEvents  
 - 아이템(Item metadata): emotion
+    - PutItems  
 - 사용자(User metadata): estimated age(->generation), gender(Male/Female)
+    - PutUsers
 
 
 ## 배포방법
