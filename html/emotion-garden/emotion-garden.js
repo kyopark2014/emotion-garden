@@ -183,8 +183,8 @@ function getEmotion() {
             previewlist[index].addEventListener("click", function () {
                 i = index;
 
-                console.log('click! index: ' + index);      
-                
+                console.log('click! index: ' + index);
+
                 if (like) {
                     console.log('like!');
                 }
@@ -282,6 +282,27 @@ function sendLike(objKey) {
     xhr.send(blob);
 }
 
+const url = "/like";
+const xhr = new XMLHttpRequest();
+
+xhr.open("POST", url, true);
+xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log("--> responseText: " + xhr.responseText);
+    }
+};
+
+let requestObj = {
+    "objKey": objKey,
+    "generation": generation,
+    "gender": gender,
+};
+console.log("request: " + JSON.stringify(requestObj));
+
+let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
+
+xhr.send(blob);
+
 function emotion() {
     canvas.getContext('2d').drawImage(previewPlayer, 0, 0, canvas.width, canvas.height);
     drawingIndex = 0;
@@ -312,26 +333,26 @@ function updateImages(previewUrl, i) {
 function likeOrDislike(x) {
     if (x.classList.value == "fa fa-thumbs-down fa-thumbs-up") {
         console.log('dislike!');
-        like = false;      
+        like = false;
     }
     else {
         console.log('like!');
 
-        if(!like) {
+        if (!like) {
             like = true;
 
             console.log('drawingIndex: ' + drawingIndex);
 
             let pos = previewUrl[drawingIndex].lastIndexOf('emotions');
             fname = previewUrl[drawingIndex].substring(pos)
-            console.log("fname: ", fname);         
-            
+            console.log("fname: ", fname);
+
             sendLike(fname);
         }
         x.classList.value = "fa a-thumbs-up"
-    }    
+    }
 
-    x.classList.toggle("fa-thumbs-up");  
+    x.classList.toggle("fa-thumbs-up");
 }
 
 function uuidv4() {
