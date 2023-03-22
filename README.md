@@ -76,14 +76,15 @@ Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를
 생성된 이미지들중에 좋은 이미지를 선택하기 위하여 DynamoDB에 저장된 index를 기준으로 S3에 저장된 이미지를 확인하고 필요시 삭제할 수 있습니다. 
 
 1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/preview/preview.html" 에 접속합니다.
-2) Emotion, Favorite를 선택합니다.
-3) Retrieve를 선택하여 S3에 있는 이미지를 가져옵니다. 이미지가 많은 경우에 “Start”를 조정하면 뒤쪽의 이미지를 확인할 수 있습니다.
+2) Emotion과 Favorite를 선택합니다.
+3) Retrieve를 선택하여 S3에 있는 이미지를 가져옵니다. 이미지가 많은 경우에 “Start”를 조정하면 뒤쪽의 이미지를 확인할 수 있습니다. 최대로 보여줄수 있는 이미지의 숫자는 "Number of Images"로 100개까지 지정할 수 있습니다.
 4) 불필요한 이미지는 dislike 선택후 [Remove] 버튼을 통해 삭제합니다. 
 
 
 
+## 기타 중요한 내용
 
-## Stable Diffusion 이미지 생성하기
+### 여러개의 Stable Diffusion 이미지 생성시 속도 향상 방법
 
 이미지 생성시간을 단축하기 위하여 병렬처리를 수행합니다. 상세한 내용은 [Stable Diffusion 이미지 생성하기](https://github.com/kyopark2014/emotion-garden/blob/main/stable-diffusion.md)를 참조합니다.
 
@@ -119,7 +120,7 @@ Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를
 
 
 
-## 이미지 백업 및 복구
+### 이미지 백업 및 복구
 
 #### 이미지 백업
 
