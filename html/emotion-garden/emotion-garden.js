@@ -267,7 +267,6 @@ function sendLike(objKey) {
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("--> responseText: " + xhr.responseText);
-            let response = JSON.parse(xhr.responseText)
         }
     };
 
