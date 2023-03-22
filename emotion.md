@@ -94,10 +94,30 @@ API Gateway로 바로 접속할 경우는 uuid를 header를 통해 지정할 수
 
 ![noname](https://user-images.githubusercontent.com/52392004/226769553-bc2fd3b4-d665-4368-9786-4c0d1837e8c2.png)
 
-이후 
-이후 아
+이후 아래와 같이 Body - binary에서 분석할 이미지 파일을 선택합니다.
 
 ![noname](https://user-images.githubusercontent.com/52392004/226769785-53075a14-979e-4666-8d80-fcb909abee10.png)
 
+이때의 결과는 아래와 같습니다.
 
+```java
+{
+    "id": "1234567890",
+    "bucket": "demo-emotion-garden",
+    "key": "profile/1234567890.jpeg",
+    "ageRange": {
+        "Low": 22,
+        "High": 30
+    },
+    "smile": true,
+    "eyeglasses": false,
+    "sunglasses": false,
+    "gender": "Female",
+    "beard": false,
+    "mustache": false,
+    "eyesOpen": true,
+    "mouthOpen": true,
+    "emotions": "HAPPY"
+}
+```
 
