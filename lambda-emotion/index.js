@@ -18,6 +18,9 @@ exports.handler = async (event, context) => {
     if(header['content-type']) {
         contentType = String(header['content-type']);
     } 
+    if(header['Content-Type']) {
+        contentType = String(header['Content-Type']);
+    } 
     // console.log('contentType = '+contentType);    
     
     let userId;
