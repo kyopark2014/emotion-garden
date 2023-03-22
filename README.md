@@ -25,6 +25,53 @@ Emotion으로 생성한 이미지를 조회하는 Garden API는 아래와 같습
 https://d3ic6ryvcaoqdy.cloudfront.net/garden
 ```
 
+### Like API
+
+사용자의 연령, 성별을 가지고 적절한 컨텐츠를 추천하기 위해서 Like에 대한 선호를 서버로 전송합니다. 
+
+```java
+https://d3ic6ryvcaoqdy.cloudfront.net/like
+```
+
+java script 예제입니다.
+
+```java
+const url = "/like";
+const xhr = new XMLHttpRequest();
+
+xhr.open("POST", url, true);
+xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log("--> responseText: " + xhr.responseText);
+    }
+};
+
+let requestObj = {
+    "objKey": objKey,
+    "generation": generation,
+    "gender": gender,
+};
+console.log("request: " + JSON.stringify(requestObj));
+
+let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
+
+xhr.send(blob);
+```
+
+서버로 보내는 json 입력의 형태는 아래와 같습니다.
+
+```java
+{
+    "objKey": "emotions/calm/img_20230321-135241_0h.jpeg",
+    "generation": "adult",
+    "gender": "Male"
+}
+
+```
+
+
+
+
 ## 배포방법
 
 Emotion Garden을 설치하는 방법은 [Emotion Garden 배포 방법](https://github.com/kyopark2014/emotion-garden/blob/main/deployment.md)에 따라 진행합니다. 
