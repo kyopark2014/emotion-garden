@@ -51,7 +51,7 @@ function preview() {
 
         // downloadButton.href=img.src;
         // console.log(downloadButton.href);
-        // downloadButton.download =`capture_${new Date()}.jpeg`;
+        // downloadButton.download =`capture_${new Date()}.jpeg`; 
     }, 'image/png');
 }
 
