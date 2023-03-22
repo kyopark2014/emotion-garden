@@ -298,9 +298,11 @@ function likeOrDislike(x) {
         let pos = previewUrl[drawingIndex].lastIndexOf('emotions');
         fname = previewUrl[drawingIndex].substring(pos)
         console.log("fname: ", fname);
+
+        x.classList.toggle("fa-thumbs-up");
     }
 
-    x.classList.toggle("fa-thumbs-down");
+    
 }
 
 function uuidv4() {
