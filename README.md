@@ -56,8 +56,7 @@ https://d3ic6ryvcaoqdy.cloudfront.net/garden
 
 ## 배포방법
 
-Emotion Garden의 
-### 코드 다운로드 및 CDK로 배포 
+Emotion Garden을 설치하는 방법은 [Emotion Garden 배포 방법](https://github.com/kyopark2014/emotion-garden/blob/main/deployment.md)에 따라 진행합니다. 
 
 
 ## 이미지 백업 및 복구
