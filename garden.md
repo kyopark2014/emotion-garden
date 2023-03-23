@@ -76,6 +76,7 @@ CloudFront를 endpoint로 사용시 주소는 "https://d3ic6ryvcaoqdy.cloudfront
 
 ```java
 {
+    "id": "47f9eeb5-4252-435e-a1c9-b4a936f015ae",
     "emotion": "calm",
     "generation": "adult",
     "gender": "Male"
