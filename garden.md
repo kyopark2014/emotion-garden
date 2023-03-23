@@ -37,6 +37,7 @@ xhr.onreadystatechange = () => {
 };
 
 let requestObj = {
+    "id": userId,
     "emotion": emotionValue,
     "generation": generation,
     "gender": gender,
