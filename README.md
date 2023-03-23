@@ -47,6 +47,7 @@ xhr.onreadystatechange = () => {
 };
 
 let requestObj = {
+    "id": userId,
     "objKey": objKey,
     "generation": generation,
     "gender": gender,
@@ -62,11 +63,11 @@ xhr.send(blob);
 
 ```java
 {
-    "objKey": "emotions/calm/img_20230321-135241_0h.jpeg",
+    "id": "47f9eeb5-4252-435e-a1c9-b4a936f015ae",
+    "objKey": "emotions/calm/img_20230320-121242_5h.jpeg",
     "generation": "adult",
     "gender": "Male"
 }
-
 ```
 
 ## Personalize
