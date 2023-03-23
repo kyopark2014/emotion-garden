@@ -28,7 +28,8 @@ let previewlist = [];
 let fileList = [];
 const maxImgItems = 1;
 let drawingIndex = 0;
-let uuid = uuidv4();
+// let uuid = uuidv4();
+let userId;
 let emotionValue;
 let generation;
 let gender;
@@ -68,6 +69,9 @@ function getEmotion() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let response = JSON.parse(xhr.responseText);
             console.log("response: " + JSON.stringify(response));
+
+            userId = response.id;
+            console.log("userId: " + userId);
 
             gender = response.gender;
             console.log("gender: " + gender);
@@ -174,7 +178,7 @@ function getEmotion() {
     previewUrl = [];
     previewlist = [];
 
-    console.log('uuid: ', uuid);
+    // console.log('uuid: ', uuid);
 
     for (let i = 0; i < maxImgItems; i++) {
         previewlist.push(document.getElementById('preview' + i));
@@ -196,9 +200,6 @@ function getEmotion() {
     }
 
     canvas.toBlob(function (blob) {
-        xhr.setRequestHeader('X-user-id', uuid);
-        xhr.setRequestHeader('Content-Disposition', uuid);
-
         xhr.send(blob);
     });
 }
@@ -243,6 +244,7 @@ function drawGarden(emotionValue) {
     };
 
     let requestObj = {
+        "id": userId,
         "emotion": emotionValue,
         "generation": generation,
         "gender": gender,
@@ -266,6 +268,7 @@ function sendLike(objKey) {
     };
 
     let requestObj = {
+        "id": userId,
         "objKey": objKey,
         "generation": generation,
         "gender": gender,

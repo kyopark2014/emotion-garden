@@ -6,8 +6,10 @@ exports.handler = async (event, context) => {
     console.log('## EVENT: ' + JSON.stringify(event));
 
     const body = JSON.parse(Buffer.from(event["body"], "base64"));
-    console.log('body: ' + JSON.stringify(body));
+    console.log('likeInfo: ' + JSON.stringify(body));
     
+    let userId = body['id'];
+    console.log('userId: ', userId);
     
   /*  function wait() {
         return new Promise((resolve, reject) => {

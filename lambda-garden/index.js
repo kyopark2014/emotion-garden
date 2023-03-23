@@ -11,7 +11,10 @@ exports.handler = async (event, context) => {
     console.log('indexName: ' + indexName);
 
     const body = JSON.parse(Buffer.from(event["body"], "base64"));
-    console.log('body: ' + JSON.stringify(body));
+    console.log('gardenRequestInfo: ' + JSON.stringify(body));
+
+    let userId = body['id'];
+    console.log('userId: ', userId);
 
     let emotion = body['emotion'];
     console.log('emotion: ', emotion);
