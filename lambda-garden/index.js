@@ -39,38 +39,46 @@ exports.handler = async (event, context) => {
         return;
     }  
 
-    let urlList = [];
+    let imgInfo = [];
     for(let i in dynamoQuery['Items']) {
         const objKey = dynamoQuery['Items'][i]['ObjKey'];
-        // const timestamp = dynamoQuery['Items'][i]['Timestamp'];
-        // const emotion = dynamoQuery['Items'][i]['Emotion'];
+        const timestamp = dynamoQuery['Items'][i]['Timestamp'];
+        const emotion = dynamoQuery['Items'][i]['Emotion'];
+        const control = dynamoQuery['Items'][i]['Control'];
 
-        // console.log('objKey: ', objKey);
-        // console.log('timestamp: ', timestamp);
-        // console.log('emotion: ', emotion);
+        console.log('objKey: ', objKey);
+        console.log('timestamp: ', timestamp);
+        console.log('emotion: ', emotion);
+        console.log('control: ', JSON.stringify(control));
         
         const url = 'https://'+domainName+'/'+objKey;
         // console.log('url: ', url);
 
-        urlList.push(url);
+        const imgProfile = {
+            url: url,
+            emotion: emotion,
+            control: control
+        }
+
+        imgInfo.push(imgProfile);
     }
 
-    console.log('urlList: ', JSON.stringify(urlList));
+    console.log('imgInfo: ', JSON.stringify(imgInfo));
 
     let landscape = [];
     let portrait = [];
-    for(let i in urlList) {
-        let pos = urlList[i].indexOf('.jpeg');
+    for(let i in imgInfo) {
+        let pos = imgInfo[i].url.indexOf('.jpeg');
         // console.log("pos: ", pos);
         
-        let identifier = urlList[i][pos - 1];
+        let identifier = imgInfo[i][pos - 1];
         // console.log("identifier: ", identifier);    
 
         if (identifier == 'v') {
-            portrait.push(urlList[i]);
+            portrait.push(imgInfo[i]);
         }
         else {
-            landscape.push(urlList[i]);
+            landscape.push(imgInfo[i]);
         }
     }
     console.log('landscape: ', JSON.stringify(landscape));

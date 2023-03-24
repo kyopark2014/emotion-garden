@@ -62,12 +62,15 @@ exports.handler = async (event, context) => {
                 };
             }
 
+            const control = GenerateControl(bucket, key);
+
             putParams = {
                 TableName: tableName,
                 Item: {
                     ObjKey: key,
                     Timestamp: timestamp,
                     Emotion: searchKey,
+                    Control: control
                 }
             };
             console.log('putParams: ' + JSON.stringify(putParams));
@@ -124,3 +127,14 @@ exports.handler = async (event, context) => {
 
     return response;
 };
+
+function GenerateControl(bucket, key) {
+    return {
+        first: {
+            R: 100, G: 100, B: 0
+        },
+        second: {
+            R: 100, G: 0, B: 0
+        }
+    }
+}
