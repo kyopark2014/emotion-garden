@@ -86,8 +86,8 @@ def lambda_handler(event, context):
         mybucket = os.environ.get('bucket')
         print("bucket: ", mybucket)
         
-        stable_diffusion(text, mybucket, key+'h', 1280, 800, endpoints[1])
-        stable_diffusion(text, mybucket, key+'v', 800, 1280, endpoints[1])
+        stable_diffusion(text, mybucket, key+'h', 1280, 800, endpoints[0])
+        stable_diffusion(text, mybucket, key+'v', 800, 1280, endpoints[0])
 
         # delete queue
         try:

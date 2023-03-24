@@ -17,10 +17,7 @@ import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 const debug = false;
 const stage = "dev";
 const endpoints = [
-  "emotion-garden-model-1",
   "emotion-garden-model-2",
-  "emotion-garden-model-3",
-  "emotion-garden-model-4",
 ]
 const nproc = 1;
 const cloudFrontDomain = "d3ic6ryvcaoqdy.cloudfront.net";
