@@ -357,8 +357,8 @@ function likeOrDislike(col, x) {
 
             console.log('drawingIndex: ' + drawingIndex+col);
 
-            let pos = previewUrl[drawingIndex+col].lastIndexOf('emotions');
-            fname = previewUrl[drawingIndex+col].substring(pos)
+            let pos = previewUrl[drawingIndex+col].url.lastIndexOf('emotions');
+            fname = previewUrl[drawingIndex+col].url.substring(pos)
             console.log("fname: ", fname);
 
             sendLike(fname);

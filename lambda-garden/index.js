@@ -69,9 +69,10 @@ exports.handler = async (event, context) => {
     let portrait = [];
     for(let i in imgInfo) {
         let pos = imgInfo[i].url.indexOf('.jpeg');
+        // console.log("url: ", imgInfo[i].url);
         // console.log("pos: ", pos);
         
-        let identifier = imgInfo[i][pos - 1];
+        let identifier = imgInfo[i].url[pos - 1];
         // console.log("identifier: ", identifier);    
 
         if (identifier == 'v') {
