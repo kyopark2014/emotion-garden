@@ -22,7 +22,7 @@ const endpoints = [
   "emotion-garden-model-3",
   "emotion-garden-model-4",
 ]
-const nproc = 2;
+const nproc = 1;
 const cloudFrontDomain = "d3ic6ryvcaoqdy.cloudfront.net";
 
 export class CdkEmotionGardenStack extends cdk.Stack {

@@ -80,7 +80,8 @@ def lambda_handler(event, context):
     urls = []
     for num in range(0,nproc): # 2 processes
         print('num:', num)
-        proc = Process(target=stable_diffusion, args=(num, txt, width, height, mybucket, fname, endpoints[num],))
+        #proc = Process(target=stable_diffusion, args=(num, txt, width, height, mybucket, fname, endpoints[num],))
+        proc = Process(target=stable_diffusion, args=(num, txt, width, height, mybucket, fname, endpoints[1],))
         urls.append("https://"+domain+'/'+fname+'_'+str(num)+'.jpeg')    
         procs.append(proc)
         proc.start()
