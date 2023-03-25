@@ -35,6 +35,7 @@ let generation;
 let gender;
 let like = [];
 for(let i=0;i<3;i++) like[i] = false;
+let candidate = [];
 
 //functions
 function videoStart() {
@@ -314,7 +315,6 @@ function nextImages() {
     for(let i=0;i<3;i++) like[i] = false;
 }
 
-let candidate = [];
 function updateImages(previewUrl, i) {
     let htmlsrc;
 
