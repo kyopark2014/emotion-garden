@@ -79,6 +79,8 @@ function getEmotion() {
             generation = response.generation;
             console.log("generation: " + generation);
 
+            let ageRangeLow = JSON.parse(response.ageRange.Low);
+            let ageRangeHigh = JSON.parse(response.ageRange.High);
             let ageRange = `Age: ${ageRangeLow} ~ ${ageRangeHigh}`; // age   
             console.log('ages: ' + ageRange);
 

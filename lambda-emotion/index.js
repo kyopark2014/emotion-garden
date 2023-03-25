@@ -139,7 +139,6 @@ exports.handler = async (event, context) => {
                     users: [{
                         userId: userId,
                         properties: {
-                            "USER_ID": userId,
                             "GENERATION": generation,
                             "GENDER": gender,
                             "EMOTION": emotions
@@ -148,12 +147,8 @@ exports.handler = async (event, context) => {
                 };
                 console.log('user params: ', JSON.stringify(params));
 
-            //    personalizeevents.putUsers(params, function (err, data) {
-            //        if (err) console.log(err, err.stack); // an error occurred
-            //        else console.log(data);           // successful response                    
-            //    });
                 const result = await personalizeevents.putUsers(params).promise(); 
-                console.log('result: '+JSON.stringify(result));
+                console.log('peronalize result: '+JSON.stringify(result));
 
                 isCompleted = true;   
             } catch (error) {
@@ -165,7 +160,6 @@ exports.handler = async (event, context) => {
                     body: error
                 };
             }
-            console.debug('response: ' + JSON.stringify(response));
         }
         else {
             response = {
@@ -181,8 +175,7 @@ exports.handler = async (event, context) => {
             body: error
         };
     }
-    console.debug('response: ' + JSON.stringify(response));
-
+    
     function wait() {
         return new Promise((resolve, reject) => {
             if (!isCompleted) {
@@ -199,6 +192,7 @@ exports.handler = async (event, context) => {
     console.log(await wait());
     console.log(await wait());
 
+    console.debug('emotion response: ' + JSON.stringify(response));
     return response;
 };
 
