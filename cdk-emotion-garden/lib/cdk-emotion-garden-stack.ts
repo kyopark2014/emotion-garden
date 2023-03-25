@@ -563,7 +563,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       ],
       "version": "1.0"
     }`;
-  /*  const interactionSchema = new personalize.CfnSchema(this, 'InteractionSchema', {
+    const interactionSchema = new personalize.CfnSchema(this, 'InteractionSchema', {
       name: 'emotion-garden-interaction-schema',
       schema: interactionSchemaJson,
     });
@@ -645,7 +645,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       datasetType: 'Items',
       name: 'emotion-garden-item-dataset',
       schemaArn: itemSchema.attrSchemaArn,    
-    }); */
+    }); 
 
 
   }
