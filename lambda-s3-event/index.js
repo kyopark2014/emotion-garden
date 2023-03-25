@@ -2,6 +2,7 @@ const aws = require('aws-sdk');
 const dynamo = new aws.DynamoDB.DocumentClient();
 const tableName = process.env.tableName;
 const s3 = new aws.S3();
+const jpeg = require('jpeg-js');
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -63,7 +64,7 @@ exports.handler = async (event, context) => {
                 };
             }
 
-            const control = GenerateControl(bucket, key);
+            const control = getControlParameters(bucket, key, emotion);
 
             putParams = {
                 TableName: tableName,
@@ -129,36 +130,28 @@ exports.handler = async (event, context) => {
     return response;
 };
 
-function GenerateControl(bucket, key) {
-    let origimage;
+function getControlParameters(bucket, key, emotion) {
     try {
         const params = {
-            Bucket: bucket,
-            Key: key
+            bucket: bucket,
+            key: key,
+            emotion: emotion
         };        
-
-        origimage = s3.getObject(params).promise(); 
-
         console.log('params: ' + JSON.stringify(params));
+        
+        // To-Do: API request 
+
     } catch (error) {
         console.log(error);
         return;
     } 
-    console.log('origimage: ' + origimage.Body);
-    
-    let objectData = origimage.Body.toString('utf-8');
 
-    console.log('objectData: ' + objectData);
-
-
-
-
-    return {
+    return {  // dummy control values
         first: {
             R: 100, G: 100, B: 0
         },
         second: {
             R: 100, G: 0, B: 0
         }
-    }
+    };
 }
