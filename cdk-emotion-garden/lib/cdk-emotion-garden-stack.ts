@@ -573,7 +573,48 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       datasetType: 'Interactions',
       name: 'interaction-dataset',
       schemaArn: interactionSchema.attrSchemaArn,    
-    }); 
+    });
+    
+    const userSchemaJson = `{
+      {
+        "type": "record",
+        "name": "Users",
+        "namespace": "com.amazonaws.personalize.schema",
+        "fields": [
+          {
+            "name": "USER_ID",
+            "type": "string"
+          },
+          {
+            "name": "GENERATION",
+            "type": "string",
+            "categorical": true
+          },
+          {
+            "name": "GENDER",
+            "type": "string",
+            "categorical": true
+          },
+          {
+            "name": "EMOTION",
+            "type": "string",
+            "categorical": true
+          }
+        ],
+        "version": "1.0"
+      }
+    }`;
+    const userSchema = new personalize.CfnSchema(this, 'UserSchema', {
+      name: 'user-schema',
+      schema: userSchemaJson,
+    });
+
+    const userDataset = new personalize.CfnDataset(this, 'UserDataset', {
+      datasetGroupArn: datasetGroup.attrDatasetGroupArn,
+      datasetType: 'Users',
+      name: 'user-dataset',
+      schemaArn: userSchema.attrSchemaArn,    
+    });
   }
 }
 
