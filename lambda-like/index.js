@@ -1,7 +1,7 @@
 const aws = require('aws-sdk');
 const personalizeevents = new aws.PersonalizeEvents();
 const datasetArn = process.env.datasetArn;
-const trackingId = process.env.trackingId;
+const datasetGroupArn = process.env.datasetGroupArn;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -9,50 +9,63 @@ exports.handler = async (event, context) => {
 
     const body = JSON.parse(Buffer.from(event["body"], "base64"));
     console.log('likeInfo: ' + JSON.stringify(body));
-    
+
     let userId = body['id'];
     console.log('userId: ', userId);
 
     let itemId = body['itemId'];
     console.log('itemId: ', itemId);
 
-    let candidate = body['candidate'];
-    let impression;
-    if(candidate.length==1) impression = candidate[0];
-    else if(candidate.length==2) impression = candidate[0]+'|'+candidate[1];
-    else {
-        impression = candidate[0]+'|'+candidate[1]+'|'+candidate[2];
-    }
-    console.log('impression: ', impression);
+    let impression = body['impression'];
 
+    var params = {
+        datasetGroupArn: datasetGroupArn, /* required */
+        name: "eventTracker", /* required */
+        tags: [
+            {
+                tagKey: 'etkey', /* required */
+                tagValue: '1' /* required */
+            },
+            /* more items */
+        ]
+    };
+    personalize.createEventTracker(params, function (err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else console.log('data:', data);           // successful response
+    });
+
+    let date = new Date();
     const timestamp = date.getTime();
     console.log('timestamp: ', timestamp);
 
     let response;
+    let isCompleted = false;
     // put event dataset
     try {
         var params = {
-            trackingId: trackingId,
-            sessionId: '1',
-            userId: userId,
             eventList: [{
-                "ITEM_ID": itemId,
-                "TIMESTAMP": timestamp,
-                "EVENT_TYPE": "click",
-                "IMPRESSION": impression,
-            }]
+                eventType: "click",
+                sentAt: timestamp,
+                eventId: 'STRING_VALUE',
+                eventValue: 11,
+                impression: impression,
+                itemId: itemId,
+            }],
+            sessionId: '1',
+            trackingId: trackingId,
+            userId: userId,
         };
         console.log('event params: ', JSON.stringify(params));
 
-        const result = await personalizeevents.putEvents(params).promise(); 
-        console.log('putEvent result: '+JSON.stringify(result));
+        const result = await personalizeevents.putEvents(params).promise();
+        console.log('putEvent result: ' + JSON.stringify(result));
 
-        isCompleted = true;   
+        isCompleted = true;
 
         response = {
             statusCode: 200,
             body: "Success"
-        };     
+        };
     } catch (error) {
         console.log(error);
         isCompleted = true;
@@ -62,7 +75,7 @@ exports.handler = async (event, context) => {
             body: error
         };
     }
-    
+
     function wait() {
         return new Promise((resolve, reject) => {
             if (!isCompleted) {

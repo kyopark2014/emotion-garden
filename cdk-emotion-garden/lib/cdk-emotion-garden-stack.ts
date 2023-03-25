@@ -63,6 +63,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       name: 'emotion-garden-dataset',
     });
 
+    
+    
     const interactionSchemaJson = `{
       "type": "record",
       "name": "Interactions",
@@ -102,7 +104,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       name: 'emotion-garden-interaction-dataset',
       schemaArn: interactionSchema.attrSchemaArn,    
     });
-    
+
     const userSchemaJson = `{
       "type": "record",
       "name": "Users",
@@ -142,6 +144,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       schemaArn: userSchema.attrSchemaArn,    
     });
 
+    
     const itemSchemaJson = `{
       "type": "record",
       "name": "Items",
@@ -635,7 +638,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        datasetArn: interactionDataset.attrDatasetArn
+        datasetArn: interactionDataset.attrDatasetArn,
+        datasetGroupArn: datasetGroup.attrDatasetGroupArn
       }
     });
 

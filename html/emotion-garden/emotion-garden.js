@@ -35,7 +35,7 @@ let generation;
 let gender;
 let like = [];
 for(let i=0;i<3;i++) like[i] = false;
-let candidate = [];
+let impression = [];
 
 //functions
 function videoStart() {
@@ -251,7 +251,7 @@ function drawGarden(emotionValue) {
     xhr.send(blob);
 }
 
-function sendLike(userId, itemId, candidate) {
+function sendLike(userId, itemId, impression) {
     const url = "/like";
     const xhr = new XMLHttpRequest();
 
@@ -265,7 +265,7 @@ function sendLike(userId, itemId, candidate) {
     let requestObj = {
         "id": userId,
         "itemId": itemId,
-        "candidate": candidate,
+        "impression": impression,
     };
     console.log("request: " + JSON.stringify(requestObj));
 
@@ -324,39 +324,39 @@ function updateImages(previewUrl, i) {
         <ab><img id="${i+1}" src="${previewUrl[i+1].url}" width="400"/><i onclick="likeOrDislike(1, this)" class="fa fa-thumbs-down"></i></ab>
         <ab><img id="${i+2}" src="${previewUrl[i+2].url}" width="400"/><i onclick="likeOrDislike(2,this)" class="fa fa-thumbs-down"></i></ab>`;
 
-        candidate = [];
+        impression = [];
         let pos = previewUrl[i].url.lastIndexOf('emotions');
         fname = previewUrl[i].url.substring(pos)
-        candidate.push(fname);
+        impression.push(fname);
 
         pos = previewUrl[i+1].url.lastIndexOf('emotions');
         fname = previewUrl[i+1].url.substring(pos)
-        candidate.push(fname);
+        impression.push(fname);
 
         pos = previewUrl[i+2].url.lastIndexOf('emotions');
         fname = previewUrl[i+2].url.substring(pos)
-        candidate.push(fname);
+        impression.push(fname);
     }
     else if (previewUrl.length - i >= 2) {
         htmlsrc = `<ab><img id="${i}" src="${previewUrl[i].url}" width="400"/><i onclick="likeOrDislike(0, this)" class="fa fa-thumbs-down"></i></ab>
         <ab><img id="${i+1}" src="${previewUrl[i+1].url}" width="400"/><i onclick="likeOrDislike(1, this)" class="fa fa-thumbs-down"></i></ab>`;        
 
-        candidate = [];
+        impression = [];
         let pos = previewUrl[i].url.lastIndexOf('emotions');
         fname = previewUrl[i].url.substring(pos)
-        candidate.push(fname);
+        impression.push(fname);
 
-        candidate = [];
+        impression = [];
         pos = previewUrl[i+1].url.lastIndexOf('emotions');
         fname = previewUrl[i+1].url.substring(pos)
-        candidate.push(fname);
+        impression.push(fname);
     }
     else {
         htmlsrc = `<ab><img id="${i}" src="${previewUrl[i].url}" width="400"/><i onclick="likeOrDislike(0, this)" class="fa fa-thumbs-down"></i></ab>`;
 
         let pos = previewUrl[i].url.lastIndexOf('emotions');
         fname = previewUrl[i].url.substring(pos)
-        candidate.push(fname);
+        impression.push(fname);
     }
     // console.log('htmlsrc: ', htmlsrc);
 
@@ -382,7 +382,7 @@ function likeOrDislike(col, x) {
             fname = previewUrl[drawingIndex+col].url.substring(pos)
             console.log("fname: ", fname);
 
-            sendLike(userId, fname, candidate);
+            sendLike(userId, fname, impression);
         }
         x.classList.value = "fa a-thumbs-up"
     }
