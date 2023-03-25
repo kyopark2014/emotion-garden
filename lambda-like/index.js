@@ -2,6 +2,7 @@ const aws = require('aws-sdk');
 const personalizeevents = new aws.PersonalizeEvents();
 const datasetArn = process.env.datasetArn;
 const datasetGroupArn = process.env.datasetGroupArn;
+const personalize = new aws.Personalize();
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -17,29 +18,29 @@ exports.handler = async (event, context) => {
     console.log('itemId: ', itemId);
 
     let impression = body['impression'];
+    console.log('impression: ', JSON.stringify(impression));
 
+    let trackingId = "a8868cee-3669-4a18-ad66-7f42035807d9";
+ /*   
     var params = {
-        datasetGroupArn: datasetGroupArn, /* required */
-        name: "eventTracker", /* required */
-        tags: [
-            {
-                tagKey: 'etkey', /* required */
-                tagValue: '1' /* required */
-            },
-            /* more items */
-        ]
+        datasetGroupArn: datasetGroupArn, 
+        name: "eventTracker",
     };
+ 
+    try {
+        const result = await personalize.createEventTracker(params).promise();
+        console.log('putEvent result: ' + JSON.stringify(result));
+        trackingId = result.trackingId;
+    } catch (error) {
+        console.log(error);
+        isCompleted = true;
 
-    let trackingId, eventTrackerArn;
-    personalize.createEventTracker(params, function (err, data) {
-        if (err) console.log(err, err.stack); // an error occurred
-        else {
-            console.log('data:', data);           // successful response
+        response = {
+            statusCode: 500,
+            body: error
+        };
+    } */
 
-            eventTrackerArn = data.eventTrackerArn;
-            trackingId = data.trackingId;
-        }
-    });
 
     let date = new Date();
     const timestamp = date.getTime();
@@ -81,7 +82,7 @@ exports.handler = async (event, context) => {
             statusCode: 500,
             body: error
         };
-    }
+    } 
 
     function wait() {
         return new Promise((resolve, reject) => {
