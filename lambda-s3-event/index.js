@@ -47,8 +47,8 @@ exports.handler = async (event, context) => {
 
         if (eventName == 'ObjectCreated:Put') {
             let date = new Date();
-            //const timestamp = Math.floor(date.getTime()).toString();
-            const timestamp = new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789;
+            //const timestamp = Math.floor(date.getTime() / 1000).toString();
+            const timestamp = date.getTime();
             console.log('timestamp: ', timestamp);
 
             // putItem to DynamoDB
