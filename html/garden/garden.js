@@ -72,6 +72,9 @@ function getEmotion() {
             generation = response.generation;
             console.log("generation: " + generation);
 
+            let ageRangeLow = JSON.parse(response.ageRange.Low);
+            let ageRangeHigh = JSON.parse(response.ageRange.High);
+
             let ageRange = `Age: ${ageRangeLow} ~ ${ageRangeHigh}`; // age   
             console.log('ages: ' + ageRange);
 
@@ -209,10 +212,10 @@ function drawGarden(emotionValue) {
             let response = JSON.parse(xhr.responseText)
 
             let landscape = response['landscape'];
-            console.log("landscape: " + landscape);
+            console.log("landscape: " + JSON.stringify(landscape));
             let portrait = response['portrait'];
-            console.log("portrait: " + portrait);
-
+            console.log("portrait: " + JSON.stringify(portrait));
+            
             for (let i in landscape) {
                 console.log(landscape[i]);
 

@@ -209,9 +209,9 @@ function drawGarden(emotionValue) {
             let response = JSON.parse(xhr.responseText)
 
             let landscape = response['landscape'];
-            console.log("landscape: " + landscape);
+            console.log("landscape: " + JSON.stringify(landscape));
             let portrait = response['portrait'];
-            console.log("portrait: " + portrait);
+            console.log("portrait: " + JSON.stringify(portrait));
 
             for (let i in landscape) {
                 console.log(landscape[i]);

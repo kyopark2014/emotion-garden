@@ -1,8 +1,9 @@
 const aws = require('aws-sdk');
 const dynamo = new aws.DynamoDB.DocumentClient();
+const personalizeevents = new aws.PersonalizeEvents();
+
 const tableName = process.env.tableName;
-const s3 = new aws.S3();
-const jpeg = require('jpeg-js');
+const datasetArn = process.env.datasetArn;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -86,8 +87,35 @@ exports.handler = async (event, context) => {
             });
 
             console.log('event.Records.length: ', event.Records.length);
-            console.log('i: ', i);
-            isCompleted = true;
+            console.log('i: ', i);            
+
+            // create item dataset
+            try {
+                var params = {
+                    datasetArn: datasetArn,
+                    items: [{
+                        itemId: key,
+                        properties: {
+                            "TIMESTAMP": timestamp,
+                            "EMOTION": searchKey,
+                        }
+                    }]
+                };
+                console.log('user params: ', JSON.stringify(params));
+
+                const result = await personalizeevents.putItems(params).promise(); 
+                console.log('putItem result: '+JSON.stringify(result));
+
+                isCompleted = true;   
+            } catch (error) {
+                console.log(error);
+                isCompleted = true;
+
+                response = {
+                    statusCode: 500,
+                    body: error
+                };
+            }
         }
         else if (eventName == 'ObjectRemoved:Delete') {
             var params = {

@@ -466,7 +466,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        tableName: tableName
+        tableName: tableName,
+        datasetArn: itemDataset.attrDatasetArn
       }
     });
     s3Bucket.grantReadWrite(lambdaS3event); // permission for s3

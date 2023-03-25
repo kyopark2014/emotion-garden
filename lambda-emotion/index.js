@@ -148,7 +148,7 @@ exports.handler = async (event, context) => {
                 console.log('user params: ', JSON.stringify(params));
 
                 const result = await personalizeevents.putUsers(params).promise(); 
-                console.log('peronalize result: '+JSON.stringify(result));
+                console.log('putUser result: '+JSON.stringify(result));
 
                 isCompleted = true;   
             } catch (error) {
