@@ -118,7 +118,8 @@ API Gateway로 바로 접속할 경우는 uuid를 header를 통해 지정할 수
     "mustache": false,
     "eyesOpen": true,
     "mouthOpen": true,
-    "emotions": "HAPPY"
+    "emotions": "HAPPY",
+    "generation": "adult"
 }
 ```
 
