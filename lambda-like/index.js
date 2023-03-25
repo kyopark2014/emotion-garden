@@ -29,9 +29,16 @@ exports.handler = async (event, context) => {
             /* more items */
         ]
     };
+
+    let trackingId, eventTrackerArn;
     personalize.createEventTracker(params, function (err, data) {
         if (err) console.log(err, err.stack); // an error occurred
-        else console.log('data:', data);           // successful response
+        else {
+            console.log('data:', data);           // successful response
+
+            eventTrackerArn = data.eventTrackerArn;
+            trackingId = data.trackingId;
+        }
     });
 
     let date = new Date();
