@@ -614,7 +614,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       schemaArn: userSchema.attrSchemaArn,    
     });
 
-    const itemSchemaJson = `{
+   /* const itemSchemaJson = `{
       "type": "record",
       "name": "Items",
       "namespace": "com.amazonaws.personalize.schema",
@@ -645,7 +645,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       datasetType: 'Items',
       name: 'emotion-garden-item-dataset',
       schemaArn: itemSchema.attrSchemaArn,    
-    }); 
+    }); */
 
 
   }
