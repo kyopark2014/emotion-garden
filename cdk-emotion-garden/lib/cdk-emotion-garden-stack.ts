@@ -564,14 +564,14 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       "version": "1.0"
     }`;
     const interactionSchema = new personalize.CfnSchema(this, 'InteractionSchema', {
-      name: 'interaction-schema',
+      name: 'emotion-garden-interaction-schema',
       schema: interactionSchemaJson,
     });
 
     const interactionDataset = new personalize.CfnDataset(this, 'InteractionDataset', {
       datasetGroupArn: datasetGroup.attrDatasetGroupArn,
       datasetType: 'Interactions',
-      name: 'interaction-dataset',
+      name: 'emotion-garden-interaction-dataset',
       schemaArn: interactionSchema.attrSchemaArn,    
     });
     
@@ -603,14 +603,14 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       "version": "1.0"
     }`;
     const userSchema = new personalize.CfnSchema(this, 'UserSchema', {
-      name: 'user-schema',
+      name: 'emotion-garden-user-schema',
       schema: userSchemaJson,
     });
 
     const userDataset = new personalize.CfnDataset(this, 'UserDataset', {
       datasetGroupArn: datasetGroup.attrDatasetGroupArn,
       datasetType: 'Users',
-      name: 'user-dataset',
+      name: 'emotion-garden-user-dataset',
       schemaArn: userSchema.attrSchemaArn,    
     });
 
@@ -636,14 +636,14 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       "version": "1.0"
     }`;
     const itemSchema = new personalize.CfnSchema(this, 'ItemSchema', {
-      name: 'item-schema',
+      name: 'emotion-garden-item-schema',
       schema: itemSchemaJson,
     });
 
     const itemDataset = new personalize.CfnDataset(this, 'ItemDataset', {
       datasetGroupArn: datasetGroup.attrDatasetGroupArn,
       datasetType: 'Items',
-      name: 'item-dataset',
+      name: 'emotion-garden-item-dataset',
       schemaArn: itemSchema.attrSchemaArn,    
     }); 
 
