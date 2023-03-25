@@ -46,7 +46,8 @@ Rekognition을 이용하여 emotion을 분석후 아래와 같은 결과를 리�
     "mustache": false,
     "eyesOpen": true,
     "mouthOpen": true,
-    "emotions": "HAPPY"
+    "emotions": "HAPPY",
+    "generation": "teanager"
 }
 ```
 
