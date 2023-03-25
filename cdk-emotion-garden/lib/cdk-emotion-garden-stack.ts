@@ -636,7 +636,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       "version": "1.0"
     }`;
     const itemSchema = new personalize.CfnSchema(this, 'ItemSchema', {
-      name: 'user-schema',
+      name: 'item-schema',
       schema: itemSchemaJson,
     });
 
@@ -646,6 +646,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       name: 'item-dataset',
       schemaArn: itemSchema.attrSchemaArn,    
     });
+
+    
   }
 }
 
