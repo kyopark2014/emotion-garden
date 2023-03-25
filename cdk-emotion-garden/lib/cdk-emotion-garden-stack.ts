@@ -13,6 +13,7 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
+import * as personalize from 'aws-cdk-lib/aws-personalize';
 
 const debug = false;
 const stage = "dev";
@@ -528,6 +529,12 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
+
+    // personalize
+    const cfnDatasetGroup = new personalize.CfnDatasetGroup(this, 'MyCfnDatasetGroup', {
+      name: 'emotion-garden-dataset',
+    });
+    
   }
 }
 
