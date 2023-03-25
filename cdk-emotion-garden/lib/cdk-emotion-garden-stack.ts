@@ -638,6 +638,12 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });
 
+    lambdaLike.role?.attachInlinePolicy(
+      new iam.Policy(this, 'personalize-policy-for-lambdaLike', {
+        statements: [PersonalizePolicy],
+      }),
+    );
+
     // POST method
     const resourceLike = api.root.addResource('like');
     resourceLike.addMethod('POST', new apiGateway.LambdaIntegration(lambdaLike, {
