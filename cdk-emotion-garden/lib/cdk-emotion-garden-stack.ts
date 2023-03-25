@@ -353,7 +353,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       resources: ['*'],
     });
     lambdaEmotion.role?.attachInlinePolicy(
-      new iam.Policy(this, 'personalize-policy', {
+      new iam.Policy(this, 'personalize-policy-for-lambdaEmotion', {
         statements: [PersonalizePolicy],
       }),
     );
@@ -474,7 +474,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     dataTable.grantReadWriteData(lambdaS3event); // permission for dynamo
 
     lambdaS3event.role?.attachInlinePolicy(
-      new iam.Policy(this, 'personalize-policy', {
+      new iam.Policy(this, 'personalize-policy-for-lambdaS3event', {
         statements: [PersonalizePolicy],
       }),
     );
