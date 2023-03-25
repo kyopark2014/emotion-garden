@@ -49,18 +49,18 @@ exports.handler = async (event, context) => {
     let isCompleted = false;
     // put event dataset
     try {
-        var params = {
-            eventList: [{
-                eventType: "click",
-                sentAt: timestamp,
-                eventId: 'STRING_VALUE',
-                eventValue: 11,
-                impression: impression,
-                itemId: itemId,
-            }],
+        var params = {            
             sessionId: '1',
             trackingId: trackingId,
             userId: userId,
+            eventList: [{
+                eventType: "click",  // 'rating'
+                sentAt: timestamp,
+                eventId: 'event1',
+                // eventValue: 11,                
+                itemId: itemId,
+                impression: impression,
+            }],
         };
         console.log('event params: ', JSON.stringify(params));
 
