@@ -576,33 +576,31 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
     
     const userSchemaJson = `{
-      {
-        "type": "record",
-        "name": "Users",
-        "namespace": "com.amazonaws.personalize.schema",
-        "fields": [
-          {
-            "name": "USER_ID",
-            "type": "string"
-          },
-          {
-            "name": "GENERATION",
-            "type": "string",
-            "categorical": true
-          },
-          {
-            "name": "GENDER",
-            "type": "string",
-            "categorical": true
-          },
-          {
-            "name": "EMOTION",
-            "type": "string",
-            "categorical": true
-          }
-        ],
-        "version": "1.0"
-      }
+      "type": "record",
+      "name": "Users",
+      "namespace": "com.amazonaws.personalize.schema",
+      "fields": [
+        {
+          "name": "USER_ID",
+          "type": "string"
+        },
+        {
+          "name": "GENERATION",
+          "type": "string",
+          "categorical": true
+        },
+        {
+          "name": "GENDER",
+          "type": "string",
+          "categorical": true
+        },
+        {
+          "name": "EMOTION",
+          "type": "string",
+          "categorical": true
+        }
+      ],
+      "version": "1.0"
     }`;
     const userSchema = new personalize.CfnSchema(this, 'UserSchema', {
       name: 'user-schema',
@@ -614,6 +612,39 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       datasetType: 'Users',
       name: 'user-dataset',
       schemaArn: userSchema.attrSchemaArn,    
+    });
+
+    const itemSchemaJson = `{
+      "type": "record",
+      "name": "Items",
+      "namespace": "com.amazonaws.personalize.schema",
+      "fields": [
+        {
+          "name": "ITEM_ID",
+          "type": "string"
+        },
+        {
+          "name": "TIMESTAMP",
+          "type": "long"
+        },
+        {
+          "name": "EMOTION",
+          "type": "string",
+          "categorical": true
+        }
+      ],
+      "version": "1.0"
+    }`;
+    const itemSchema = new personalize.CfnSchema(this, 'ItemSchema', {
+      name: 'user-schema',
+      schema: itemSchemaJson,
+    });
+
+    const itemDataset = new personalize.CfnDataset(this, 'ItemDataset', {
+      datasetGroupArn: datasetGroup.attrDatasetGroupArn,
+      datasetType: 'Items',
+      name: 'item-dataset',
+      schemaArn: itemSchema.attrSchemaArn,    
     });
   }
 }
