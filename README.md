@@ -72,13 +72,7 @@ xhr.send(blob);
 
 ## Personalize
 
-- 상호작용(interacion): Like 선택
-    - PutEvents  
-- 아이템(Item metadata): emotion
-    - PutItems  
-- 사용자(User metadata): estimated age(->generation), gender(Male/Female)
-    - PutUsers
-
+추천은 [Personalize](https://github.com/kyopark2014/emotion-garden/blob/main/personalize.md)를 이용해 구현합니다.
 
 ## 배포방법
 
