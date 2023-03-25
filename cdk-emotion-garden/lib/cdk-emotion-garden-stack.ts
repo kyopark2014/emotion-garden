@@ -58,6 +58,123 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
     });
 
+    // personalize
+    const datasetGroup = new personalize.CfnDatasetGroup(this, 'DatasetGroup', {
+      name: 'emotion-garden-dataset',
+    });
+
+    const interactionSchemaJson = `{
+      "type": "record",
+      "name": "Interactions",
+      "namespace": "com.amazonaws.personalize.schema",
+      "fields": [
+        {
+          "name": "USER_ID",
+          "type": "string"
+        },
+        {
+          "name": "ITEM_ID",
+          "type": "string"
+        },
+        {
+          "name": "TIMESTAMP",
+          "type": "long"
+        },
+        { 
+          "name": "EVENT_TYPE",
+          "type": "string"
+        },
+        {
+          "name": "IMPRESSION",
+          "type": "string"
+        }
+      ],
+      "version": "1.0"
+    }`;
+    const interactionSchema = new personalize.CfnSchema(this, 'InteractionSchema', {
+      name: 'emotion-garden-interaction-schema',
+      schema: interactionSchemaJson,
+    });
+
+    const interactionDataset = new personalize.CfnDataset(this, 'InteractionDataset', {
+      datasetGroupArn: datasetGroup.attrDatasetGroupArn,
+      datasetType: 'Interactions',
+      name: 'emotion-garden-interaction-dataset',
+      schemaArn: interactionSchema.attrSchemaArn,    
+    });
+    
+    const userSchemaJson = `{
+      "type": "record",
+      "name": "Users",
+      "namespace": "com.amazonaws.personalize.schema",
+      "fields": [
+        {
+          "name": "USER_ID",
+          "type": "string"
+        },
+        {
+          "name": "GENERATION",
+          "type": "string",
+          "categorical": true
+        },
+        {
+          "name": "GENDER",
+          "type": "string",
+          "categorical": true
+        },
+        {
+          "name": "EMOTION",
+          "type": "string",
+          "categorical": true
+        }
+      ],
+      "version": "1.0"
+    }`;
+    const userSchema = new personalize.CfnSchema(this, 'UserSchema', {
+      name: 'emotion-garden-user-schema',
+      schema: userSchemaJson,
+    });
+
+    const userDataset = new personalize.CfnDataset(this, 'UserDataset', {
+      datasetGroupArn: datasetGroup.attrDatasetGroupArn,
+      datasetType: 'Users',
+      name: 'emotion-garden-user-dataset',
+      schemaArn: userSchema.attrSchemaArn,    
+    });
+
+    const itemSchemaJson = `{
+      "type": "record",
+      "name": "Items",
+      "namespace": "com.amazonaws.personalize.schema",
+      "fields": [
+        {
+          "name": "ITEM_ID",
+          "type": "string"
+        },
+        {
+          "name": "TIMESTAMP",
+          "type": "long"
+        },
+        {
+          "name": "EMOTION",
+          "type": "string",
+          "categorical": true
+        }
+      ],
+      "version": "1.0"
+    }`;
+    const itemSchema = new personalize.CfnSchema(this, 'ItemSchema', {
+      name: 'emotion-garden-itemSchema',
+      schema: itemSchemaJson,
+    });
+
+    const itemDataset = new personalize.CfnDataset(this, 'ItemDataset', {
+      datasetGroupArn: datasetGroup.attrDatasetGroupArn,
+      datasetType: 'Items',
+      name: 'emotion-garden-itemDataset',
+      schemaArn: itemSchema.attrSchemaArn,    
+    }); 
+
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage", {
       bucketName: "demo-emotion-garden",
@@ -215,7 +332,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        bucketName: s3Bucket.bucketName
+        bucketName: s3Bucket.bucketName,
+        datasetArn: userDataset.attrDatasetArn
       }
     });
     s3Bucket.grantReadWrite(lambdaEmotion);
@@ -530,122 +648,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
 
-    // personalize
-    const datasetGroup = new personalize.CfnDatasetGroup(this, 'DatasetGroup', {
-      name: 'emotion-garden-dataset',
-    });
-
-    const interactionSchemaJson = `{
-      "type": "record",
-      "name": "Interactions",
-      "namespace": "com.amazonaws.personalize.schema",
-      "fields": [
-        {
-          "name": "USER_ID",
-          "type": "string"
-        },
-        {
-          "name": "ITEM_ID",
-          "type": "string"
-        },
-        {
-          "name": "TIMESTAMP",
-          "type": "long"
-        },
-        { 
-          "name": "EVENT_TYPE",
-          "type": "string"
-        },
-        {
-          "name": "IMPRESSION",
-          "type": "string"
-        }
-      ],
-      "version": "1.0"
-    }`;
-    const interactionSchema = new personalize.CfnSchema(this, 'InteractionSchema', {
-      name: 'emotion-garden-interaction-schema',
-      schema: interactionSchemaJson,
-    });
-
-    const interactionDataset = new personalize.CfnDataset(this, 'InteractionDataset', {
-      datasetGroupArn: datasetGroup.attrDatasetGroupArn,
-      datasetType: 'Interactions',
-      name: 'emotion-garden-interaction-dataset',
-      schemaArn: interactionSchema.attrSchemaArn,    
-    });
     
-    const userSchemaJson = `{
-      "type": "record",
-      "name": "Users",
-      "namespace": "com.amazonaws.personalize.schema",
-      "fields": [
-        {
-          "name": "USER_ID",
-          "type": "string"
-        },
-        {
-          "name": "GENERATION",
-          "type": "string",
-          "categorical": true
-        },
-        {
-          "name": "GENDER",
-          "type": "string",
-          "categorical": true
-        },
-        {
-          "name": "EMOTION",
-          "type": "string",
-          "categorical": true
-        }
-      ],
-      "version": "1.0"
-    }`;
-    const userSchema = new personalize.CfnSchema(this, 'UserSchema', {
-      name: 'emotion-garden-user-schema',
-      schema: userSchemaJson,
-    });
-
-    const userDataset = new personalize.CfnDataset(this, 'UserDataset', {
-      datasetGroupArn: datasetGroup.attrDatasetGroupArn,
-      datasetType: 'Users',
-      name: 'emotion-garden-user-dataset',
-      schemaArn: userSchema.attrSchemaArn,    
-    });
-
-    const itemSchemaJson = `{
-      "type": "record",
-      "name": "Items",
-      "namespace": "com.amazonaws.personalize.schema",
-      "fields": [
-        {
-          "name": "ITEM_ID",
-          "type": "string"
-        },
-        {
-          "name": "TIMESTAMP",
-          "type": "long"
-        },
-        {
-          "name": "EMOTION",
-          "type": "string",
-          "categorical": true
-        }
-      ],
-      "version": "1.0"
-    }`;
-    const itemSchema = new personalize.CfnSchema(this, 'ItemSchema', {
-      name: 'emotion-garden-itemSchema',
-      schema: itemSchemaJson,
-    });
-
-    const itemDataset = new personalize.CfnDataset(this, 'ItemDataset', {
-      datasetGroupArn: datasetGroup.attrDatasetGroupArn,
-      datasetType: 'Items',
-      name: 'emotion-garden-itemDataset',
-      schemaArn: itemSchema.attrSchemaArn,    
-    }); 
 
 
   }

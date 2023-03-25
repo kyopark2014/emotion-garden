@@ -76,16 +76,8 @@ function getEmotion() {
             gender = response.gender;
             console.log("gender: " + gender);
 
-            let ageRangeLow = JSON.parse(response.ageRange.Low);
-            let ageRangeHigh = JSON.parse(response.ageRange.High);
-            let middleAge = (ageRangeLow + ageRangeHigh) / 2;
-            if (middleAge <= 5) generation = 'toddler'; // 유아
-            else if (middleAge <= 12) generation = 'child'; // 아동
-            else if (middleAge <= 18) generation = 'teenager'; // 청소년
-            else if (middleAge <= 25) generation = 'young-adult'; // 청년
-            else if (middleAge <= 49) generation = 'adult'; // 중년
-            else if (middleAge <= 64) generation = 'middle-age'; // 장년
-            else if (middleAge >= 65) generation = 'elder'; // 노년
+            generation = response.generation;
+            console.log("generation: " + generation);
 
             let ageRange = `Age: ${ageRangeLow} ~ ${ageRangeHigh}`; // age   
             console.log('ages: ' + ageRange);
