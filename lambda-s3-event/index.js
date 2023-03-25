@@ -1,12 +1,11 @@
 const aws = require('aws-sdk');
 const dynamo = new aws.DynamoDB.DocumentClient();
 const tableName = process.env.tableName;
-const Jimp = require('jimp');
 const s3 = new aws.S3();
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
-    console.log('## EVENT: ' + JSON.stringify(event))
+    console.log('## EVENT: ' + JSON.stringify(event));
 
     let isCompleted = false;
     for (let i in event.Records) {
@@ -17,8 +16,8 @@ exports.handler = async (event, context) => {
         const bucket = event.Records[i].s3.bucket.name;
         const key = decodeURIComponent(event.Records[i].s3.object.key.replace(/\+/g, ' '));
 
-        console.log('bucket: ' + bucket)
-        console.log('key: ' + key)
+        console.log('bucket: ' + bucket);
+        console.log('key: ' + key);
 
         var splitKey = key.split("/");
         console.log('splitKey: ' + splitKey);
@@ -36,7 +35,7 @@ exports.handler = async (event, context) => {
             emotion = splitKey[1];
             console.log('emotion: ', splitKey[1]);
             favorite = splitKey[2];
-            console.log('favorite: ', splitKey[2])
+            console.log('favorite: ', splitKey[2]);
             fname = splitKey[3];
             console.log('fname: ', splitKey[3]);
         }
@@ -52,10 +51,10 @@ exports.handler = async (event, context) => {
             let putParams;
             let searchKey;
             if (splitKey.length >= 4) {
-                searchKey = emotion + '/' + favorite
+                searchKey = emotion + '/' + favorite;
             }
             else if (splitKey.length == 3) {
-                searchKey = emotion
+                searchKey = emotion;
             }
             else {
                 return response = {
@@ -110,10 +109,10 @@ exports.handler = async (event, context) => {
     function wait() {
         return new Promise((resolve, reject) => {
             if (!isCompleted) {
-                setTimeout(() => resolve("wait..."), 1000)
+                setTimeout(() => resolve("wait..."), 1000);
             }
             else {
-                setTimeout(() => resolve("done..."), 0)
+                setTimeout(() => resolve("done..."), 0);
             }
         });
     }
@@ -145,8 +144,9 @@ function GenerateControl(bucket, key) {
         console.log(error);
         return;
     } 
+    console.log('origimage: ' + origimage.Body);
     
-    let objectData = data.Body.toString('utf-8');
+    let objectData = origimage.Body.toString('utf-8');
 
     console.log('objectData: ' + objectData);
 
