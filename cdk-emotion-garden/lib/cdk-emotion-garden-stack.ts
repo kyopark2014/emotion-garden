@@ -635,6 +635,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
+        datasetArn: interactionDataset.attrDatasetArn
       }
     });
 
