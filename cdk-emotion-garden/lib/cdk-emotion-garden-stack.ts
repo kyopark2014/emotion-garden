@@ -531,7 +531,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
 
     // personalize
-  /*  const datasetGroup = new personalize.CfnDatasetGroup(this, 'DatasetGroup', {
+    const datasetGroup = new personalize.CfnDatasetGroup(this, 'DatasetGroup', {
       name: 'emotion-garden-dataset',
     });
 
@@ -573,7 +573,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       datasetType: 'Interactions',
       name: 'interaction-dataset',
       schemaArn: interactionSchema.attrSchemaArn,    
-    }); */
+    }); 
   }
 }
 
