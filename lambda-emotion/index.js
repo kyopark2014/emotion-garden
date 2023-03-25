@@ -1,7 +1,8 @@
 const aws = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 
-const s3 = new aws.S3({ apiVersion: '2006-03-01' });
+const s3 = new aws.S3();
+const personalizeevents = new aws.PersonalizeEvents();
 
 const bucketName = process.env.bucketName;
 const datasetArn = process.env.datasetArn;
@@ -53,6 +54,7 @@ exports.handler = async (event, context) => {
     }
 
     let response = "";
+    let isCompleted = false;
     try {
         // console.log('**start emotion detection');
         const rekognition = new aws.Rekognition();
@@ -64,7 +66,7 @@ exports.handler = async (event, context) => {
                 },
             },
             Attributes: ['ALL']
-        }
+        };
         // console.log('rekognitionParams = '+JSON.stringify(rekognitionParams))
 
         const data = await rekognition.detectFaces(rekognitionParams).promise();
@@ -146,12 +148,17 @@ exports.handler = async (event, context) => {
                 };
                 console.log('user params: ', JSON.stringify(params));
 
-                personalizeevents.putUsers(params, function (err, data) {
-                    if (err) console.log(err, err.stack); // an error occurred
-                    else console.log(data);           // successful response
-                });
+            //    personalizeevents.putUsers(params, function (err, data) {
+            //        if (err) console.log(err, err.stack); // an error occurred
+            //        else console.log(data);           // successful response                    
+            //    });
+                const result = await personalizeevents.putUsers(params).promise(); 
+                console.log('result: '+JSON.stringify(result));
+
+                isCompleted = true;   
             } catch (error) {
                 console.log(error);
+                isCompleted = true;
 
                 response = {
                     statusCode: 500,
@@ -175,6 +182,22 @@ exports.handler = async (event, context) => {
         };
     }
     console.debug('response: ' + JSON.stringify(response));
+
+    function wait() {
+        return new Promise((resolve, reject) => {
+            if (!isCompleted) {
+                setTimeout(() => resolve("wait..."), 1000);
+            }
+            else {
+                setTimeout(() => resolve("done..."), 0);
+            }
+        });
+    }
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
 
     return response;
 };

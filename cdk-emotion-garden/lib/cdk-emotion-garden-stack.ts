@@ -348,6 +348,16 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }),
     );
 
+    const PersonalizePolicy = new iam.PolicyStatement({
+      actions: ['personalize:*'],
+      resources: ['*'],
+    });
+    lambdaEmotion.role?.attachInlinePolicy(
+      new iam.Policy(this, 'personalize-policy', {
+        statements: [PersonalizePolicy],
+      }),
+    );
+
     // POST method
     const resourceName = "emotion";
     const emotion = api.root.addResource(resourceName);
