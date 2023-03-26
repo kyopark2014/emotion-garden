@@ -1,4 +1,4 @@
-# Personalize
+# Personalize를 이용한 추천 구현
 
 
 ## 사용자(User) Metadata
