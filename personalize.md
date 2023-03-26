@@ -160,7 +160,6 @@ var params = {
         eventType: "click",  // 'rating'
         sentAt: timestamp,
         eventId: userId,
-        // eventValue: 11,                
         itemId: itemId,
         impression: impression,
     }],
