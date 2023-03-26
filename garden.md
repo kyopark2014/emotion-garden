@@ -109,23 +109,4 @@ CloudFront를 endpoint로 사용시 주소는 "https://d3ic6ryvcaoqdy.cloudfront
 
 
 
-이때의 결과는 아래처럼 landscape와 portraid 이미지들을 구분하여 json 포맷으로 전달합니다.
 
-```java
-{
-    "landscape": [
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_0h.jpeg",
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_5h.jpeg",
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_6h.jpeg",
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_3h.jpeg",
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-00504_2h.jpeg",
-    ],
-    "portrait": [
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_8v.jpeg",
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_2v.jpeg",
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_9v.jpeg",
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_7v.jpeg",
-        "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_1v.jpeg",
-    ]
-}
-```
