@@ -67,8 +67,11 @@ exports.handler = async (event, context) => {
             }
 
             const jsonData = {
-
-            }
+                key: key,
+                timestamp: timestamp,
+                searchKey: searchKey
+            };
+            console.log('jsonData: ', JSON.stringify(jsonData));
 
             // push the event to SQS
             try {
@@ -84,6 +87,8 @@ exports.handler = async (event, context) => {
         
                 let result = await sqs.sendMessage(params).promise();  
                 console.log("result="+JSON.stringify(result));
+
+                if(i == event.Record.length) isCompleted = true;
             } catch (err) {
                 console.log(err);
             }             

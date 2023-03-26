@@ -462,7 +462,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     // SQS for S3 putItem
     const queueS3PutItem = new sqs.Queue(this, 'QueueS3PutItem', {
       visibilityTimeout: cdk.Duration.seconds(310),
-      queueName: "queue-s3-putitem.fifo",
+      queueName: "queue-s3-putitem-test.fifo",
       fifo: true,
       contentBasedDeduplication: false,
       deliveryDelay: cdk.Duration.millis(0),
