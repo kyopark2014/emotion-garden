@@ -48,9 +48,8 @@ xhr.onreadystatechange = () => {
 
 let requestObj = {
     "id": userId,
-    "objKey": objKey,
-    "generation": generation,
-    "gender": gender,
+    "itemId": itemId,
+    "impression": impression,
 };
 console.log("request: " + JSON.stringify(requestObj));
 
@@ -59,14 +58,17 @@ let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
 xhr.send(blob);
 ```
 
-서버로 보내는 json 입력의 형태는 아래와 같습니다.
+서버로 보내는 json 입력의 형태는 아래와 같습니다. id는 사용자의 아이디이며, itemId는 선택된 이미지에 대한 object의 key이고, impression은 화면에 표시되는 3개의 이미지에 대한 object key들입니다. Personalize에서는 3개의 이미지중에 1개의 이미지를 선호했다는 의미로 인지하게 됩니다.
 
 ```java
 {
-    "id": "47f9eeb5-4252-435e-a1c9-b4a936f015ae",
-    "objKey": "emotions/calm/img_20230320-121242_5h.jpeg",
-    "generation": "adult",
-    "gender": "Male"
+    "id": "bfc150a5-07ad-45a0-87e8-435e8a21d6ee",
+    "itemId": "emotions/calm/img_20230320-121242_6h.jpeg",
+    "impression": [
+        "emotions/calm/img_20230320-121242_6h.jpeg",
+        "emotions/calm/img_20230320-121242_3h.jpeg",
+        "emotions/calm/img_20230320-00504_2h.jpeg"
+    ]
 }
 ```
 
