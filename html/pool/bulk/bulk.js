@@ -86,10 +86,10 @@ form.elements.send.onclick = function () {
     
     let prompt;
     if(favorite) {
-        fname = 'emotions/'+selectedEmotion.value+'/'+favorite+'/img_'+timestr;
+        fname = 'imgPool/'+selectedEmotion.value+'/'+favorite+'/img_'+timestr;
     }
     else { 
-        fname = 'emotions/'+selectedEmotion.value+'/img_'+timestr; 
+        fname = 'imgPool/'+selectedEmotion.value+'/img_'+timestr; 
     }    
 
     prompt = {

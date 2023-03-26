@@ -62,8 +62,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     const datasetGroup = new personalize.CfnDatasetGroup(this, 'DatasetGroup', {
       name: 'emotion-garden-dataset',
     });
-
-    
     
     const interactionSchemaJson = `{
       "type": "record",
@@ -678,7 +676,61 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     
 
+    // DynamoDB
+    const poolTableName = 'db-image-pool';
+    const poolDataTable = new dynamodb.Table(this, 'dynamodb-image-pool', {
+      tableName: poolTableName,
+      partitionKey: { name: 'ObjKey', type: dynamodb.AttributeType.STRING },
+      //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+    const poolIndexName = 'ImagePool-index';
+    poolDataTable.addGlobalSecondaryIndex({ // GSI
+      indexName: poolIndexName,
+      partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
+    });
 
+    // Lambda for retrieve 
+    const lambdaRetrieve = new lambda.Function(this, 'lambda-retrieve', {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      functionName: "lambda-retrieve",
+      code: lambda.Code.fromAsset("../lambda-retrieve"),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        tableName: poolTableName,
+        indexName: poolIndexName,
+        domainName: cloudFrontDomain,
+      }
+    });
+    poolDataTable.grantReadWriteData(lambdaRetrieve); // permission for dynamo 
+    // POST method
+    const retrieve = api.root.addResource('retrieve');
+    retrieve.addMethod('POST', new apiGateway.LambdaIntegration(lambdaRetrieve, {
+      passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      credentialsRole: role,
+      integrationResponses: [{
+        statusCode: '200',
+      }],
+      proxy: true,
+    }), {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apiGateway.Model.EMPTY_MODEL,
+          },
+        }
+      ]
+    });
+    // cloudfront setting for api gateway of garden
+    distribution.addBehavior("/retrieve", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });
   }
 }
 
