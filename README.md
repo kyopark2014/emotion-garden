@@ -107,16 +107,16 @@ Features: 안경 눈뜨고있음
 
 ### Garden
 
-Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를 보여줍니다. 
+Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를 보여줍니다. Personlize에서 결과를 얻기 위해서는 최소 10000개의 interaction event가 필요합니다. Garden에서는 각 emotion에 대해 DynamoDB에 있는 모든 이미지를 보여줍니다. 이때 like 버튼을 통해 interaction data를 수집할 수 있습니다.
 
 1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/garden/garden.html" 로 접속합니다.
 2) [Video] 버튼을 선택하여 비디오 사용을 allow 해줍니다. 
 3) Favorite에 좋아하는 동물이나 사물을 추가할 수 있습니다. 단, 미리 정의되지 않은 Favorite의 경우에는 "No images"로 보여줍니다. 
 4) [Emotion] 버튼을 선택하여 화면 캡춰된 이미지로 Emotion분석을 한 후에, [Garden API](https://github.com/kyopark2014/emotion-garden#garden-api)를 이용하여 미리 생성된 Stable Diffusion 이미지들을 보여줍니다. 이때 얻어진 결과의 예는 아래와 같습니다.
 
-![image](https://user-images.githubusercontent.com/52392004/226776991-487287f3-860f-49fc-a40d-ebaaad9bae1c.png)
+![image](https://user-images.githubusercontent.com/52392004/227059404-4a56c15e-74ec-41d9-956b-21a58b99c547.png)
 
-5) 이미지를 선택하면 다른 이미지들을 순차적으로 보여줍니다. 
+5) Next 버튼을 눌러서, 다른 이미지들을 순차적으로 확인합니다.
 
 
 
@@ -129,7 +129,6 @@ Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를
 5) 이미지 오른쪽에 dislike/like 버튼을 선택하여, like를 표시할 수 있습니다. like를 선택하면 어떤 연령, 성별의 사람이 어떤 이미지를 선택하였는지, 서버로 전달되어 추천용도로 사용됩니다. (dislike에서 like로 전환되고, 이후는 like를 유지)
 6) [Nex] 버튼을 선택하면 다음 이미지 3개를 보여주고, 모두 다 보여주면 처음으로 돌아갑니다.
 
-![image](https://user-images.githubusercontent.com/52392004/227059404-4a56c15e-74ec-41d9-956b-21a58b99c547.png)
 
 
 ### Stable Diffusion 이미지 생성에 필요한 Prompt 준비
