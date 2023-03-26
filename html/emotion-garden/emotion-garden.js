@@ -200,7 +200,7 @@ function getEmotion() {
 }
 
 function drawGarden(emotionValue) {
-    const url = cloudfrntUrl + "gardenfromDB";
+    const url = cloudfrntUrl + "garden";
     const xhr = new XMLHttpRequest();
 
     xhr.open("POST", url, true);

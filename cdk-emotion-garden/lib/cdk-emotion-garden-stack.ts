@@ -540,6 +540,48 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'The web url of garden',
     });
 
+    // Lambda for garden
+    const lambdaGardenFromDynamoDB = new lambda.Function(this, 'lambda-garden-from-dynamodb', {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      functionName: "lambda-garden-from-dynamodb",
+      code: lambda.Code.fromAsset("../lambda-garden-from-dynamodb"),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        tableName: tableName,
+        indexName: indexName,
+        domainName: cloudFrontDomain,
+      }
+    });
+    dataTable.grantReadWriteData(lambdaGardenFromDynamoDB); // permission for dynamo 
+
+    // POST method
+    const gardenfromDB = api.root.addResource('gardenfromDB');
+    gardenfromDB.addMethod('POST', new apiGateway.LambdaIntegration(lambdaGardenFromDynamoDB, {
+      passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      credentialsRole: role,
+      integrationResponses: [{
+        statusCode: '200',
+      }],
+      proxy: true,
+    }), {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apiGateway.Model.EMPTY_MODEL,
+          },
+        }
+      ]
+    });
+    // cloudfront setting for api gateway of garden from dynamoDB
+    distribution.addBehavior("/gardenfromDB", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });
+
     // Lambda for remove
     const lambdaRemove = new lambda.Function(this, 'lambda-remove', {
       runtime: lambda.Runtime.NODEJS_16_X,
