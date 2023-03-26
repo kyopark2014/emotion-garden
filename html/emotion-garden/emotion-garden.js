@@ -233,7 +233,6 @@ function drawGarden(emotionValue) {
 
                 alert("이미지가 조회되지 않습니다.");
             }
-
             //  imgPanel.scrollTop = imgPanel.scrollHeight;  // scroll needs to move bottom            
         }
     };
