@@ -490,6 +490,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
     s3Bucket.grantReadWrite(lambdaS3event); // permission for s3
     dataTable.grantReadWriteData(lambdaS3event); // permission for dynamo
+    queueS3PutItem.grantSendMessages(lambdaS3event); // permision for SQS putItem
 
     // s3 put/delete event source
     const s3PutEventSource = new lambdaEventSources.S3EventSource(s3Bucket, {
