@@ -618,9 +618,21 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
 
-    new cdk.CfnOutput(this, 'UpdateCommend', {
+    new cdk.CfnOutput(this, 'HtmlUpdateCommend', {
       value: 'aws s3 cp ../html/ ' + 's3://' + s3Bucket.bucketName + '/html --recursive',
       description: 'copy commend for web pages',
+    });
+    new cdk.CfnOutput(this, 'BackupCommend', {
+      value: 'aws s3 cp ' + 's3://' + s3Bucket.bucketName + '/emotions/ . --recursive',
+      description: 'copy commend for images',
+    });
+    new cdk.CfnOutput(this, 'RestoreCommend', {
+      value: 'aws s3 cp emotions/' + 's3://' + s3Bucket.bucketName + '/emotions/ . --recursive',
+      description: 'copy commend for backup images',
+    });
+    new cdk.CfnOutput(this, 'UploadCommend', {
+      value: 'aws s3 cp imgPool/' + 's3://' + s3Bucket.bucketName + '/emotions/ . --recursive',
+      description: 'copy commend for backup images',
     });
 
     // Lambda - like
@@ -751,6 +763,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
+
+    
   }
 }
 
