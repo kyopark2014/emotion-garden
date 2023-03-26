@@ -1,11 +1,175 @@
 # Personalize
 
-- 상호작용(interacion): Like 선택
-    - PutEvents  
-- 아이템(Item metadata): emotion
-    - PutItems  
-- 사용자(User metadata): estimated age(->generation), gender(Male/Female)
-    - PutUsers
+
+## 사용자(User) Metadata
+
+
+
+### Schema
+
+```java
+{
+    "type": "record",
+    "name": "Users",
+    "namespace": "com.amazonaws.personalize.schema",
+    "fields": [
+        {
+            "name": "USER_ID",
+            "type": "string"
+        },
+        {
+            "name": "GENERATION",
+            "type": "string",
+            "categorical": true
+        },
+        {
+            "name": "GENDER",
+            "type": "string",
+            "categorical": true
+        },
+        {
+            "name": "EMOTION",
+            "type": "string",
+            "categorical": true
+        }
+    ],
+    "version": "1.0"
+}
+```
+
+### 구현
+
+[lambda-emotion](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-emotion/index.js)에서 사용자 정보를 personalize에 전달합니다.
+
+
+```java
+var params = {
+    datasetArn: datasetArn,
+    users: [{
+        userId: userId,
+        properties: {
+            "GENERATION": generation,
+            "GENDER": gender,
+            "EMOTION": emotions
+        }
+    }]
+};
+console.log('user params: ', JSON.stringify(params));
+
+const result = await personalizeevents.putUsers(params).promise(); 
+console.log('putUser result: '+JSON.stringify(result));
+```
+
+
+
+## 아이템(Item) Metadata
+
+### Schema
+
+```java
+{
+    "type": "record",
+    "name": "Items",
+    "namespace": "com.amazonaws.personalize.schema",
+    "fields": [
+        {
+            "name": "ITEM_ID",
+            "type": "string"
+        },
+        {
+            "name": "TIMESTAMP",
+            "type": "long"
+        },
+        {
+            "name": "EMOTION",
+            "type": "string",
+            "categorical": true
+        }
+    ],
+    "version": "1.0"
+}
+```
+
+## 구현
+
+[lambda-putItem](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-putItem/index.js)에서 사용자 정보를 personalize에 전달합니다.
+
+```java
+var params = {
+    datasetArn: datasetArn,
+    items: [{
+        itemId: key,
+        properties: {
+            "TIMESTAMP": timestamp,
+            "EMOTION": searchKey,
+        }
+    }]
+};
+console.log('user params: ', JSON.stringify(params));
+
+const result = await personalizeevents.putItems(params).promise(); 
+console.log('putItem result: '+JSON.stringify(result));
+```
+
+
+## 상호작용(interacion)
+
+### Schema
+
+```java
+{
+    "type": "record",
+    "name": "Interactions",
+    "namespace": "com.amazonaws.personalize.schema",
+    "fields": [
+        {
+            "name": "USER_ID",
+            "type": "string"
+        },
+        {
+            "name": "ITEM_ID",
+            "type": "string"
+        },
+        {
+            "name": "TIMESTAMP",
+            "type": "long"
+        },
+        { 
+            "name": "EVENT_TYPE",
+            "type": "string"
+        },
+        {
+            "name": "IMPRESSION",
+            "type": "string"
+        }
+    ],
+    "version": "1.0"
+}
+```
+
+### 구현
+
+[lambda-like](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-like/index.js)에서 사용자 정보를 personalize에 전달합니다.
+
+```java
+var params = {            
+    sessionId: '1',
+    trackingId: trackingId,
+    userId: userId,
+    eventList: [{
+        eventType: "click",  // 'rating'
+        sentAt: timestamp,
+        eventId: userId,
+        // eventValue: 11,                
+        itemId: itemId,
+        impression: impression,
+    }],
+};
+console.log('event params: ', JSON.stringify(params));
+
+const result = await personalizeevents.putEvents(params).promise();
+console.log('putEvent result: ' + JSON.stringify(result));
+```
 
 
 ## Referecne
