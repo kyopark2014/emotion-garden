@@ -2,7 +2,12 @@
 
 ## Architecture
 
-전체적인 Architecture는 아래와 같습니다. 이미지를 Stable Diffusion으로 생성하고, emotion을 분석한 후에 적절한 이미지를 추천합니다. (추천은 구현중)
+전체적인 Architecture는 아래와 같습니다. 이미지를 Stable Diffusion으로 생성하고, emotion을 분석한 후에 적절한 이미지를 추천합니다. 
+
+Stable Diffusion을 이용하면 텍스트로된 prompt로 부터 창조적인 이미지를 생성할 수 있습니다. 하지만, 생성된 이미지를 서비스하기 위해서는 관리자(Administrator)에 의해 이미지를 취사선택하는 과정이 필요합니다. 따라서, 아래 Architecture에서는 "/bulk" API를 통해 다수 생성한 후에 확인(retrieve)하고, 적절하지 않은 이미지를 삭제하는 과정을 수행합니다. 이를 통해 정리된 이미지들을 S3로 복사하여 사용할 수 있게 합니다. 복사시에 다수의 이미지가 한꺼번에 로딩 될 수 있으므로 FIFO방식의 SQS에 저장한 후에 Lambda에서 꺼내서 Personalize에 아이템으로 등록합니다. 
+사용자는 별도의 클라이언트를 통해 API Gateway를 통해 먼저 감정(Emotion)분석을 합니다. Emotion분석은 Rekognition을 이용하며, 이때 Personalize에 User 메타데이터를 등록합니다. 감정 분석시 얻은 사용자 아이디(UserID)를 가지고 Personalize에 현재의 사용자 감정에 맞는 이미지 추천을 요청합니다. 이때 이미지 리스트로된 응답을 받은 후 화면에 3개씩 표시해줍니다. 사용자는 이미지들중에 맘에 드는 이미지를 고를수 있고, 이때 사용자의 interaction은 "/like" API를 통해 Personalize에 전달되어 좀더 나은 추천이 이루어 질 수 있게 됩니다. 
+
+
 
 <img width="981" alt="image" src="https://user-images.githubusercontent.com/52392004/227768226-3a81e239-a358-40ac-a0e7-016be1b71b46.png">
 
