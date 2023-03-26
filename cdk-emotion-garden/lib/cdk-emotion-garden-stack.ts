@@ -27,22 +27,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // SQS - Bulk
-    const queueBulk = new sqs.Queue(this, 'QueueBulk', {
-      visibilityTimeout: cdk.Duration.seconds(310),
-      queueName: "queue-emotion-garden.fifo",
-      fifo: true,
-      contentBasedDeduplication: false,
-      deliveryDelay: cdk.Duration.millis(0),
-      retentionPeriod: cdk.Duration.days(2),
-    });
-    if (debug) {
-      new cdk.CfnOutput(this, 'sqsBulkUrl', {
-        value: queueBulk.queueUrl,
-        description: 'The url of the Queue',
-      });
-    }
-
     // DynamoDB
     const tableName = 'db-emotion-garden';
     const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
@@ -392,6 +376,22 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'The web url of emotion',
     });
 
+    // SQS - Bulk
+    const queueBulk = new sqs.Queue(this, 'QueueBulk', {
+      visibilityTimeout: cdk.Duration.seconds(310),
+      queueName: "queue-emotion-garden.fifo",
+      fifo: true,
+      contentBasedDeduplication: false,
+      deliveryDelay: cdk.Duration.millis(0),
+      retentionPeriod: cdk.Duration.days(2),
+    });
+    if (debug) {
+      new cdk.CfnOutput(this, 'sqsBulkUrl', {
+        value: queueBulk.queueUrl,
+        description: 'The url of the Queue',
+      });
+    }
+
     // Lambda - bulk
     const lambdaBulk = new lambda.Function(this, "lambdaBulk", {
       runtime: lambda.Runtime.NODEJS_16_X,
@@ -458,6 +458,23 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }),
     );
 
+    // PutItem
+    // SQS for S3 putItem
+    const queueS3PutItem = new sqs.Queue(this, 'QueueS3PutItem', {
+      visibilityTimeout: cdk.Duration.seconds(310),
+      queueName: "queue-s3-putitem.fifo",
+      fifo: true,
+      contentBasedDeduplication: false,
+      deliveryDelay: cdk.Duration.millis(0),
+      retentionPeriod: cdk.Duration.days(2),
+    });
+    if (debug) {
+      new cdk.CfnOutput(this, 'sqsS3PutItemUrl', {
+        value: queueS3PutItem.queueUrl,
+        description: 'The url of the S3 putItem Queue',
+      });
+    }
+
     // Lambda for s3 trigger
     const lambdaS3event = new lambda.Function(this, 'lambda-S3-event', {
       runtime: lambda.Runtime.NODEJS_16_X,
@@ -468,17 +485,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         tableName: tableName,
-        datasetArn: itemDataset.attrDatasetArn
+        sqsUrl: queueS3PutItem.queueUrl
       }
     });
     s3Bucket.grantReadWrite(lambdaS3event); // permission for s3
     dataTable.grantReadWriteData(lambdaS3event); // permission for dynamo
-
-    lambdaS3event.role?.attachInlinePolicy(
-      new iam.Policy(this, 'personalize-policy-for-lambdaS3event', {
-        statements: [PersonalizePolicy],
-      }),
-    );
 
     // s3 put/delete event source
     const s3PutEventSource = new lambdaEventSources.S3EventSource(s3Bucket, {
@@ -491,6 +502,27 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       ]
     });
     lambdaS3event.addEventSource(s3PutEventSource);
+
+    // Lambda for s3 putItem
+    const lambdaPutItem = new lambda.Function(this, 'lambda-putItem', {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      functionName: "lambda-putItem",
+      code: lambda.Code.fromAsset("../lambda-putItem"),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        tableName: tableName,
+        datasetArn: itemDataset.attrDatasetArn
+      }
+    });
+    dataTable.grantReadWriteData(lambdaPutItem); // permission for dynamo
+    lambdaPutItem.addEventSource(new SqsEventSource(queueS3PutItem)); // add event source 
+    lambdaPutItem.role?.attachInlinePolicy(
+      new iam.Policy(this, 'personalize-policy-for-lambdaPutItem', {
+        statements: [PersonalizePolicy],
+      }),
+    );
 
     // Lambda for garden
     const lambdaGarden = new lambda.Function(this, 'lambda-garden', {

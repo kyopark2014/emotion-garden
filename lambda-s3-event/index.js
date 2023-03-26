@@ -1,9 +1,8 @@
 const aws = require('aws-sdk');
 const dynamo = new aws.DynamoDB.DocumentClient();
-const personalizeevents = new aws.PersonalizeEvents();
-
+const sqs = new aws.SQS({apiVersion: '2012-11-05'});
 const tableName = process.env.tableName;
-const datasetArn = process.env.datasetArn;
+const sqsUrl = process.env.sqsUrl;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -52,8 +51,7 @@ exports.handler = async (event, context) => {
             const timestamp = date.getTime();
             console.log('timestamp: ', timestamp);
 
-            // putItem to DynamoDB
-            let putParams;
+            // putItem to DynamoDB            
             let searchKey;
             if (splitKey.length >= 4) {
                 searchKey = emotion + '/' + favorite;
@@ -68,58 +66,27 @@ exports.handler = async (event, context) => {
                 };
             }
 
-            // const control = getControlParameters(bucket, key, emotion);
+            const jsonData = {
 
-            putParams = {
-                TableName: tableName,
-                Item: {
-                    ObjKey: key,
-                    Timestamp: timestamp,
-                    Emotion: searchKey,
-                    Control: control
-                }
-            };
-            console.log('putParams: ' + JSON.stringify(putParams));
-
-            dynamo.put(putParams, function (err, data) {
-                if (err) {
-                    console.log('Failure: ' + err);
-                }
-                else {
-                    console.log('data: ' + JSON.stringify(data));
-                }
-            });
-
-            console.log('event.Records.length: ', event.Records.length);
-            console.log('i: ', i);            
-
-            // create item dataset
-            try {
-                var params = {
-                    datasetArn: datasetArn,
-                    items: [{
-                        itemId: key,
-                        properties: {
-                            "TIMESTAMP": timestamp,
-                            "EMOTION": searchKey,
-                        }
-                    }]
-                };
-                console.log('user params: ', JSON.stringify(params));
-
-                const result = await personalizeevents.putItems(params).promise(); 
-                console.log('putItem result: '+JSON.stringify(result));
-
-                isCompleted = true;   
-            } catch (error) {
-                console.log(error);
-                isCompleted = true;
-
-                response = {
-                    statusCode: 500,
-                    body: error
-                };
             }
+
+            // push the event to SQS
+            try {
+                let params = {
+                    // DelaySeconds: 10, // not allow for fifo
+                    MessageDeduplicationId: key,
+                    MessageAttributes: {},
+                    MessageBody: JSON.stringify(jsonData), 
+                    QueueUrl: sqsUrl,
+                    MessageGroupId: "putItem"  // use single lambda for stable diffusion 
+                };         
+                console.log('params: '+JSON.stringify(params));
+        
+                let result = await sqs.sendMessage(params).promise();  
+                console.log("result="+JSON.stringify(result));
+            } catch (err) {
+                console.log(err);
+            }             
         }
         else if (eventName == 'ObjectRemoved:Delete') {
             var params = {
