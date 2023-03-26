@@ -57,7 +57,7 @@ exports.handler = async (event, context) => {
             eventList: [{
                 eventType: "click",  // 'rating'
                 sentAt: timestamp,
-                eventId: 'event1',
+                eventId: userId,
                 // eventValue: 11,                
                 itemId: itemId,
                 impression: impression,
