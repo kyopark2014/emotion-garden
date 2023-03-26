@@ -80,6 +80,7 @@ exports.handler = async (event, context) => {
                 }
 
                 console.log('data: ' + JSON.stringify(data));
+                isCompleted = true;
             });
 
             console.log('event.Records.length: ', event.Records.length);

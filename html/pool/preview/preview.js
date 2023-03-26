@@ -1,8 +1,7 @@
 const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
 
-const removeUrl = cloudfrntUrl + "remove";
-const gardenUrl = cloudfrntUrl + "garden";
-const clearIndexUrl = cloudfrntUrl + "clearIndex";
+const removeUrl = cloudfrntUrl + "removePool";
+const gardenUrl = cloudfrntUrl + "retrieve";
 
 let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
@@ -97,7 +96,7 @@ function drawGarden(emotionValue) {
     xhr.send(blob);
 }
 
-function removeFile(objName) {   
+function removeFile(objList) {   
     const xhr = new XMLHttpRequest();
 
     xhr.open("POST", removeUrl, true);
@@ -111,30 +110,7 @@ function removeFile(objName) {
     };
 
     let requestObj = {
-        "objName": objName,
-    };
-    console.log("request: " + JSON.stringify(requestObj));
-
-    let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
-
-    xhr.send(blob);
-}
-
-function clearIndexDynamoDB(objName) {   
-    const xhr = new XMLHttpRequest();
-
-    xhr.open("POST", clearIndexUrl, true);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("--> responseText: " + xhr.responseText);
-
-            // let response = JSON.parse(xhr.responseText)
-            // console.log("response: " + response.text);                               
-        }
-    };
-
-    let requestObj = {
-        "objName": objName,
+        "objName": objList,
     };
     console.log("request: " + JSON.stringify(requestObj));
 
@@ -200,9 +176,6 @@ form.elements.remove.onclick = function () {
     // remove dislike files
     removeFile(dislike);
 
-    for(let i in dislike)  // remove dynamodb index
-        clearIndexDynamoDB(dislike[i]);
-
     let message = "";
     for (let i in dislike) {
         message += dislike[i] + '\n';
@@ -267,7 +240,7 @@ function checkFile(url, i) {
 
         if(xhr.status === 403){
             console.log('No file, clear index of dynamodb');
-            clearIndexDynamoDB(fileList[i]);
+            removeFile([fileList[i]])
             deletedList[i] = true;
             previewlist[i].innerHTML = '';
         }

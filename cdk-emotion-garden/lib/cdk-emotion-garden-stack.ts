@@ -631,8 +631,17 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'copy commend for backup images',
     });
     new cdk.CfnOutput(this, 'UploadCommend', {
-      value: 'aws s3 cp imgPool/' + 's3://' + s3Bucket.bucketName + '/emotions/ . --recursive',
+      value: 'aws s3 cp imgPool/ ' + 's3://' + s3Bucket.bucketName + '/emotions/ . --recursive',
       description: 'copy commend for backup images',
+    });
+
+    new cdk.CfnOutput(this, 'backupCommendForImagePool', {
+      value: 'aws s3 cp s3://' + s3Bucket.bucketName + '/imgPool/ ./imgPool/ --recursive',
+      description: 'copy commend for backup images in image pool',
+    });
+    new cdk.CfnOutput(this, 'restoreCommendForImagePool', {
+      value: 'aws s3 cp ./imgPool/ s3://' + s3Bucket.bucketName + '/imgPool/ --recursive',
+      description: 'retore commend for backup images in image pool',
     });
 
     // Lambda - like
@@ -762,9 +771,47 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-    });
+    });    
 
-    
+    // Lambda for remove (image pool)
+    const lambdaRemoveImagePool = new lambda.Function(this, 'lambda-remove-image-pool', {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      functionName: "lambda-remove-image-pool",
+      code: lambda.Code.fromAsset("../lambda-remove-image-pool"),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        bucketName: s3Bucket.bucketName,
+        tableName: imgPoolTableName,
+      }
+    });
+    s3Bucket.grantReadWrite(lambdaRemoveImagePool); // permission for s3    
+    // POST method
+    const removePool = api.root.addResource('removePool');
+    removePool.addMethod('POST', new apiGateway.LambdaIntegration(lambdaRemoveImagePool, {
+      passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      credentialsRole: role,
+      integrationResponses: [{
+        statusCode: '200',
+      }],
+      proxy: true,
+    }), {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apiGateway.Model.EMPTY_MODEL,
+          },
+        }
+      ]
+    });
+    // cloudfront setting for api gateway of remove
+    distribution.addBehavior("/removePool", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });
   }
 }
 
