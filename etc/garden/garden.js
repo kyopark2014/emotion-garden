@@ -2,12 +2,11 @@ const startButton = document.querySelector(".start-button");
 const previewButton = document.querySelector(".preview-button");
 // const downloadButton = document.querySelector(".download-button"); 
 const emotionButton = document.querySelector(".emotion-button");
-const nextButton = document.querySelector(".next-button");
+
 //event
 startButton.addEventListener("click", videoStart);
 // previewButton.addEventListener("click",preview);
 emotionButton.addEventListener("click", emotion);
-nextButton.addEventListener("click", nextImages);
 
 const previewPlayer = document.querySelector("#preview");
 let canvas = document.getElementById('canvas');
@@ -28,14 +27,10 @@ let previewlist = [];
 let fileList = [];
 const maxImgItems = 1;
 let drawingIndex = 0;
-// let uuid = uuidv4();
-let userId;
+let uuid = uuidv4();
 let emotionValue;
 let generation;
 let gender;
-let like = [];
-for(let i=0;i<3;i++) like[i] = false;
-let impression = [];
 
 //functions
 function videoStart() {
@@ -71,9 +66,6 @@ function getEmotion() {
             let response = JSON.parse(xhr.responseText);
             console.log("response: " + JSON.stringify(response));
 
-            userId = response.id;
-            console.log("userId: " + userId);
-
             gender = response.gender;
             console.log("gender: " + gender);
 
@@ -82,6 +74,7 @@ function getEmotion() {
 
             let ageRangeLow = JSON.parse(response.ageRange.Low);
             let ageRangeHigh = JSON.parse(response.ageRange.High);
+
             let ageRange = `Age: ${ageRangeLow} ~ ${ageRangeHigh}`; // age   
             console.log('ages: ' + ageRange);
 
@@ -173,7 +166,7 @@ function getEmotion() {
     previewUrl = [];
     previewlist = [];
 
-    // console.log('uuid: ', uuid);
+    console.log('uuid: ', uuid);
 
     for (let i = 0; i < maxImgItems; i++) {
         previewlist.push(document.getElementById('preview' + i));
@@ -183,8 +176,14 @@ function getEmotion() {
             previewlist[index].addEventListener("click", function () {
                 i = index;
 
-                // console.log('click! index: ' + index);
-                console.log('click!');
+                console.log('click! index: ' + index);
+
+                console.log('drawingIndex: ' + drawingIndex);
+
+                if (previewUrl.length - drawingIndex < 3) drawingIndex = 0;
+                else drawingIndex += 3;
+
+                updateImages(previewUrl, drawingIndex);
             })
         })(i);
     }
@@ -195,6 +194,9 @@ function getEmotion() {
     }
 
     canvas.toBlob(function (blob) {
+        xhr.setRequestHeader('X-user-id', uuid);
+        xhr.setRequestHeader('Content-Disposition', uuid);
+
         xhr.send(blob);
     });
 }
@@ -213,7 +215,7 @@ function drawGarden(emotionValue) {
             console.log("landscape: " + JSON.stringify(landscape));
             let portrait = response['portrait'];
             console.log("portrait: " + JSON.stringify(portrait));
-
+            
             for (let i in landscape) {
                 console.log(landscape[i]);
 
@@ -233,38 +235,15 @@ function drawGarden(emotionValue) {
 
                 alert("이미지가 조회되지 않습니다.");
             }
+
             //  imgPanel.scrollTop = imgPanel.scrollHeight;  // scroll needs to move bottom            
         }
     };
 
     let requestObj = {
-        "id": userId,
         "emotion": emotionValue,
         "generation": generation,
         "gender": gender,
-    };
-    console.log("request: " + JSON.stringify(requestObj));
-
-    let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
-
-    xhr.send(blob);
-}
-
-function sendLike(userId, itemId, impression) {
-    const url = "/like";
-    const xhr = new XMLHttpRequest();
-
-    xhr.open("POST", url, true);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("--> responseText: " + xhr.responseText);
-        }
-    };
-
-    let requestObj = {
-        "id": userId,
-        "itemId": itemId,
-        "impression": impression,
     };
     console.log("request: " + JSON.stringify(requestObj));
 
@@ -280,91 +259,26 @@ function emotion() {
     getEmotion();
 }
 
-function nextImages() {
-    console.log('previewUrl.length: ' + previewUrl.length);
-    console.log('drawingIndex: ' + drawingIndex);
-
-    if (previewUrl.length - drawingIndex <= 3) drawingIndex = 0;
-    else drawingIndex += 3;
-
-    updateImages(previewUrl, drawingIndex);
-
-    for(let i=0;i<3;i++) like[i] = false;
-}
-
 function updateImages(previewUrl, i) {
     let htmlsrc;
 
-    console.log('previewUrl.length - i: ', previewUrl.length - i);
     if (previewUrl.length - i >= 3) {
-        htmlsrc = `<ab><img id="${i}" src="${previewUrl[i].url}" width="400"/><i onclick="likeOrDislike(0, this)" class="fa fa-thumbs-down"></i></ab>
-        <ab><img id="${i+1}" src="${previewUrl[i+1].url}" width="400"/><i onclick="likeOrDislike(1, this)" class="fa fa-thumbs-down"></i></ab>
-        <ab><img id="${i+2}" src="${previewUrl[i+2].url}" width="400"/><i onclick="likeOrDislike(2,this)" class="fa fa-thumbs-down"></i></ab>`;
-
-        impression = [];
-        let pos = previewUrl[i].url.lastIndexOf('emotions');
-        fname = previewUrl[i].url.substring(pos)
-        impression.push(fname);
-
-        pos = previewUrl[i+1].url.lastIndexOf('emotions');
-        fname = previewUrl[i+1].url.substring(pos)
-        impression.push(fname);
-
-        pos = previewUrl[i+2].url.lastIndexOf('emotions');
-        fname = previewUrl[i+2].url.substring(pos)
-        impression.push(fname);
+        htmlsrc = `<img id="${i}" src="${previewUrl[i].url}" width="400"/>
+                <img id="${i + 1}" src="${previewUrl[i + 1].url}" width="400"/>
+                <img id="${i + 2}" src="${previewUrl[i + 2].url}" width="400"/>`;
+        console.log('htmlsrc: ', htmlsrc);
     }
     else if (previewUrl.length - i >= 2) {
-        htmlsrc = `<ab><img id="${i}" src="${previewUrl[i].url}" width="400"/><i onclick="likeOrDislike(0, this)" class="fa fa-thumbs-down"></i></ab>
-        <ab><img id="${i+1}" src="${previewUrl[i+1].url}" width="400"/><i onclick="likeOrDislike(1, this)" class="fa fa-thumbs-down"></i></ab>`;        
-
-        impression = [];
-        let pos = previewUrl[i].url.lastIndexOf('emotions');
-        fname = previewUrl[i].url.substring(pos)
-        impression.push(fname);
-
-        impression = [];
-        pos = previewUrl[i+1].url.lastIndexOf('emotions');
-        fname = previewUrl[i+1].url.substring(pos)
-        impression.push(fname);
+        htmlsrc = `<img id="${i}" src="${previewUrl[i].url}" width="400"/>
+                <img id="${i}" src="${previewUrl[i].url}" width="400"/>`;
+        console.log('htmlsrc: ', htmlsrc);
     }
     else {
-        htmlsrc = `<ab><img id="${i}" src="${previewUrl[i].url}" width="400"/><i onclick="likeOrDislike(0, this)" class="fa fa-thumbs-down"></i></ab>`;
-
-        let pos = previewUrl[i].url.lastIndexOf('emotions');
-        fname = previewUrl[i].url.substring(pos)
-        impression.push(fname);
+        htmlsrc = `<img id="${i}" src="${previewUrl[i].url}" width="400"/>`;
+        console.log('htmlsrc: ', htmlsrc);
     }
-    // console.log('htmlsrc: ', htmlsrc);
 
     previewlist[0].innerHTML = htmlsrc;
-}
-
-function likeOrDislike(col, x) {
-    console.log("column: ", col);
-
-    if (x.classList.value == "fa fa-thumbs-down fa-thumbs-up") {
-        console.log('dislike!');
-        like[col] = false;
-    }
-    else {
-        console.log('like['+col+']: '+ like[col]);
-
-        if (!like[col]) {
-            like[col] = true;
-
-            console.log('drawingIndex: ' + drawingIndex+col);
-
-            let pos = previewUrl[drawingIndex+col].url.lastIndexOf('emotions');
-            fname = previewUrl[drawingIndex+col].url.substring(pos)
-            console.log("fname: ", fname);
-
-            sendLike(userId, fname, impression);
-        }
-        x.classList.value = "fa a-thumbs-up"
-    }
-
-    x.classList.toggle("fa-thumbs-up");
 }
 
 function uuidv4() {
