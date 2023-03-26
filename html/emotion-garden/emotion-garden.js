@@ -274,28 +274,6 @@ function sendLike(userId, itemId, impression) {
     xhr.send(blob);
 }
 
-const url = "/like";
-const xhr = new XMLHttpRequest();
-
-xhr.open("POST", url, true);
-xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log("--> responseText: " + xhr.responseText);
-    }
-};
-
-let requestObj = {
-    "id": userId,
-    "objKey": objKey,
-    "generation": generation,
-    "gender": gender,
-};
-console.log("request: " + JSON.stringify(requestObj));
-
-let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
-
-xhr.send(blob);
-
 function emotion() {
     canvas.getContext('2d').drawImage(previewPlayer, 0, 0, canvas.width, canvas.height);
     drawingIndex = 0;
