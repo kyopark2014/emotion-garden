@@ -87,8 +87,6 @@ exports.handler = async (event, context) => {
         
                 let result = await sqs.sendMessage(params).promise();  
                 console.log("result="+JSON.stringify(result));
-
-                if(i == event.Record.length) isCompleted = true;
             } catch (err) {
                 console.log(err);
             }             
@@ -111,7 +109,7 @@ exports.handler = async (event, context) => {
         }
     }
 
-    function wait() {
+  /*  function wait() {
         return new Promise((resolve, reject) => {
             if (!isCompleted) {
                 setTimeout(() => resolve("wait..."), 1000);
@@ -129,7 +127,7 @@ exports.handler = async (event, context) => {
 
     response = {
         statusCode: 200,
-    };
+    }; */
 
     return response;
 };

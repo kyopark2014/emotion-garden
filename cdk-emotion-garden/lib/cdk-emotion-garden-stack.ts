@@ -475,7 +475,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       });
     }
 
-    // Lambda for s3 trigger
+    // Lambda for s3 event
     const lambdaS3event = new lambda.Function(this, 'lambda-S3-event', {
       runtime: lambda.Runtime.NODEJS_16_X,
       functionName: "lambda-s3-event",
@@ -514,7 +514,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         tableName: tableName,
-        datasetArn: itemDataset.attrDatasetArn
+        datasetArn: itemDataset.attrDatasetArn,
+        sqsUrl: queueS3PutItem.queueUrl
       }
     });
     dataTable.grantReadWriteData(lambdaPutItem); // permission for dynamo
