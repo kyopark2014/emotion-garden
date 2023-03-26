@@ -4,10 +4,11 @@ const dynamo = new aws.DynamoDB.DocumentClient();
 const tableName = process.env.tableName;
 const datasetArn = process.env.datasetArn;
 const sqsUrl = process.env.sqsUrl;
+const personalizeevents = new aws.PersonalizeEvents();
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
-    console.log('## EVENT: ' + JSON.stringify(event))
+    console.log('## EVENT: ' + JSON.stringify(event));
     
     const records = event['Records'];
     console.log('records: ' + JSON.stringify(records));
@@ -20,7 +21,7 @@ exports.handler = async (event, context) => {
 
         let key = body.key;
         let timestamp = body.timestamp;
-        let searchKey = body.searchKey
+        let searchKey = body.searchKey;
         
         // const control = getControlParameters(bucket, key, emotion);
         let putParams;
@@ -40,7 +41,7 @@ exports.handler = async (event, context) => {
                 console.log('Failure: ' + err);
             }
             else {
-                console.log('data: ' + JSON.stringify(data));
+                console.log('dynamodb put result: ' + JSON.stringify(data));
             }
         });
 
@@ -60,11 +61,8 @@ exports.handler = async (event, context) => {
 
             const result = await personalizeevents.putItems(params).promise(); 
             console.log('putItem result: '+JSON.stringify(result));
-
-            isCompleted = true;   
         } catch (error) {
             console.log(error);
-            isCompleted = true;
 
             response = {
                 statusCode: 500,
