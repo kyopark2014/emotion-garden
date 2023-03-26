@@ -1,0 +1,130 @@
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Dummy Generator</title>
+    <script type="application/javascript">
+        let previewUrl = [];
+        const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
+        
+        function sendLike(userId, itemId, impression) {
+            const url = "/like";
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("POST", url, true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log("--> responseText: " + xhr.responseText);
+                }
+            };
+
+            let requestObj = {
+                "id": userId,
+                "itemId": itemId,
+                "impression": impression,
+            };
+            console.log("request: " + JSON.stringify(requestObj));
+
+            let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
+
+            xhr.send(blob);
+        }
+
+        function getImageUrl(userId, emotionValue, generation, gender) {
+            const url = cloudfrntUrl + "gardenfromDB";
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("POST", url, true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log("--> responseText: " + xhr.responseText);
+                    let response = JSON.parse(xhr.responseText)
+
+                    let landscape = response['landscape'];
+                    console.log("landscape: " + JSON.stringify(landscape));
+                    let portrait = response['portrait'];
+                    console.log("portrait: " + JSON.stringify(portrait));
+
+                    for (let i in landscape) {
+                        console.log(landscape[i]);
+
+                        previewUrl.push(landscape[i]);                
+                    }
+                    for (let i in portrait) {
+                        console.log(portrait[i]);
+
+                        previewUrl.push(portrait[i]);                
+                    }
+                }
+            };
+
+            let requestObj = {
+                "id": userId,
+                "emotion": emotionValue,
+                "generation": generation,
+                "gender": gender,
+            };
+            console.log("request: " + JSON.stringify(requestObj));
+
+            let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
+
+            xhr.send(blob);
+        }
+
+        function sendRequest(text) {
+            const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image"; 
+            const xhr = new XMLHttpRequest();
+
+            let emotionText = [
+                "happy",
+                "surprised",
+                "calm",
+                "angry",
+                "fear",
+                "confused",
+                "disgusted",
+                "sad",
+            ];
+            console.log("emotionText: ", JSON.stringify(emotionText));
+
+            getImageUrl("anomymous", emotionText[0], "adult", "male");
+
+
+            console.log('url: ', JSON.stringify(previewUrl));
+        }
+
+        window.onload = () => {
+            var form = document.forms.myform;
+            form.elements.button.onclick = function () {
+                var text = form.elements.prompt.value;
+                console.log("input: " + text);
+
+                if (text) {
+                    sendRequest(text);
+                } else {
+                    alert("No prompt.");
+                }
+            };
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Dummy Generator</h1>
+    <h4>initiate the data of personalize.</h4>
+    <div>
+        <form id="myform">
+            <text>Prompt: </text><input type="text" name="prompt" autofocus size="100"
+                value="button prompt">
+            <input type="button" name="button" value="Send">
+        </form>
+    </div>
+    <form id="input_row1">
+        <text>Resolution: </text>
+        <select name="resolution" id="resolutionId">
+            <option type="text" value="BASIC" selected="selected">Basic: 768 x 512</option>
+            <option value="WSVGA">WSVGA: 1024 x 600</option>
+            <option value="WXGA">WXGA: 1280 x 800</option>
+        </select>
+    </form>
+</body>
+</html>
