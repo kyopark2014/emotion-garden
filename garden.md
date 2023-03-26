@@ -48,25 +48,43 @@ let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
 xhr.send(blob);
 ```
 
-API로 호출로 얻은 결과는 아래와 같습니다.
+API로 호출로 얻은 결과는 아래와 같습니다. 여기서 control에 대한 부분은 아직 구현중입니다.
 
 ```java
 {
    "landscape":[
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_0h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_5h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_6h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_3h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-00504_2h.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_7h.jpeg"
+      {
+            "url": "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/confused/img_20230321-135258_3v.jpeg",
+            "emotion": "confused",
+            "control": {
+                "first": {
+                    "R": 100,
+                    "G": 100,
+                    "B": 0
+                },
+                "second": {
+                    "R": 100,
+                    "G": 100,
+                    "B": 0
+                }
+            }
+      },
    ],
    "portrait":[
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_8v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_2v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_9v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230321-135241_7v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-121242_1v.jpeg",
-      "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/calm/img_20230320-00504_5v.jpeg"
+        "url": "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/confused/img_20230321-135258_3v.jpeg",
+        "emotion": "confused",
+        "control": {
+            "first": {
+                "R": 100,
+                "G": 100,
+                "B": 0
+            },
+            "second": {
+                "R": 100,
+                "G": 100,
+                "B": 0
+            }
+        }   
    ]
 }
 ```
