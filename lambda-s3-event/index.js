@@ -10,6 +10,7 @@ exports.handler = async (event, context) => {
     console.log('## EVENT: ' + JSON.stringify(event));
 
     let isCompleted = false;
+    let response;
     for (let i in event.Records) {
         // Get the object from the event and show its content type
         const eventName = event.Records[i].eventName; // ObjectCreated:Put        
@@ -61,13 +62,13 @@ exports.handler = async (event, context) => {
                 searchKey = emotion;
             }
             else {
-                return response = {
+                return {
                     statusCode: 500,
                     body: splitKey
                 };
             }
 
-            const control = getControlParameters(bucket, key, emotion);
+            // const control = getControlParameters(bucket, key, emotion);
 
             putParams = {
                 TableName: tableName,
@@ -84,8 +85,9 @@ exports.handler = async (event, context) => {
                 if (err) {
                     console.log('Failure: ' + err);
                 }
-
-                console.log('data: ' + JSON.stringify(data));
+                else {
+                    console.log('data: ' + JSON.stringify(data));
+                }
             });
 
             console.log('event.Records.length: ', event.Records.length);
@@ -126,7 +128,7 @@ exports.handler = async (event, context) => {
                     ObjKey: key,
                 },
             };
-
+            
             dynamo.delete(params, function (err, data) {
                 if (err) {
                     console.log('Failure: ' + err);
@@ -153,7 +155,7 @@ exports.handler = async (event, context) => {
     console.log(await wait());
     console.log(await wait());
 
-    const response = {
+    response = {
         statusCode: 200,
     };
 

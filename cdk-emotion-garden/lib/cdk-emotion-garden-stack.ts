@@ -623,24 +623,24 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'copy commend for web pages',
     });
     new cdk.CfnOutput(this, 'BackupCommend', {
-      value: 'aws s3 cp ' + 's3://' + s3Bucket.bucketName + '/emotions/ . --recursive',
-      description: 'copy commend for images',
+      value: 'aws s3 cp ' + 's3://' + s3Bucket.bucketName + '/emotions/ ./emotions/ --recursive',
+      description: 'copy commend for backup images',
     });
     new cdk.CfnOutput(this, 'RestoreCommend', {
-      value: 'aws s3 cp emotions/' + 's3://' + s3Bucket.bucketName + '/emotions/ . --recursive',
-      description: 'copy commend for backup images',
+      value: 'aws s3 cp ./emotions/ ' + 's3://' + s3Bucket.bucketName + '/emotions/ --recursive',
+      description: 'copy commend for restore images',
     });
     new cdk.CfnOutput(this, 'UploadCommend', {
       value: 'aws s3 cp imgPool/ ' + 's3://' + s3Bucket.bucketName + '/emotions/ . --recursive',
       description: 'copy commend for backup images',
     });
 
-    new cdk.CfnOutput(this, 'backupCommendForImagePool', {
+    new cdk.CfnOutput(this, 'downloadCommendFromImagePool', {
       value: 'aws s3 cp s3://' + s3Bucket.bucketName + '/imgPool/ ./imgPool/ --recursive',
       description: 'copy commend for backup images in image pool',
     });
-    new cdk.CfnOutput(this, 'restoreCommendForImagePool', {
-      value: 'aws s3 cp ./imgPool/ s3://' + s3Bucket.bucketName + '/imgPool/ --recursive',
+    new cdk.CfnOutput(this, 'uploadCommendFromImagePool', {
+      value: 'aws s3 cp ./imgPool/ s3://' + s3Bucket.bucketName + '/emotions/ --recursive',
       description: 'retore commend for backup images in image pool',
     });
 
