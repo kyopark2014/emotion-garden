@@ -540,7 +540,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'The web url of garden',
     });
 
-    // Lambda for bulk-stable-diffusion
+    // Lambda for remove
     const lambdaRemove = new lambda.Function(this, 'lambda-remove', {
       runtime: lambda.Runtime.NODEJS_16_X,
       functionName: "lambda-remove",
@@ -553,7 +553,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });
     s3Bucket.grantReadWrite(lambdaRemove); // permission for s3    
-
     // POST method
     const remove = api.root.addResource('remove');
     remove.addMethod('POST', new apiGateway.LambdaIntegration(lambdaRemove, {
@@ -573,7 +572,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         }
       ]
     });
-
     // cloudfront setting for api gateway of remove
     distribution.addBehavior("/remove", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
@@ -594,7 +592,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });
     dataTable.grantReadWriteData(lambdaClearDynamoIndex); // permission for dynamo 
-
     // POST method
     const clearIndex = api.root.addResource('clearIndex');
     clearIndex.addMethod('POST', new apiGateway.LambdaIntegration(lambdaClearDynamoIndex, {
@@ -614,7 +611,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         }
       ]
     });
-
     // cloudfront setting for api gateway of clearIndex
     distribution.addBehavior("/clearIndex", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
@@ -627,7 +623,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'copy commend for web pages',
     });
 
-    // Lambda - emotion
+    // Lambda - like
     const lambdaLike = new lambda.Function(this, "lambdaLike", {
       runtime: lambda.Runtime.NODEJS_16_X,
       functionName: "lambda-like",
@@ -640,13 +636,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         datasetGroupArn: datasetGroup.attrDatasetGroupArn
       }
     });
-
     lambdaLike.role?.attachInlinePolicy(
       new iam.Policy(this, 'personalize-policy-for-lambdaLike', {
         statements: [PersonalizePolicy],
       }),
     );
-
     // POST method
     const resourceLike = api.root.addResource('like');
     resourceLike.addMethod('POST', new apiGateway.LambdaIntegration(lambdaLike, {
@@ -666,7 +660,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         }
       ]
     });
-
     // cloudfront setting for api gateway of clearIndex
     distribution.addBehavior("/like", new origins.RestApiOrigin(api), {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
@@ -675,21 +668,48 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
 
     
-
-    // DynamoDB
-    const poolTableName = 'db-image-pool';
-    const poolDataTable = new dynamodb.Table(this, 'dynamodb-image-pool', {
-      tableName: poolTableName,
+    // Image Pool
+    // DynamoDB for image pool
+    const imgPoolTableName = 'db-image-pool';
+    const imgPoolDataTable = new dynamodb.Table(this, 'dynamodb-image-pool', {
+      tableName: imgPoolTableName,
       partitionKey: { name: 'ObjKey', type: dynamodb.AttributeType.STRING },
       //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
-    const poolIndexName = 'ImagePool-index';
-    poolDataTable.addGlobalSecondaryIndex({ // GSI
-      indexName: poolIndexName,
+    const imgPoolIndexName = 'ImagePool-index';
+    imgPoolDataTable.addGlobalSecondaryIndex({ // GSI
+      indexName: imgPoolIndexName,
       partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
     });
+
+    // Lambda for s3 trigger for image pool
+    const lambdaS3eventImagePool = new lambda.Function(this, 'lambda-S3-event-image-pool', {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      functionName: "lambda-s3-event-image-pool",
+      code: lambda.Code.fromAsset("../lambda-s3-event-image-pool"),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        tableName: imgPoolTableName,
+      }
+    });
+    s3Bucket.grantReadWrite(lambdaS3eventImagePool); // permission for s3
+    imgPoolDataTable.grantReadWriteData(lambdaS3eventImagePool); // permission for dynamo
+
+    // s3 put/delete event source
+    const imgPoolS3PutEventSource = new lambdaEventSources.S3EventSource(s3Bucket, {
+      events: [
+        s3.EventType.OBJECT_CREATED_PUT,
+        s3.EventType.OBJECT_REMOVED_DELETE
+      ],
+      filters: [
+        { prefix: 'imgPool/' },
+      ]
+    });
+    lambdaS3eventImagePool.addEventSource(imgPoolS3PutEventSource);
 
     // Lambda for retrieve 
     const lambdaRetrieve = new lambda.Function(this, 'lambda-retrieve', {
@@ -700,12 +720,12 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        tableName: poolTableName,
-        indexName: poolIndexName,
+        tableName: imgPoolTableName,
+        indexName: imgPoolIndexName,
         domainName: cloudFrontDomain,
       }
     });
-    poolDataTable.grantReadWriteData(lambdaRetrieve); // permission for dynamo 
+    imgPoolDataTable.grantReadWriteData(lambdaRetrieve); // permission for dynamo 
     // POST method
     const retrieve = api.root.addResource('retrieve');
     retrieve.addMethod('POST', new apiGateway.LambdaIntegration(lambdaRetrieve, {

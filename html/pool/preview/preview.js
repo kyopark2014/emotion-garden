@@ -50,7 +50,7 @@ function drawGarden(emotionValue) {
                     let identifier = previewUrl[i + start].url[pos - 1];
                     // console.log("identifier: ", identifier);      
 
-                    let pos2 = previewUrl[i + start].url.lastIndexOf('emotions');
+                    let pos2 = previewUrl[i + start].url.lastIndexOf('imgPool');
                     // console.log('pos: ', pos2);
                     fileList[i] = previewUrl[i + start].url.substring(pos2)
                     console.log("fname: ", fileList[i]);
