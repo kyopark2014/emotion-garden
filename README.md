@@ -150,9 +150,9 @@ Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를
 
 ### 다수의 이미지 생성 방법
 
-다수의 이미지를 생성하기 위한 웯 페이지입니다. 생성된 이미지를 확인하고 삭제할 수 있습니다.
+다수의 이미지를 생성하기 위한 웯 페이지입니다. 생성된 이미지를 확인하고 삭제할 수 있습니다. 이미지는 바로 Serviring되지 않고 이미지 Pool(Bucket의 imgPool)에 저장됩니다.
 
-1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/bulk/bulk.html" 에 접속합니다.
+1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/pool/bulk/bulk.html" 에 접속합니다.
 2) RepeatCount는 같은 prompt로 생성하는 이미지의 숫자를 의미합니다.
 3) Emotion을 선택하고,
 4) 추가로 넣을 값 (Favorite)이 있을 경우에 입력합니다.
@@ -162,11 +162,21 @@ Emotion 분석으로 얻어진 결과로 생성된 Stable Diffusion 이미지를
 - [Update]: 생성된 이미지 확인
 - [Remove]: dislike로 불필요한 이미지 삭제
 
+Bucket의 imgPool에 저장된 이지는 [Previw](https://d3ic6ryvcaoqdy.cloudfront.net/html/pool/preview/preview.html)를 통해 전체적인 확인을 하고, 만족할만큼 정리가 되면 실제 Serving을 위한 폴더인 "/emotions"로 복사합니다. 
+
+```java
+aws s3 cp s3://demo-emotion-garden/imgPool/ ./imgPool/ --recursive
+aws s3 cp ./imgPool/ s3://demo-emotion-garden/emotions/ --recursive
+```
+
+S3에 Object가 저장될때 발생하는 putEvent를 이용하여 Lambda가 Object Key로 부터 emotion을 분류하고, Personalzie에 item으로 등록됩니다. 기준이 되는 ITEM_ID가 동일하므로 중복으로 파일을 업로드해도 업데이트가 됩니다.
+
+
 ### S3에 저장된 이미지 확인
 
 생성된 이미지들중에 좋은 이미지를 선택하기 위하여 DynamoDB에 저장된 index를 기준으로 S3에 저장된 이미지를 확인하고 필요시 삭제할 수 있습니다. 
 
-1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/preview/preview.html" 에 접속합니다.
+1) "https://d3ic6ryvcaoqdy.cloudfront.net/html/viewer/viewer.html" 에 접속합니다.
 2) Emotion과 Favorite를 선택합니다.
 3) Retrieve를 선택하여 S3에 있는 이미지를 가져옵니다. 이미지가 많은 경우에 “Start”를 조정하면 뒤쪽의 이미지를 확인할 수 있습니다. 최대로 보여줄수 있는 이미지의 숫자는 "Number of Images"로 100개까지 지정할 수 있습니다.
 4) 불필요한 이미지는 아래처럼 dislike 선택후 [Remove] 버튼을 통해 삭제합니다. 
