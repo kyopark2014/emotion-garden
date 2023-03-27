@@ -3,6 +3,7 @@ const personalizeevents = new aws.PersonalizeEvents();
 const datasetArn = process.env.datasetArn;
 const datasetGroupArn = process.env.datasetGroupArn;
 const personalize = new aws.Personalize();
+const sqsOpenSearchUrl = process.env.sqsOpenSearchUrl;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -69,6 +70,20 @@ exports.handler = async (event, context) => {
         console.log('putEvent result: ' + JSON.stringify(result));
 
         isCompleted = true;
+
+        // for logging            
+        const osqParams = { // opensearch queue params
+            DelaySeconds: 10,
+            MessageAttributes: {},
+            MessageBody: JSON.stringify(params), 
+            QueueUrl: sqsOpenSearchUrl
+        };  
+        try {
+            let sqsResponse = await sqs.sendMessage(osqParams).promise();  
+            // console.log("sqsResponse: "+JSON.stringify(sqsResponse));
+        } catch (err) {
+            console.log(err);
+        }
 
         response = {
             statusCode: 200,

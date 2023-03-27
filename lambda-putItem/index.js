@@ -5,6 +5,7 @@ const tableName = process.env.tableName;
 const datasetArn = process.env.datasetArn;
 const sqsUrl = process.env.sqsUrl;
 const personalizeevents = new aws.PersonalizeEvents();
+const sqsOpenSearchUrl = process.env.sqsOpenSearchUrl;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -61,6 +62,20 @@ exports.handler = async (event, context) => {
 
             const result = await personalizeevents.putItems(params).promise(); 
             console.log('putItem result: '+JSON.stringify(result));
+
+            // for logging            
+            const osqParams = { // opensearch queue params
+                DelaySeconds: 10,
+                MessageAttributes: {},
+                MessageBody: JSON.stringify(params), 
+                QueueUrl: sqsOpenSearchUrl
+            };  
+            try {
+                let sqsResponse = await sqs.sendMessage(osqParams).promise();  
+                // console.log("sqsResponse: "+JSON.stringify(sqsResponse));
+            } catch (err) {
+                console.log(err);
+            }
         } catch (error) {
             console.log(error);
 

@@ -27,6 +27,9 @@ export class CdkEmotionGardenStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    // Queue for Search
+    const queueOpenSearch = new sqs.Queue(this, 'QueueOpenSearch');
+
     // DynamoDB
     const tableName = 'db-emotion-garden';
     const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
@@ -318,10 +321,12 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         bucketName: s3Bucket.bucketName,
-        datasetArn: userDataset.attrDatasetArn
+        datasetArn: userDataset.attrDatasetArn,
+        sqsOpenSearchUrl: queueOpenSearch.queueUrl
       }
     });
     s3Bucket.grantReadWrite(lambdaEmotion);
+    queueOpenSearch.grantSendMessages(lambdaEmotion);
 
     const RekognitionPolicy = new iam.PolicyStatement({
       actions: ['rekognition:*'],
@@ -405,6 +410,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });
     queueBulk.grantSendMessages(lambdaBulk);
+    lambdaEmotion
     // permission for api Gateway
     lambdaBulk.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
 
@@ -515,11 +521,13 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       environment: {
         tableName: tableName,
         datasetArn: itemDataset.attrDatasetArn,
-        sqsUrl: queueS3PutItem.queueUrl
+        sqsUrl: queueS3PutItem.queueUrl,
+        sqsOpenSearchUrl: queueOpenSearch.queueUrl
       }
     });
     dataTable.grantReadWriteData(lambdaPutItem); // permission for dynamo
     lambdaPutItem.addEventSource(new SqsEventSource(queueS3PutItem)); // add event source 
+    queueOpenSearch.grantSendMessages(lambdaPutItem);
     lambdaPutItem.role?.attachInlinePolicy(
       new iam.Policy(this, 'personalize-policy-for-lambdaPutItem', {
         statements: [PersonalizePolicy],
@@ -730,7 +738,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         datasetArn: interactionDataset.attrDatasetArn,
-        datasetGroupArn: datasetGroup.attrDatasetGroupArn
+        datasetGroupArn: datasetGroup.attrDatasetGroupArn,
+        sqsOpenSearchUrl: queueOpenSearch.queueUrl
       }
     });
     lambdaLike.role?.attachInlinePolicy(
@@ -738,6 +747,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         statements: [PersonalizePolicy],
       }),
     );
+    queueOpenSearch.grantSendMessages(lambdaLike);
+
     // POST method
     const resourceLike = api.root.addResource('like');
     resourceLike.addMethod('POST', new apiGateway.LambdaIntegration(lambdaLike, {
@@ -888,6 +899,18 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
+
+    // Lambda - opensearch
+    const lambdaOpensearch = new lambda.Function(this, "LambdaOpensearch", {
+      runtime: lambda.Runtime.NODEJS_14_X, 
+      code: lambda.Code.fromAsset("../lambda-opensearch"), 
+      handler: "index.handler", 
+      timeout: cdk.Duration.seconds(10),
+      environment: {
+        sqsOpenSearchUrl: queueOpenSearch.queueUrl
+      }
+    });    
+    lambdaOpensearch.addEventSource(new SqsEventSource(queueOpenSearch)); 
   }
 }
 

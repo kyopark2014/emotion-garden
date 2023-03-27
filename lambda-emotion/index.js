@@ -7,6 +7,8 @@ const personalizeevents = new aws.PersonalizeEvents();
 const bucketName = process.env.bucketName;
 const datasetArn = process.env.datasetArn;
 
+const sqsOpenSearchUrl = process.env.sqsOpenSearchUrl;
+
 exports.handler = async (event, context) => {
     // console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
     // console.log('## EVENT: ' + JSON.stringify(event))
@@ -160,6 +162,21 @@ exports.handler = async (event, context) => {
                     body: error
                 };
             }
+
+            // for logging            
+            const osqParams = { // opensearch queue params
+                DelaySeconds: 10,
+                MessageAttributes: {},
+                MessageBody: JSON.stringify(emotionInfo), 
+                QueueUrl: sqsOpenSearchUrl
+            };  
+            console.log('osqParams: '+JSON.stringify(osqParams));
+            try {
+                let sqsResponse = await sqs.sendMessage(osqParams).promise();  
+                // console.log("sqsResponse: "+JSON.stringify(sqsResponse));
+            } catch (err) {
+                console.log(err);
+            }
         }
         else {
             response = {
@@ -175,6 +192,8 @@ exports.handler = async (event, context) => {
             body: error
         };
     }
+
+
     
     function wait() {
         return new Promise((resolve, reject) => {
