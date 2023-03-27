@@ -51,7 +51,7 @@ exports.handler = async (event, context) => {
     // put event dataset
     try {
         var params = {            
-            sessionId: '1',
+            sessionId: itemId,
             trackingId: trackingId,
             userId: userId,
             eventList: [{

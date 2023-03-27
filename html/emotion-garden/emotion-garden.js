@@ -215,13 +215,9 @@ function drawGarden(emotionValue) {
             console.log("portrait: " + JSON.stringify(portrait));
 
             for (let i in landscape) {
-                console.log(landscape[i]);
-
                 previewUrl.push(landscape[i]);                
             }
             for (let i in portrait) {
-                console.log(portrait[i]);
-
                 previewUrl.push(portrait[i]);                
             }
 

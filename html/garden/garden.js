@@ -122,7 +122,7 @@ function getEmotion() {
             let features = "Features:";
             if (smile) features += ' 웃음';
             if (eyeglasses) features += ' 안경';
-            if (sunglasses) features += ' 썬글라스';
+            if (sunglasses) features += ' 썬글라스'; 
             if (beard) features += ' 수염';
             if (mustache) features += ' 콧수염';
             if (eyesOpen) features += ' 눈뜨고있음';
@@ -215,13 +215,9 @@ function drawGarden(emotionValue) {
             console.log("portrait: " + JSON.stringify(portrait));
 
             for (let i in landscape) {
-                console.log(landscape[i]);
-
                 previewUrl.push(landscape[i]);                
             }
             for (let i in portrait) {
-                console.log(portrait[i]);
-
                 previewUrl.push(portrait[i]);                
             }
 

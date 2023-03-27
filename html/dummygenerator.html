@@ -5,7 +5,8 @@
     <script type="application/javascript">
         let previewUrl = [];
         const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
-        
+        let userId = "06193cf3-ee3e-4e98-9940-70b6ce5baf9e";
+
         function sendLike(userId, itemId, impression) {
             const url = "/like";
             const xhr = new XMLHttpRequest();
@@ -36,24 +37,33 @@
             xhr.open("POST", url, true);
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log("--> responseText: " + xhr.responseText);
+                    //console.log("--> responseText: " + xhr.responseText);
                     let response = JSON.parse(xhr.responseText)
 
                     let landscape = response['landscape'];
-                    console.log("landscape: " + JSON.stringify(landscape));
                     let portrait = response['portrait'];
-                    console.log("portrait: " + JSON.stringify(portrait));
 
                     for (let i in landscape) {
-                        console.log(landscape[i]);
-
                         previewUrl.push(landscape[i]);                
                     }
                     for (let i in portrait) {
-                        console.log(portrait[i]);
-
                         previewUrl.push(portrait[i]);                
                     }
+
+                    for(let i in previewUrl) {
+                        console.log('url['+i+']: ', JSON.stringify(previewUrl[i].url));
+                    }
+
+                    let i = 0;
+                    for(let i=0; i<previewUrl.length-2; i++) {
+                        let itemId = previewUrl[i].url;
+                        let impression = [];
+                        impression.push(previewUrl[i].url);
+                        impression.push(previewUrl[i+1].url);
+                        impression.push(previewUrl[i+2].url);
+                        
+                        sendLike(uuidv4(), itemId, impression);
+                    }                    
                 }
             };
 
@@ -70,26 +80,11 @@
             xhr.send(blob);
         }
 
-        function sendRequest(text) {
+        function sendRequest(emotionText) {
             const uri = "https://d3ic6ryvcaoqdy.cloudfront.net/text2image"; 
             const xhr = new XMLHttpRequest();
 
-            let emotionText = [
-                "happy",
-                "surprised",
-                "calm",
-                "angry",
-                "fear",
-                "confused",
-                "disgusted",
-                "sad",
-            ];
-            console.log("emotionText: ", JSON.stringify(emotionText));
-
-            getImageUrl("anomymous", emotionText[0], "adult", "male");
-
-
-            console.log('url: ', JSON.stringify(previewUrl));
+            getImageUrl(userId, emotionText, "adult", "male");
         }
 
         window.onload = () => {
@@ -98,13 +93,22 @@
                 var text = form.elements.prompt.value;
                 console.log("input: " + text);
 
-                if (text) {
-                    sendRequest(text);
+                let emotion = document.getElementById("emotionId");
+                console.log("emotion: " + emotion.value);
+
+                if (emotion.value) {
+                    sendRequest(emotion.value);
                 } else {
                     alert("No prompt.");
                 }
             };
         }
+        function uuidv4() {
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+
     </script>
 </head>
 
@@ -118,12 +122,16 @@
             <input type="button" name="button" value="Send">
         </form>
     </div>
-    <form id="input_row1">
-        <text>Resolution: </text>
-        <select name="resolution" id="resolutionId">
-            <option type="text" value="BASIC" selected="selected">Basic: 768 x 512</option>
-            <option value="WSVGA">WSVGA: 1024 x 600</option>
-            <option value="WXGA">WXGA: 1280 x 800</option>
+    <form id="emotionform">
+        <text>Emotion: </text>
+        <select name="emotion" id="emotionId">
+            <option type="text" value="happy" selected="selected">happy</option>
+            <option value="surprised">surprised</option>
+            <option value="calm">calm</option>
+            <option value="angry">angry</option>
+            <option value="fear">fear</option>
+            <option value="confused">confused</option>
+            <option value="sad">sad</option>
         </select>
     </form>
 </body>
