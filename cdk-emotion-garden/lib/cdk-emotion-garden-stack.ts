@@ -28,7 +28,9 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     super(scope, id, props);
 
     // Queue for Search
-    const queueOpenSearch = new sqs.Queue(this, 'QueueOpenSearch');
+    const queueOpenSearch = new sqs.Queue(this, 'QueueOpenSearch',{
+      queueName: "queue-opensearch",
+    });
 
     // DynamoDB
     const tableName = 'db-emotion-garden';
