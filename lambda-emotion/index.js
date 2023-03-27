@@ -150,9 +150,7 @@ exports.handler = async (event, context) => {
                 console.log('user params: ', JSON.stringify(params));
 
                 const result = await personalizeevents.putUsers(params).promise(); 
-                console.log('putUser result: '+JSON.stringify(result));
-
-                isCompleted = true;   
+                console.log('putUser result: '+JSON.stringify(result));                
             } catch (error) {
                 console.log(error);
                 isCompleted = true;
@@ -174,6 +172,7 @@ exports.handler = async (event, context) => {
             try {
                 let sqsResponse = await sqs.sendMessage(osqParams).promise();  
                 // console.log("sqsResponse: "+JSON.stringify(sqsResponse));
+                isCompleted = true;   
             } catch (err) {
                 console.log(err);
             }

@@ -11,7 +11,7 @@ exports.handler = async (event) => {
         const receiptHandle = event['Records'][i]['receiptHandle'];
     
         const body = JSON.parse(event.Records[i].body);
-        console.log('body: '+body);
+        console.log('body: '+JSON.stringify(body));
         
         // delete messageQueue
         try {

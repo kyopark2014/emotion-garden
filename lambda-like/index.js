@@ -71,8 +71,6 @@ exports.handler = async (event, context) => {
         const result = await personalizeevents.putEvents(params).promise();
         console.log('putEvent result: ' + JSON.stringify(result));
 
-        isCompleted = true;
-
         // for logging            
         const osqParams = { // opensearch queue params
             DelaySeconds: 10,
@@ -83,6 +81,8 @@ exports.handler = async (event, context) => {
         try {
             let sqsResponse = await sqs.sendMessage(osqParams).promise();  
             // console.log("sqsResponse: "+JSON.stringify(sqsResponse));
+
+            isCompleted = true;
         } catch (err) {
             console.log(err);
         }
@@ -93,7 +93,6 @@ exports.handler = async (event, context) => {
         };
     } catch (error) {
         console.log(error);
-        isCompleted = true;
 
         response = {
             statusCode: 500,
