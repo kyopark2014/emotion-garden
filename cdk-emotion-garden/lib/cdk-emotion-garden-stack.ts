@@ -26,12 +26,6 @@ const cloudFrontDomain = "d3ic6ryvcaoqdy.cloudfront.net";
 export class CdkEmotionGardenStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-
-    // Queue for Search
-    const queueOpenSearch = new sqs.Queue(this, 'QueueOpenSearch',{
-      queueName: "queue-opensearch",
-    });
-
     // DynamoDB
     const tableName = 'db-emotion-garden';
     const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
@@ -313,6 +307,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'The web url for text2image',
     });
 
+    // Queue for Search
+    const queueOpenSearch = new sqs.Queue(this, 'QueueOpenSearch',{
+      queueName: "queue-opensearch",
+    });
+    
     // Lambda - emotion
     const lambdaEmotion = new lambda.Function(this, "lambdaEmotion", {
       runtime: lambda.Runtime.NODEJS_16_X,
