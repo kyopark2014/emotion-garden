@@ -1,5 +1,7 @@
 const aws = require('aws-sdk');
 const personalizeevents = new aws.PersonalizeEvents();
+const sqs = new aws.SQS({apiVersion: '2012-11-05'});
+
 const datasetArn = process.env.datasetArn;
 const datasetGroupArn = process.env.datasetGroupArn;
 const personalize = new aws.Personalize();

@@ -3,10 +3,10 @@ const { v4: uuidv4 } = require('uuid');
 
 const s3 = new aws.S3();
 const personalizeevents = new aws.PersonalizeEvents();
+const sqs = new aws.SQS({apiVersion: '2012-11-05'});
 
 const bucketName = process.env.bucketName;
 const datasetArn = process.env.datasetArn;
-
 const sqsOpenSearchUrl = process.env.sqsOpenSearchUrl;
 
 exports.handler = async (event, context) => {
