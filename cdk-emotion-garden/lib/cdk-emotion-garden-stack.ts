@@ -311,7 +311,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     const queueOpenSearch = new sqs.Queue(this, 'QueueOpenSearch',{
       queueName: "queue-opensearch",
     });
-    
+
     // Lambda - emotion
     const lambdaEmotion = new lambda.Function(this, "lambdaEmotion", {
       runtime: lambda.Runtime.NODEJS_16_X,
@@ -904,6 +904,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     // Lambda - opensearch
     const lambdaOpensearch = new lambda.Function(this, "LambdaOpensearch", {
       runtime: lambda.Runtime.NODEJS_14_X, 
+      functionName: "lambda-opensearch",
       code: lambda.Code.fromAsset("../lambda-opensearch"), 
       handler: "index.handler", 
       timeout: cdk.Duration.seconds(10),
