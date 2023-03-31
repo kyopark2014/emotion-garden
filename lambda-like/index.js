@@ -7,6 +7,9 @@ const datasetGroupArn = process.env.datasetGroupArn;
 const personalize = new aws.Personalize();
 const sqsOpenSearchUrl = process.env.sqsOpenSearchUrl;
 
+const interactionTableName = process.env.interactionTableName;
+const dynamo = new aws.DynamoDB.DocumentClient();
+
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
     console.log('## EVENT: ' + JSON.stringify(event));
@@ -70,6 +73,28 @@ exports.handler = async (event, context) => {
 
         const result = await personalizeevents.putEvents(params).promise();
         console.log('putEvent result: ' + JSON.stringify(result));
+
+        // DynamodB for personalize interactions
+        var personalzeParams = {
+            TableName: interactionTableName,
+            Item: {
+                USER_ID: userId,
+                ITEM_ID: itemId,
+                TIMESTAMP: timestamp,
+                EVENT_TYPE: "click",
+                IMPRESSION: impression,
+            }
+        };
+        console.log('personalzeParams: ' + JSON.stringify(personalzeParams));
+
+        dynamo.put(personalzeParams, function (err, data) {
+            if (err) {
+                console.log('Failure: ' + err);
+            }
+            else {
+                console.log('dynamodb put result: ' + JSON.stringify(data));
+            }
+        });
 
         // for logging            
         const osqParams = { // opensearch queue params

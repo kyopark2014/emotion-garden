@@ -6,6 +6,7 @@ const datasetArn = process.env.datasetArn;
 const sqsUrl = process.env.sqsUrl;
 const personalizeevents = new aws.PersonalizeEvents();
 const sqsOpenSearchUrl = process.env.sqsOpenSearchUrl;
+const itemTableName = process.env.itemTableName;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -46,7 +47,27 @@ exports.handler = async (event, context) => {
             }
         });
 
-        // create item dataset
+        // DynamodB for personalize items
+        var personalzeParams = {
+            TableName: itemTableName,
+            Item: {
+                ITEM_ID: key,
+                TIMESTAMP: timestamp,
+                EMOTION: searchKey,
+            }
+        };
+        console.log('personalzeParams: ' + JSON.stringify(personalzeParams));
+
+        dynamo.put(personalzeParams, function (err, data) {
+            if (err) {
+                console.log('Failure: ' + err);
+            }
+            else {
+                console.log('dynamodb put result: ' + JSON.stringify(data));
+            }
+        });
+
+        // putItem dataset
         try {
             var params = {
                 datasetArn: datasetArn,

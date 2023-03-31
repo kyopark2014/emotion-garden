@@ -3,6 +3,7 @@ const dynamo = new aws.DynamoDB.DocumentClient();
 const sqs = new aws.SQS({apiVersion: '2012-11-05'});
 const tableName = process.env.tableName;
 const sqsUrl = process.env.sqsUrl;
+const itemTableName = process.env.tableName.itemTableName;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -92,6 +93,7 @@ exports.handler = async (event, context) => {
             }             
         }
         else if (eventName == 'ObjectRemoved:Delete') {
+            // emotin-garden
             var params = {
                 TableName: tableName,
                 Key: {
@@ -103,7 +105,23 @@ exports.handler = async (event, context) => {
                 if (err) {
                     console.log('Failure: ' + err);
                 } else {
-                    console.log("DeleteItem succeeded:", JSON.stringify(data, null, 2));
+                    console.log("emotion garden: deleteItem succeeded:", JSON.stringify(data, null, 2));
+                }
+            });
+
+            // personalize
+            var personalzeParams = {
+                TableName: itemTableName,
+                Key: {
+                    ITEM_ID: key,
+                },
+            };
+            
+            dynamo.delete(personalzeParams, function (err, data) {
+                if (err) {
+                    console.log('Failure: ' + err);
+                } else {
+                    console.log("personalize: deleteItem succeeded:", JSON.stringify(data, null, 2));
                 }
             });
         }

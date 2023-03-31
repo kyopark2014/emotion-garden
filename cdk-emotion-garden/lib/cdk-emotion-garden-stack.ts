@@ -26,7 +26,7 @@ const cloudFrontDomain = "d3ic6ryvcaoqdy.cloudfront.net";
 export class CdkEmotionGardenStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-    // DynamoDB
+    // DynamoDB for emotion garden
     const tableName = 'db-emotion-garden';
     const dataTable = new dynamodb.Table(this, 'dynamodb-businfo', {
       tableName: tableName,
@@ -40,6 +40,35 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       indexName: indexName,
       partitionKey: { name: 'Emotion', type: dynamodb.AttributeType.STRING },
     });
+
+    // DynamoDB for personalize
+    const itemTableName = 'db-personalize-items';
+    const itemDataTable = new dynamodb.Table(this, 'dynamodb-personalize-item', {
+      tableName: itemTableName,
+      partitionKey: { name: 'ITEM_ID', type: dynamodb.AttributeType.STRING },
+      //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    const userTableName = 'db-personalize-users';
+    const userDataTable = new dynamodb.Table(this, 'dynamodb-personalize-users', {
+      tableName: userTableName,
+      partitionKey: { name: 'USER_ID', type: dynamodb.AttributeType.STRING },
+      //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    const interactionTableName = 'db-personalize-interactions';
+    const interactionDataTable = new dynamodb.Table(this, 'dynamodb-personalize-users', {
+      tableName: interactionTableName,
+      partitionKey: { name: 'USER_ID', type: dynamodb.AttributeType.STRING },
+      //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
 
     // personalize
     const datasetGroup = new personalize.CfnDatasetGroup(this, 'DatasetGroup', {
@@ -323,7 +352,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       environment: {
         bucketName: s3Bucket.bucketName,
         datasetArn: userDataset.attrDatasetArn,
-        sqsOpenSearchUrl: queueOpenSearch.queueUrl
+        sqsOpenSearchUrl: queueOpenSearch.queueUrl,
+        userTableName: userTableName
       }
     });
     s3Bucket.grantReadWrite(lambdaEmotion);
@@ -492,7 +522,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         tableName: tableName,
-        sqsUrl: queueS3PutItem.queueUrl
+        sqsUrl: queueS3PutItem.queueUrl,
+        itemTableName: itemTableName
       }
     });
     s3Bucket.grantReadWrite(lambdaS3event); // permission for s3
@@ -523,7 +554,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         tableName: tableName,
         datasetArn: itemDataset.attrDatasetArn,
         sqsUrl: queueS3PutItem.queueUrl,
-        sqsOpenSearchUrl: queueOpenSearch.queueUrl
+        sqsOpenSearchUrl: queueOpenSearch.queueUrl,
+        itemTableName: itemTableName
       }
     });
     dataTable.grantReadWriteData(lambdaPutItem); // permission for dynamo
@@ -740,7 +772,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       environment: {
         datasetArn: interactionDataset.attrDatasetArn,
         datasetGroupArn: datasetGroup.attrDatasetGroupArn,
-        sqsOpenSearchUrl: queueOpenSearch.queueUrl
+        sqsOpenSearchUrl: queueOpenSearch.queueUrl,
+        interactionTableName: interactionTableName
       }
     });
     lambdaLike.role?.attachInlinePolicy(
@@ -913,6 +946,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });    
     lambdaOpensearch.addEventSource(new SqsEventSource(queueOpenSearch)); 
+
+    // DynamoDB for Personalize
   }
 }
 

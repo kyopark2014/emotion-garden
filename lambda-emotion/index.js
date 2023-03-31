@@ -8,6 +8,7 @@ const sqs = new aws.SQS({apiVersion: '2012-11-05'});
 const bucketName = process.env.bucketName;
 const datasetArn = process.env.datasetArn;
 const sqsOpenSearchUrl = process.env.sqsOpenSearchUrl;
+const userTableName = process.env.userTableName;
 
 exports.handler = async (event, context) => {
     // console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -160,6 +161,27 @@ exports.handler = async (event, context) => {
                     body: error
                 };
             }
+
+            // DynamodB for personalize users
+            var personalzeParams = {
+                TableName: userTableName,
+                Item: {
+                    USER_ID: userId,
+                    GENERATION: generation,
+                    GENDER: gender,
+                    EMOTION: emotions,
+                }
+            };
+            console.log('personalzeParams: ' + JSON.stringify(personalzeParams));
+
+            dynamo.put(personalzeParams, function (err, data) {
+                if (err) {
+                    console.log('Failure: ' + err);
+                }
+                else {
+                    console.log('dynamodb put result: ' + JSON.stringify(data));
+                }
+            });
 
             // for logging            
             const osqParams = { // opensearch queue params
