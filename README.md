@@ -235,7 +235,7 @@ chmod a+rx resize.sh
 아래 명령어로 이미지를 다운로드 합니다. 
 
 ```java
-aws s3 cp s3://demo-emotion-garden/emotions/ . --recursive
+aws s3 cp s3://demo-emotion-garden/emotions/ ./emotions --recursive
 ```
 
 #### 이미지 복원
