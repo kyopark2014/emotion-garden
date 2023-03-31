@@ -224,6 +224,14 @@ S3에 Object가 저장될때 발생하는 putEvent를 이용하여 Lambda가 Obj
 
 #### 이미지 백업
 
+Cloud9 용량을 확장합니다.
+
+```java
+wget https://raw.githubusercontent.com/kyopark2014/technical-summary/main/resize.sh
+chmod a+rx resize.sh
+./resize 100
+```
+
 아래 명령어로 이미지를 다운로드 합니다. 
 
 ```java
