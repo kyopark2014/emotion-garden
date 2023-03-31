@@ -60,11 +60,11 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    const interactionTableName = 'db-personalize-interactions';
+    const interactionTableName = 'db-personalize-interactions2';
     const interactionDataTable = new dynamodb.Table(this, 'dynamodb-personalize-interactions', {
       tableName: interactionTableName,
       partitionKey: { name: 'USER_ID', type: dynamodb.AttributeType.STRING },
-      //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
+      sortKey: { name: 'TIMESTAMP', type: dynamodb.AttributeType.STRING }, // no need
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
