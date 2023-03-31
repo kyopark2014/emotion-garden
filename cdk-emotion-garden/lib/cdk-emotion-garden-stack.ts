@@ -71,7 +71,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     // personalize
     const datasetGroup = new personalize.CfnDatasetGroup(this, 'DatasetGroup', {
-      name: 'emotion-garden-dataset',
+      name: 'demo-emotion-garden-dataset',
     });
     
     const interactionSchemaJson = `{
