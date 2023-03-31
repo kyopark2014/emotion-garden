@@ -9,6 +9,7 @@ const bucketName = process.env.bucketName;
 const datasetArn = process.env.datasetArn;
 const sqsOpenSearchUrl = process.env.sqsOpenSearchUrl;
 const userTableName = process.env.userTableName;
+const dynamo = new aws.DynamoDB.DocumentClient();
 
 exports.handler = async (event, context) => {
     // console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
