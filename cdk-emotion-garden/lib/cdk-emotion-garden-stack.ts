@@ -61,14 +61,13 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
 
     const interactionTableName = 'db-personalize-interactions';
-    const interactionDataTable = new dynamodb.Table(this, 'dynamodb-personalize-users', {
+    const interactionDataTable = new dynamodb.Table(this, 'dynamodb-personalize-interactions', {
       tableName: interactionTableName,
       partitionKey: { name: 'USER_ID', type: dynamodb.AttributeType.STRING },
       //sortKey: { name: 'Timestamp', type: dynamodb.AttributeType.STRING }, // no need
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
-
 
     // personalize
     const datasetGroup = new personalize.CfnDatasetGroup(this, 'DatasetGroup', {
@@ -357,7 +356,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });
     s3Bucket.grantReadWrite(lambdaEmotion);
-    queueOpenSearch.grantSendMessages(lambdaEmotion);
+    queueOpenSearch.grantSendMessages(lambdaEmotion);    
+    userDataTable.grantReadWriteData(lambdaEmotion); // permission for dynamo
 
     const RekognitionPolicy = new iam.PolicyStatement({
       actions: ['rekognition:*'],
@@ -529,6 +529,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     s3Bucket.grantReadWrite(lambdaS3event); // permission for s3
     dataTable.grantReadWriteData(lambdaS3event); // permission for dynamo
     queueS3PutItem.grantSendMessages(lambdaS3event); // permision for SQS putItem
+    itemDataTable.grantReadWriteData(lambdaS3event); // permission for personalize
 
     // s3 put/delete event source
     const s3PutEventSource = new lambdaEventSources.S3EventSource(s3Bucket, {
@@ -559,6 +560,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });
     dataTable.grantReadWriteData(lambdaPutItem); // permission for dynamo
+    itemDataTable.grantReadWriteData(lambdaPutItem); // permission for personalize
     lambdaPutItem.addEventSource(new SqsEventSource(queueS3PutItem)); // add event source 
     queueOpenSearch.grantSendMessages(lambdaPutItem);
     lambdaPutItem.role?.attachInlinePolicy(
@@ -782,6 +784,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }),
     );
     queueOpenSearch.grantSendMessages(lambdaLike);
+    interactionDataTable.grantReadWriteData(lambdaLike); // personalize 
 
     // POST method
     const resourceLike = api.root.addResource('like');
