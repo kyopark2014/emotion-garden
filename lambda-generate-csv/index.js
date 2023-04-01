@@ -116,7 +116,7 @@ exports.handler = async (event, context) => {
 
         var params = {
             Bucket: bucketName,
-            Key: 'dataset/itemss/itemss.csv',
+            Key: 'dataset/items/items.csv',
             Body: csvPayload,
         }
 
