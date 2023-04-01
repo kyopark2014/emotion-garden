@@ -954,7 +954,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     const lambdaGenerateCSV = new lambda.Function(this, "lambda-gnerate-csv", {
       runtime: lambda.Runtime.NODEJS_16_X,
       functionName: "lambda-generate-csv",
-      code: lambda.Code.fromAsset("../lambda-generator-csv"),
+      code: lambda.Code.fromAsset("../lambda-generate-csv"),
       handler: "index.handler",
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
