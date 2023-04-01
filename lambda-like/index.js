@@ -26,7 +26,8 @@ exports.handler = async (event, context) => {
     let impression = body['impression'];
     console.log('impression: ', JSON.stringify(impression));
 
-    let trackingId = "a8868cee-3669-4a18-ad66-7f42035807d9";
+    // let trackingId = "a8868cee-3669-4a18-ad66-7f42035807d9";
+    let trackingId = "c6321b19-9ba0-4b69-8a39-69d954affa59";
  /*   
     var params = {
         datasetGroupArn: datasetGroupArn, 
@@ -74,6 +75,20 @@ exports.handler = async (event, context) => {
         const result = await personalizeevents.putEvents(params).promise();
         console.log('putEvent result: ' + JSON.stringify(result));
 
+        let impressionStr = "";
+        if(impression.length==1) {
+            impressionStr = impression[0];
+        }
+        else {
+            let i=0;
+            for(; i<impression.length-1; i++) {                
+                impressionStr += impression[i];    
+                impressionStr += '|'
+            }
+            impressionStr += impression[i]
+        }
+        console.log('impressionStr: ' + impressionStr);
+        
         // DynamodB for personalize interactions
         var personalzeParams = {
             TableName: interactionTableName,
@@ -82,7 +97,7 @@ exports.handler = async (event, context) => {
                 ITEM_ID: itemId,
                 TIMESTAMP: timestamp,
                 EVENT_TYPE: "click",
-                IMPRESSION: impression,
+                IMPRESSION: impressionStr,
             }
         };
         console.log('personalzeParams: ' + JSON.stringify(personalzeParams));
