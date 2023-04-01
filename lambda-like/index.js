@@ -1,4 +1,5 @@
 const aws = require('aws-sdk');
+const { v4: uuidv4 } = require('uuid');
 const personalizeevents = new aws.PersonalizeEvents();
 const sqs = new aws.SQS({apiVersion: '2012-11-05'});
 
@@ -64,7 +65,7 @@ exports.handler = async (event, context) => {
             eventList: [{
                 eventType: "click",  // 'rating'
                 sentAt: timestamp,
-                eventId: userId,
+                eventId: uuidv4(),
                 // eventValue: 11,                
                 itemId: itemId,
                 impression: impression,
