@@ -263,3 +263,5 @@ aws s3 cp emotions/ s3://demo-emotion-garden/emotions/ --recursive
 [Stable Diffusion 1 vs 2 - What you need to know](https://www.assemblyai.com/blog/stable-diffusion-1-vs-2-what-you-need-to-know/)
 
 [How to generate stunning images using Stable Diffusion](https://babich.biz/how-to-use-stable-diffusion/)
+
+[Get personalized recommendations using AWS and Node.JS](https://medium.com/analytics-vidhya/get-personalized-recommendations-using-aws-and-node-js-e79f7442549d)
