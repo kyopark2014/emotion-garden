@@ -10,6 +10,7 @@ const sqsOpenSearchUrl = process.env.sqsOpenSearchUrl;
 
 const interactionTableName = process.env.interactionTableName;
 const dynamo = new aws.DynamoDB.DocumentClient();
+const trackingId = process.env.trackingId;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -27,8 +28,6 @@ exports.handler = async (event, context) => {
     let impression = body['impression'];
     console.log('impression: ', JSON.stringify(impression));
 
-    // let trackingId = "a8868cee-3669-4a18-ad66-7f42035807d9";
-    let trackingId = "c6321b19-9ba0-4b69-8a39-69d954affa59";
  /*   
     var params = {
         datasetGroupArn: datasetGroupArn, 

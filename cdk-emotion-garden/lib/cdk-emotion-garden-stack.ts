@@ -781,7 +781,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         datasetArn: interactionDataset.attrDatasetArn,
         datasetGroupArn: datasetGroup.attrDatasetGroupArn,
         sqsOpenSearchUrl: queueOpenSearch.queueUrl,
-        interactionTableName: interactionTableName
+        interactionTableName: interactionTableName,
+        trackingId: "c6321b19-9ba0-4b69-8a39-69d954affa59"
       }
     });
     lambdaLike.role?.attachInlinePolicy(
