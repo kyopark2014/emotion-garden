@@ -73,7 +73,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     const datasetGroup = new personalize.CfnDatasetGroup(this, 'DatasetGroup', {
       name: 'demo-emotion-garden-dataset',
     });
-    
+
     const interactionSchemaJson = `{
       "type": "record",
       "name": "Interactions",
@@ -111,7 +111,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       datasetGroupArn: datasetGroup.attrDatasetGroupArn,
       datasetType: 'Interactions',
       name: 'emotion-garden-interaction-dataset',
-      schemaArn: interactionSchema.attrSchemaArn,    
+      schemaArn: interactionSchema.attrSchemaArn,
     });
 
     const userSchemaJson = `{
@@ -150,10 +150,10 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       datasetGroupArn: datasetGroup.attrDatasetGroupArn,
       datasetType: 'Users',
       name: 'emotion-garden-user-dataset',
-      schemaArn: userSchema.attrSchemaArn,    
+      schemaArn: userSchema.attrSchemaArn,
     });
 
-    
+
     const itemSchemaJson = `{
       "type": "record",
       "name": "Items",
@@ -184,8 +184,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       datasetGroupArn: datasetGroup.attrDatasetGroupArn,
       datasetType: 'Items',
       name: 'emotion-garden-itemDataset',
-      schemaArn: itemSchema.attrSchemaArn,    
-    }); 
+      schemaArn: itemSchema.attrSchemaArn,
+    });
 
     // s3 
     const s3Bucket = new s3.Bucket(this, "emotion-garden-storage", {
@@ -214,16 +214,16 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     }
 
     // copy web application files into s3 bucket
-  /*  new s3Deploy.BucketDeployment(this, "upload-HTML-stable-diffusion", {
-      sources: [s3Deploy.Source.asset("../html")],
-      destinationBucket: s3Bucket,
-    }); */
+    /*  new s3Deploy.BucketDeployment(this, "upload-HTML-stable-diffusion", {
+        sources: [s3Deploy.Source.asset("../html")],
+        destinationBucket: s3Bucket,
+      }); */
 
     // cloudfront
     const distribution = new cloudFront.Distribution(this, 'cloudfront-emotion-garden', {
       defaultBehavior: {
         origin: new origins.S3Origin(s3Bucket),
-      //  originRequestPolicy: customOriginRequestPolicy,
+        //  originRequestPolicy: customOriginRequestPolicy,
         allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
         cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
         viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -336,7 +336,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
 
     // Queue for Search
-    const queueOpenSearch = new sqs.Queue(this, 'QueueOpenSearch',{
+    const queueOpenSearch = new sqs.Queue(this, 'QueueOpenSearch', {
       queueName: "queue-opensearch",
     });
 
@@ -356,7 +356,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });
     s3Bucket.grantReadWrite(lambdaEmotion);
-    queueOpenSearch.grantSendMessages(lambdaEmotion);    
+    queueOpenSearch.grantSendMessages(lambdaEmotion);
     userDataTable.grantReadWriteData(lambdaEmotion); // permission for dynamo
 
     const RekognitionPolicy = new iam.PolicyStatement({
@@ -405,7 +405,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-    }); 
+    });
 
     new cdk.CfnOutput(this, 'EmotionWebUrl', {
       value: 'https://' + distribution.domainName + '/emotion.html',
@@ -812,7 +812,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
 
-    
+
     // Image Pool
     // DynamoDB for image pool
     const imgPoolTableName = 'db-image-pool';
@@ -895,7 +895,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
       allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-    });    
+    });
 
     // Lambda for remove (image pool)
     const lambdaRemoveImagePool = new lambda.Function(this, 'lambda-remove-image-pool', {
@@ -939,18 +939,36 @@ export class CdkEmotionGardenStack extends cdk.Stack {
 
     // Lambda - opensearch
     const lambdaOpensearch = new lambda.Function(this, "LambdaOpensearch", {
-      runtime: lambda.Runtime.NODEJS_14_X, 
+      runtime: lambda.Runtime.NODEJS_14_X,
       functionName: "lambda-opensearch",
-      code: lambda.Code.fromAsset("../lambda-opensearch"), 
-      handler: "index.handler", 
+      code: lambda.Code.fromAsset("../lambda-opensearch"),
+      handler: "index.handler",
       timeout: cdk.Duration.seconds(10),
       environment: {
         sqsOpenSearchUrl: queueOpenSearch.queueUrl
       }
-    });    
-    lambdaOpensearch.addEventSource(new SqsEventSource(queueOpenSearch)); 
+    });
+    lambdaOpensearch.addEventSource(new SqsEventSource(queueOpenSearch));
 
     // DynamoDB for Personalize
+    const lambdaGenerateCSV = new lambda.Function(this, "lambda-gnerate-csv", {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      functionName: "lambda-generate-csv",
+      code: lambda.Code.fromAsset("../lambda-generator-csv"),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        bucketName: s3Bucket.bucketName,
+        userTableName: userTableName,
+        interactionTableName: interactionTableName,
+        itemTableName: itemTableName
+      }
+    });
+    s3Bucket.grantReadWrite(lambdaGenerateCSV);
+    interactionDataTable.grantReadWriteData(lambdaGenerateCSV);
+    itemDataTable.grantReadWriteData(lambdaGenerateCSV);        
+    userDataTable.grantReadWriteData(lambdaGenerateCSV); // permission for dynamo
   }
 }
 

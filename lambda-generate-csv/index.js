@@ -4,24 +4,28 @@ const tableName = process.env.tableName;
 
 import { parse } from "json2csv";
 
+const userTableName = process.env.userTableName;
+const interactionTableName = process.env.interactionTableName;
+const itemTableName = process.env.itemTableName;
+
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
     console.log('## EVENT: ' + JSON.stringify(event));
 
     let params = {
-        TableName: tableName,
+        TableName: interactionTableName,
         //FilterExpression: "Emotion = :emotion",
         //ExpressionAttributeValues: {
         //    ":emotion": emotion
         //}
     };
 
-    let dynamoQuery; 
+    let dynamoScan; 
     try {
-        dynamoQuery = await dynamo.scan(params).promise();
+        dynamoScan = await dynamo.scan(params).promise();
 
-        console.log('queryDynamo: '+JSON.stringify(dynamoQuery));
-        console.log('queryDynamo: '+dynamoQuery.Count);      
+        console.log('queryDynamo: '+JSON.stringify(dynamoScan));
+        console.log('queryDynamo: '+dynamoScan.Count);      
     } catch (error) {
         console.log(error);
         return;
