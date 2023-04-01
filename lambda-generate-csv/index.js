@@ -121,6 +121,8 @@ exports.handler = async (event, context) => {
         }
 
         await s3.upload(params).promise();  
+
+        isCompleted = true;
     } catch (error) {
         console.log(error);
         return;        
