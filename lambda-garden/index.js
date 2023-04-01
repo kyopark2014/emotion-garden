@@ -4,6 +4,9 @@ const tableName = process.env.tableName;
 const indexName = process.env.indexName;
 const domainName = process.env.domainName;
 
+const personalizeRuntime = new aws.PersonalizeRuntime();
+const campaignArn = process.env.campaignArn
+
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
     console.log('## EVENT: ' + JSON.stringify(event));
@@ -18,8 +21,23 @@ exports.handler = async (event, context) => {
 
     let emotion = body['emotion'];
     console.log('emotion: ', emotion);
+
+    let isCompleted = false;
+    let recommendationParams = {
+        campaignArn: campaignArn,
+        userId: userId
+    };
+
+    personalizeRuntime.getRecommendations(recommendationParams, function(err, data) {
+        if (err) {
+            console.error (err);
+        }
+        else {
+            console.log ('RECOMMENDATIONS: ', data);
+        }                
+    });
     
-    let queryParams = {
+ /*   let queryParams = {
         TableName: tableName,
         IndexName: indexName,    
         KeyConditionExpression: "Emotion = :emotion",
@@ -63,9 +81,9 @@ exports.handler = async (event, context) => {
         imgInfo.push(imgProfile);
     }
 
-    console.log('imgInfo: ', JSON.stringify(imgInfo));
+    console.log('imgInfo: ', JSON.stringify(imgInfo)); */
 
-    let landscape = [];
+  /*  let landscape = [];
     let portrait = [];
     for(let i in imgInfo) {
         let pos = imgInfo[i].url.indexOf('.jpeg');
@@ -89,11 +107,27 @@ exports.handler = async (event, context) => {
         landscape: landscape,
         portrait: portrait
     }
-    console.info('result: ', JSON.stringify(result));
+    console.info('result: ', JSON.stringify(result)); */
 
-    const response = {
+    function wait() {
+        return new Promise((resolve, reject) => {
+            if (!isCompleted) {
+                setTimeout(() => resolve("wait..."), 1000);
+            }
+            else {
+                setTimeout(() => resolve("done..."), 0);
+            }
+        });
+    }
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
+    console.log(await wait());
+
+    let response = {
         statusCode: 200,
-        body: JSON.stringify(result)
+     //   body: JSON.stringify(result)
     };
     console.debug('response: ', JSON.stringify(response));
 

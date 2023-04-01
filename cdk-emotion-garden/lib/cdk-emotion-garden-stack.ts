@@ -581,8 +581,14 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         tableName: tableName,
         indexName: indexName,
         domainName: cloudFrontDomain,
+        campaignArn: "arn:aws:personalize:ap-northeast-1:868746300942:campaign/emotion-garden-campaign-01"
       }
     });
+    lambdaGarden.role?.attachInlinePolicy(
+      new iam.Policy(this, 'personalize-policy-for-lambdaGarden', {
+        statements: [PersonalizePolicy],
+      }),
+    );
     dataTable.grantReadWriteData(lambdaGarden); // permission for dynamo 
 
     // POST method
