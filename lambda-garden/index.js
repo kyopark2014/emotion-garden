@@ -1,18 +1,14 @@
 const aws = require('aws-sdk');
-const dynamo = new aws.DynamoDB.DocumentClient();
-const tableName = process.env.tableName;
-const indexName = process.env.indexName;
 const domainName = process.env.domainName;
-
 const personalizeRuntime = new aws.PersonalizeRuntime();
 const campaignArn = process.env.campaignArn
+const dynamo = new aws.DynamoDB.DocumentClient();  // for control
+const tableName = process.env.tableName;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
     console.log('## EVENT: ' + JSON.stringify(event));
     
-    console.log('indexName: ' + indexName);
-
     const body = JSON.parse(Buffer.from(event["body"], "base64"));
     console.log('gardenRequestInfo: ' + JSON.stringify(body));
 
@@ -28,76 +24,42 @@ exports.handler = async (event, context) => {
         userId: userId
     };
 
-    personalizeRuntime.getRecommendations(recommendationParams, function(err, data) {
-        if (err) {
-            console.error (err);
-        }
-        else {
-            console.log ('RECOMMENDATIONS: ', data);
-        }                
-    });
-    
- /*   let queryParams = {
-        TableName: tableName,
-        IndexName: indexName,    
-        KeyConditionExpression: "Emotion = :emotion",
-        ExpressionAttributeValues: {
-            ":emotion": emotion
-        }
-    };
-
-    let dynamoQuery; 
+    let recommendation; 
     try {
-        dynamoQuery = await dynamo.query(queryParams).promise();
-
-        console.log('queryDynamo: '+JSON.stringify(dynamoQuery));
-        console.log('queryDynamo: '+dynamoQuery.Count);      
+        recommendation = await personalizeRuntime.getRecommendations(recommendationParams).promise();
+        console.log ('recommendation: ', JSON.stringify(recommendation));
     } catch (error) {
         console.log(error);
         return;
     }  
 
-    let imgInfo = [];
-    for(let i in dynamoQuery['Items']) {
-        const objKey = dynamoQuery['Items'][i]['ObjKey'];
-        const timestamp = dynamoQuery['Items'][i]['Timestamp'];
-        const emotion = dynamoQuery['Items'][i]['Emotion'];
-        const control = dynamoQuery['Items'][i]['Control'];
+    let landscape = [];
+    let portrait = [];
+    for(let i in recommendation['itemList']) {
+        let itemStr = recommendation['itemList'][i].itemId;
+        console.log("itemStr: ", itemStr);
 
-        console.log('objKey: ', objKey);
-        console.log('timestamp: ', timestamp);
-        console.log('emotion: ', emotion);
-        console.log('control: ', JSON.stringify(control));
+        let pos = itemStr.indexOf('.jpeg');
+        // console.log("url: ", itemStr);
+        // console.log("pos: ", pos);
         
-        const url = 'https://'+domainName+'/'+objKey;
-        // console.log('url: ', url);
+        let identifier = itemStr[pos - 1];
+        // console.log("identifier: ", identifier);    
+
+        const url = 'https://'+domainName+'/'+itemStr;
+        console.log('url: ', url);
 
         const imgProfile = {
             url: url,
             emotion: emotion,
-            control: control
+            // control: control
         }
-
-        imgInfo.push(imgProfile);
-    }
-
-    console.log('imgInfo: ', JSON.stringify(imgInfo)); */
-
-  /*  let landscape = [];
-    let portrait = [];
-    for(let i in imgInfo) {
-        let pos = imgInfo[i].url.indexOf('.jpeg');
-        // console.log("url: ", imgInfo[i].url);
-        // console.log("pos: ", pos);
-        
-        let identifier = imgInfo[i].url[pos - 1];
-        // console.log("identifier: ", identifier);    
 
         if (identifier == 'v') {
-            portrait.push(imgInfo[i]);
+            portrait.push(imgProfile);
         }
         else {
-            landscape.push(imgInfo[i]);
+            landscape.push(imgProfile);
         }
     }
     console.log('landscape: ', JSON.stringify(landscape));
@@ -107,7 +69,8 @@ exports.handler = async (event, context) => {
         landscape: landscape,
         portrait: portrait
     }
-    console.info('result: ', JSON.stringify(result)); */
+    console.info('result: ', JSON.stringify(result));
+    isCompleted = true;
 
     function wait() {
         return new Promise((resolve, reject) => {
@@ -127,7 +90,7 @@ exports.handler = async (event, context) => {
 
     let response = {
         statusCode: 200,
-     //   body: JSON.stringify(result)
+        body: JSON.stringify(result)
     };
     console.debug('response: ', JSON.stringify(response));
 
