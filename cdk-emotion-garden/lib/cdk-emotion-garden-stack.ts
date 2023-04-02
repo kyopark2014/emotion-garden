@@ -1,3 +1,5 @@
+
+
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as path from "path";
@@ -18,7 +20,8 @@ import * as personalize from 'aws-cdk-lib/aws-personalize';
 const debug = false;
 const stage = "dev";
 const endpoints = [
-  "emotion-garden-model-1",
+  "jumpstart-example-model-txt2img-stabili-2023-04-02-07-08-35-800",
+  //"emotion-garden-model-1",
 ]
 const nproc = 1;
 const cloudFrontDomain = "d3ic6ryvcaoqdy.cloudfront.net";
@@ -974,7 +977,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     });
     s3Bucket.grantReadWrite(lambdaGenerateCSV);
     interactionDataTable.grantReadWriteData(lambdaGenerateCSV);
-    itemDataTable.grantReadWriteData(lambdaGenerateCSV);        
+    itemDataTable.grantReadWriteData(lambdaGenerateCSV);
     userDataTable.grantReadWriteData(lambdaGenerateCSV); // permission for dynamo
   }
 }
