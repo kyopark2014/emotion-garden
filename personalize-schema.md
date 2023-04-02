@@ -1,4 +1,4 @@
-# Personalize에 저장하는 DataSet의 Schema 정의
+# CDK로 Personalize에 저장하는 DataSet의 Schema 정의
 
 [cdk-emotion-garden](https://github.com/kyopark2014/emotion-garden/blob/main/cdk-emotion-garden/lib/cdk-emotion-garden-stack.ts)에서는 DataSet에 대한 Schema를 정의합니다.
 
