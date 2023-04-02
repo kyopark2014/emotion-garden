@@ -19,7 +19,11 @@ personalizeRuntime.getRecommendations()을 이용하여 userId에 대한 추천 
 
 ```java
     let userId = body['id'];
-    console.log('userId: ', userId);
+    
+    let recommendationParams = {
+        campaignArn: campaignArn,
+        userId: userId
+    };
 
     let recommendation; 
     try {
