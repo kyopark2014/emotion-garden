@@ -45,3 +45,87 @@ const interactionDataset = new personalize.CfnDataset(this, 'InteractionDataset'
   schemaArn: interactionSchema.attrSchemaArn,
 });
 ```
+
+## User의 정의
+
+User에 대한 Schema를 정의합니다.
+
+```java
+const userSchemaJson = `{
+  "type": "record",
+  "name": "Users",
+  "namespace": "com.amazonaws.personalize.schema",
+  "fields": [
+    {
+      "name": "USER_ID",
+      "type": "string"
+    },
+    {
+      "name": "GENERATION",
+      "type": "string",
+      "categorical": true
+    },
+    {
+      "name": "GENDER",
+      "type": "string",
+      "categorical": true
+    },
+    {
+      "name": "EMOTION",
+      "type": "string",
+      "categorical": true
+    }
+  ],
+  "version": "1.0"
+}`;
+const userSchema = new personalize.CfnSchema(this, 'UserSchema', {
+  name: 'emotion-garden-user-schema',
+  schema: userSchemaJson,
+});
+
+const userDataset = new personalize.CfnDataset(this, 'UserDataset', {
+  datasetGroupArn: datasetGroup.attrDatasetGroupArn,
+  datasetType: 'Users',
+  name: 'emotion-garden-user-dataset',
+  schemaArn: userSchema.attrSchemaArn,
+});
+```
+
+## Item의 정의
+
+Item에 대한 Schema를 정의합니다.
+
+```java
+const itemSchemaJson = `{
+  "type": "record",
+  "name": "Items",
+  "namespace": "com.amazonaws.personalize.schema",
+  "fields": [
+    {
+      "name": "ITEM_ID",
+      "type": "string"
+    },
+    {
+      "name": "TIMESTAMP",
+      "type": "long"
+    },
+    {
+      "name": "EMOTION",
+      "type": "string",
+      "categorical": true
+    }
+  ],
+  "version": "1.0"
+}`;
+const itemSchema = new personalize.CfnSchema(this, 'ItemSchema', {
+  name: 'emotion-garden-itemSchema',
+  schema: itemSchemaJson,
+});
+
+const itemDataset = new personalize.CfnDataset(this, 'ItemDataset', {
+  datasetGroupArn: datasetGroup.attrDatasetGroupArn,
+  datasetType: 'Items',
+  name: 'emotion-garden-itemDataset',
+  schemaArn: itemSchema.attrSchemaArn,
+});
+```
