@@ -152,42 +152,68 @@ const dynamo = new aws.DynamoDB.DocumentClient();
 
 ```java
 const datasetArn = process.env.datasetArn;
+
 let userId;
-    if (header['X-user-id']) {
-        userId = String(header['X-user-id']);
-    }
-    else {
-        userId = uuidv4();
-    }
+if (header['X-user-id']) {
+  userId = String(header['X-user-id']);
+}
+else {
+  userId = uuidv4();
+}
 
 let generation;
-            let ageRangeLow = ageRange.Low;
-            let ageRangeHigh = ageRange.High;
-            let middleAge = (ageRangeLow + ageRangeHigh) / 2;
-            if (middleAge <= 5) generation = 'toddler'; // 유아
-            else if (middleAge <= 12) generation = 'child'; // 아동
-            else if (middleAge <= 18) generation = 'teenager'; // 청소년
-            else if (middleAge <= 25) generation = 'young-adult'; // 청년
-            else if (middleAge <= 49) generation = 'adult'; // 중년
-            else if (middleAge <= 64) generation = 'middle-age'; // 장년
-            else if (middleAge >= 65) generation = 'elder'; // 노년
+let ageRangeLow = ageRange.Low;
+let ageRangeHigh = ageRange.High;
+let middleAge = (ageRangeLow + ageRangeHigh) / 2;
+if (middleAge <= 5) generation = 'toddler'; // 유아
+else if (middleAge <= 12) generation = 'child'; // 아동
+else if (middleAge <= 18) generation = 'teenager'; // 청소년
+else if (middleAge <= 25) generation = 'young-adult'; // 청년
+else if (middleAge <= 49) generation = 'adult'; // 중년
+else if (middleAge <= 64) generation = 'middle-age'; // 장년
+else if (middleAge >= 65) generation = 'elder'; // 노년
 
 const gender = profile['Gender']['Value'];
 
 const emotions = profile['Emotions'][0]['Type'];
 
-                var params = {
-                    datasetArn: datasetArn,
-                    users: [{
-                        userId: userId,
-                        properties: {
-                            "GENERATION": generation,
-                            "GENDER": gender,
-                            "EMOTION": emotions
-                        }
-                    }]
-                };
-                console.log('user params: ', JSON.stringify(params));
+var params = {
+  datasetArn: datasetArn,
+  users: [{
+    userId: userId,
+    properties: {
+      "GENERATION": generation,
+      "GENDER": gender,
+      "EMOTION": emotions
+    }
+  }]
+};
+console.log('user params: ', JSON.stringify(params));
 
-                const result = await personalizeevents.putUsers(params).promise(); 
+const result = await personalizeevents.putUsers(params).promise();
+```
+
+CSV 파일 변환을 위해 DynamoDB에도 저장합니다.
+
+```java
+// DynamodB for personalize users
+var personalzeParams = {
+  TableName: userTableName,
+  Item: {
+      USER_ID: userId,
+      GENERATION: generation,
+      GENDER: gender,
+      EMOTION: emotions,
+  }
+};
+console.log('personalzeParams: ' + JSON.stringify(personalzeParams));
+
+dynamo.put(personalzeParams, function (err, data) {
+  if (err) {
+      console.log('Failure: ' + err);
+  }
+  else {
+      console.log('dynamodb put result: ' + JSON.stringify(data));
+  }
+});
 ```
