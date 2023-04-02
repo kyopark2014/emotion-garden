@@ -5,9 +5,6 @@
 [ambda-like](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-like/index.js)에서 interaction과 관련된 정보를 수집합니다.
 
 ```java
-const datasetArn = process.env.datasetArn;
-const datasetGroupArn = process.env.datasetGroupArn;
-
 const personalize = new aws.Personalize();
 const trackingId = process.env.trackingId;
 ```
