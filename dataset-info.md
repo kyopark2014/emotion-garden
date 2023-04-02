@@ -150,6 +150,7 @@ const dynamo = new aws.DynamoDB.DocumentClient();
 
 [lambda-emotion](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-emotion/index.js)에서는 User에 대한 정보를 수집합니다.
 
+```java
 const datasetArn = process.env.datasetArn;
 let userId;
     if (header['X-user-id']) {
