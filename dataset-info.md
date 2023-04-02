@@ -89,7 +89,35 @@ impression을 CSV 파일로 저장하기 위하여 DynamoDB에 이벤트 정보�
         });
 ```
 
+## Item DataSet 수집
+
+[lambda-putItem](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-putItem/index.js)에서는 Item 정보를 수집힙니다.
+
+personalizeevents.putItems()으로 Personlize에 데이터를 import 합니다.
+
+```java
+const personalizeevents = new aws.PersonalizeEvents();
+
+const datasetArn = process.env.datasetArn;
+const body = JSON.parse(records[i].body);        
+
+        let key = body.key;
+        let timestamp = body.timestamp;
+        let searchKey = body.searchKey;
+        
+            var params = {
+                datasetArn: datasetArn,
+                items: [{
+                    itemId: key,
+                    properties: {
+                        "TIMESTAMP": timestamp,
+                        "EMOTION": searchKey,
+                    }
+                }]
+            };
+
+            const result = await personalizeevents.putItems(params).promise(); 
+```            
 
 
-[lambda-like](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-like/index.js) 정보를 DynamoDB를 수집합니다.
-
+ 
