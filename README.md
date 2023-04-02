@@ -257,6 +257,12 @@ aws s3 cp emotions/ s3://demo-emotion-garden/emotions/ --recursive
 [recommendation](https://github.com/kyopark2014/emotion-garden/blob/main/recommendation.md)에서는 userId로 해당 사용자에 대한 추천이미지를 읽어옵니다.
 
 
+### DataSet에 데이터 추가
+
+[dataset-info](https://github.com/kyopark2014/emotion-garden/blob/main/dataset-info.md)에서는 user, item, interaction의 DataSet에 대한 정보를 수집합니다.
+
+
+
 ## Reference
 
 [[Python] 병렬처리(Multiprocessing)를 통한 연산속도 개선](https://yganalyst.github.io/data_handling/memo_17_parallel/)
