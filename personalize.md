@@ -170,6 +170,9 @@ const result = await personalizeevents.putEvents(params).promise();
 console.log('putEvent result: ' + JSON.stringify(result));
 ```
 
+## CDK로 구현하기
+
+[personalize-schema](https://github.com/kyopark2014/emotion-garden/blob/main/personalize-schema.md)에서는 CDK로 Personalize Schema를 구현하는 것에 대해 설명합니다.
 
 ## Referecne
 
