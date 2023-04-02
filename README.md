@@ -246,6 +246,9 @@ aws s3 cp s3://demo-emotion-garden/emotions/ ./emotions --recursive
 aws s3 cp emotions/ s3://demo-emotion-garden/emotions/ --recursive
 ```
 
+#### CSV 파일 생성
+
+[generate-csv](https://github.com/kyopark2014/emotion-garden/blob/main/generate-csv.md)에서는 DynamoDB에 저장된 user, item, interaction 데이터를 CSV 파일로 변환하여 S3에 저장합니다.
 
 
 ## Reference
