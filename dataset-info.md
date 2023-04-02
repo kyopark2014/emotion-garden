@@ -146,4 +146,7 @@ const dynamo = new aws.DynamoDB.DocumentClient();
         });
 ```        
 
- 
+ ## User DataSet 수집하기 
+
+[lambda-emotion](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-emotion/index.js)에서는 User에 
+
