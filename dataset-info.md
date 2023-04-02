@@ -99,24 +99,24 @@ personalizeevents.putItems()으로 Personlize에 데이터를 import 합니다.
 const personalizeevents = new aws.PersonalizeEvents();
 
 const datasetArn = process.env.datasetArn;
-const body = JSON.parse(records[i].body);        
+const body = JSON.parse(records[i].body);
 
-        let key = body.key;
-        let timestamp = body.timestamp;
-        let searchKey = body.searchKey;
-        
-            var params = {
-                datasetArn: datasetArn,
-                items: [{
-                    itemId: key,
-                    properties: {
-                        "TIMESTAMP": timestamp,
-                        "EMOTION": searchKey,
-                    }
-                }]
-            };
+let key = body.key;
+let timestamp = body.timestamp;
+let searchKey = body.searchKey;
 
-            const result = await personalizeevents.putItems(params).promise(); 
+var params = {
+  datasetArn: datasetArn,
+  items: [{
+    itemId: key,
+    properties: {
+      "TIMESTAMP": timestamp,
+      "EMOTION": searchKey,
+    }
+  }]
+};
+
+const result = await personalizeevents.putItems(params).promise();
 ```            
 
 
