@@ -119,5 +119,31 @@ var params = {
 const result = await personalizeevents.putItems(params).promise();
 ```            
 
+추후 CSV 파일 생성을 위하여 DynamoDB에 저장합니다.
+
+```java
+const itemTableName = process.env.itemTableName;
+const dynamo = new aws.DynamoDB.DocumentClient();
+
+// DynamodB for personalize items
+        var personalzeParams = {
+            TableName: itemTableName,
+            Item: {
+                ITEM_ID: key,
+                TIMESTAMP: timestamp,
+                EMOTION: searchKey,
+            }
+        };
+        console.log('personalzeParams: ' + JSON.stringify(personalzeParams));
+
+        dynamo.put(personalzeParams, function (err, data) {
+            if (err) {
+                console.log('Failure: ' + err);
+            }
+            else {
+                console.log('dynamodb put result: ' + JSON.stringify(data));
+            }
+        });
+```        
 
  
