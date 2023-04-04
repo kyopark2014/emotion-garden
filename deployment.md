@@ -55,4 +55,32 @@ Custom Domain이 없으므로, Cloud9에서 "emotion-garden/cdk-emotion-garden/l
 cdk deploy
 ```
 
-현재 Stable Diffusion을 이용해 2개의 Endpoint를 사용하고 있으므로 nproc가 2입니다. 
+### S3의 퍼미션 추가
+
+[S3 console](https://s3.console.aws.amazon.com/s3/buckets?region=ap-northeast-1&region=ap-northeast-1)로 진입한 후에, 데모에 사용되는 bucket인 "demo-emotion-garden"을 선택합니다. 
+
+이후 [Permission]메뉴에서 [Bucket policy]를 선택후 아래와 같이 수정합니다. 현재 해당 Bucket은 CloudFront의 Origin의 역할을 하고 있어서, Principle에 CloudFront가 추가되어 있지만, CloudFront를 사용하지 않을 경우에는 S3에 대한 Priciple, Action, Resouces를 추가하면 됩니다.
+
+
+```java
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "personalize.amazonaws.com",
+                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E2IK80DBQT2AVI"
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::demo-emotion-garden",
+                "arn:aws:s3:::demo-emotion-garden/*"
+            ]
+        }
+    ]
+}
+```
