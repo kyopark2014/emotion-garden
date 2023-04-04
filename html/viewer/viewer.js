@@ -1,7 +1,7 @@
 const cloudfrntUrl = "https://d3ic6ryvcaoqdy.cloudfront.net/";
 
 const removeUrl = cloudfrntUrl + "remove";
-const gardenUrl = cloudfrntUrl + "garden";
+const gardenUrl = cloudfrntUrl + "gardenfromDB";
 const clearIndexUrl = cloudfrntUrl + "clearIndex";
 
 let profileInfo_emotion = document.getElementById('status');
