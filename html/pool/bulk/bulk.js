@@ -74,6 +74,9 @@ form.elements.send.onclick = function () {
     let selectedEmotion = document.getElementById("emoitonId");
     console.log("emotion: " + selectedEmotion.value);
 
+    let emotionText = document.forms.EmotionText.elements.emtoionText.value;
+    console.log("emtoionText: " + emotionText);
+    
     let favorite = document.forms.input_row2.elements.favorite.value;
     console.log("favorite: " + favorite);
     favorite = favorite.toLowerCase();
@@ -94,6 +97,7 @@ form.elements.send.onclick = function () {
 
     prompt = {
         "emotion": selectedEmotion.value,
+        "emotionText": emotionText,
         "favorite": favorite,
         "others": others
     };
