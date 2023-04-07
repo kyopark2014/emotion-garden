@@ -34,7 +34,7 @@ let emotionValue;
 let generation;
 let gender;
 let like = [];
-for(let i=0;i<3;i++) like[i] = false;
+for(let i=0;i<4;i++) like[i] = false;
 let impression = [];
 
 //functions
@@ -286,7 +286,7 @@ function nextImages() {
     console.log('drawingIndex: ' + drawingIndex);
 
     if (previewUrl.length - drawingIndex <= 3) drawingIndex = 0;
-    else drawingIndex += 3;
+    else drawingIndex += 4;
 
     updateImages(previewUrl, drawingIndex);
 
@@ -297,6 +297,29 @@ function updateImages(previewUrl, i) {
     let htmlsrc;
 
     console.log('previewUrl.length - i: ', previewUrl.length - i);
+    if (previewUrl.length - i >= 4) {
+        htmlsrc = `<ab><img id="${i}" src="${previewUrl[i].url}" width="400"/><i onclick="likeOrDislike(0, this)" class="fa fa-thumbs-down"></i></ab>
+        <ab><img id="${i+1}" src="${previewUrl[i+1].url}" width="400"/><i onclick="likeOrDislike(1, this)" class="fa fa-thumbs-down"></i></ab>
+        <ab><img id="${i+2}" src="${previewUrl[i+2].url}" width="400"/><i onclick="likeOrDislike(2,this)" class="fa fa-thumbs-down"></i></ab>
+        <ab><img id="${i+3}" src="${previewUrl[i+3].url}" width="400"/><i onclick="likeOrDislike(2,this)" class="fa fa-thumbs-down"></i></ab>`;
+
+        impression = [];
+        let pos = previewUrl[i].url.lastIndexOf('emotions');
+        fname = previewUrl[i].url.substring(pos)
+        impression.push(fname);
+
+        pos = previewUrl[i+1].url.lastIndexOf('emotions');
+        fname = previewUrl[i+1].url.substring(pos)
+        impression.push(fname);
+
+        pos = previewUrl[i+2].url.lastIndexOf('emotions');
+        fname = previewUrl[i+2].url.substring(pos)
+        impression.push(fname);
+
+        pos = previewUrl[i+3].url.lastIndexOf('emotions');
+        fname = previewUrl[i+3].url.substring(pos)
+        impression.push(fname);
+    }
     if (previewUrl.length - i >= 3) {
         htmlsrc = `<ab><img id="${i}" src="${previewUrl[i].url}" width="400"/><i onclick="likeOrDislike(0, this)" class="fa fa-thumbs-down"></i></ab>
         <ab><img id="${i+1}" src="${previewUrl[i+1].url}" width="400"/><i onclick="likeOrDislike(1, this)" class="fa fa-thumbs-down"></i></ab>
