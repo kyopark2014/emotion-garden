@@ -71,12 +71,9 @@ def lambda_handler(event, context):
         emotion = prompt['emotion']
         print("emotion: ", emotion)
 
-        if prompt['emotionText']:
-            emotionText = prompt['emotionText']        
-        else:
-            emotionText =emotion    
+        emotionText = prompt['emotionText']      
         print("emotionText: ", emotionText)
-        
+
         key = jsonbody['fname']+'_'+str(index)
         print('key: ', key)
 

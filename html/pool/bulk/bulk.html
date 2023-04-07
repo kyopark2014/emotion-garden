@@ -15,7 +15,7 @@
         <form id="myform">
             <form id="input_row1">
                 <H4>Features</H4>
-                <text>Emotion: </text><select name="emotion" id="emoitonId">
+                <text>Emotion: </text><select name="emotion" id="emoitonId" onchange=SelectChanged()>
                     <option type="text" value="happy" selected="selected">행복 (HAPPY)</option>
                     <option value="surprised">놀람 (SURPRISED)</option>
                     <option value="calm">평온 (CALM)</option>
@@ -27,7 +27,7 @@
                 </select>
             </form>
             <form id="EmotionText">
-                <text>Emotion Text: </text><input type="text" name="emtoionText" autofocus size="30" value="happy">
+                <text>Emotion Text: </text><input type="text" id="emtoionText" autofocus size="30" value="happy">
             </form>
             <form id="input_row2">
                 <text>Favorite: </text><input type="text" name="favorite" autofocus size="50">
@@ -164,7 +164,14 @@
         <div id="preview50v"></div>
     </div>
     <script src="bulk.js"></script>
+    <script type='text/javascript'>
+        function SelectChanged()  {  
+            console.log("emotion: " + emoitonId.value);
+            emtoionText.value = emoitonId.value;
+            console.log("emtoionText: " + emtoionText.value);
 
+         }        
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     

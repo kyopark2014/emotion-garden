@@ -4,6 +4,7 @@ const bulkUrl = cloudfrntUrl+"bulk";
 const removeUrl = cloudfrntUrl+"remove";
 const clearIndexUrl = cloudfrntUrl + "clearIndex";
 
+let selectedEmotion = document.getElementById("emoitonId");
 let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
 
@@ -71,7 +72,7 @@ form.elements.send.onclick = function () {
         fileList[i] = "";
     }
 
-    let selectedEmotion = document.getElementById("emoitonId");
+    
     console.log("emotion: " + selectedEmotion.value);
 
     let emotionText = document.forms.EmotionText.elements.emtoionText.value;
