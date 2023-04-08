@@ -246,6 +246,13 @@ aws s3 cp s3://demo-emotion-garden/emotions/ ./emotions --recursive
 aws s3 cp emotions/ s3://demo-emotion-garden/emotions/ --recursive
 ```
 
+#### Data Set 복사
+
+```java
+aws s3 cp s3://demo-emotion-garden/dataset/ ./dataset --recursive
+aws s3 cp dataset/ s3://demo-emotion-garden/dataset/ --recursive
+```
+
 ## 중요 코드 정리
 
 ### CSV 파일 생성
