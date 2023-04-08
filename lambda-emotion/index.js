@@ -199,6 +199,18 @@ exports.handler = async (event, context) => {
             } catch (err) {
                 console.log(err);
             }
+
+            // delete profile image
+            try {
+                let deleteParams = {  
+                    Bucket: bucketName, 
+                    Key: fileName 
+                };
+
+                s3.deleteObject(deleteParams).promise();
+            } catch (err) {
+                console.log(err);
+            }
         }
         else {
             response = {
@@ -214,8 +226,6 @@ exports.handler = async (event, context) => {
             body: error
         };
     }
-
-
     
     function wait() {
         return new Promise((resolve, reject) => {

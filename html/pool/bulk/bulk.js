@@ -99,7 +99,8 @@ form.elements.send.onclick = function () {
     prompt = {
         "emotion": selectedEmotion.value,
         "emotionText": emotionText,
-        "favorite": favorite,
+        //"favorite": favorite,
+        "favorite": "",
         "others": others
     };
     console.log("prompt: " + JSON.stringify(prompt));
