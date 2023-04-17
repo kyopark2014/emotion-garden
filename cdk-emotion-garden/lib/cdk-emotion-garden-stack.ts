@@ -20,7 +20,7 @@ const stage = "dev";
 const endpoints = [
   "jumpstart-example-model-txt2img-stabili-2023-04-17-03-40-40-107",
   "emotion-garden-model-1-2023-04-17-04-25-16-684",
-  "emotion-garden-model-2",
+  "emotion-garden-model-2-2023-04-17-05-03-03-745",
   "emotion-garden-model-3",
   "emotion-garden-model-4",
   "emotion-garden-model-5",
