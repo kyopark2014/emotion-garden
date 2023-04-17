@@ -490,28 +490,32 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
 
-    // Lambda for bulk-stable-diffusion
-    const lambdaBulkStableDiffusion = new lambda.Function(this, 'lambda-bulk-stable-diffusion', {
-      description: 'lambda for bulk emotion',
-      functionName: 'lambda-bulk-stable-diffusion',
-      handler: 'lambda_function.lambda_handler',
-      runtime: lambda.Runtime.PYTHON_3_9,
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-bulk-stable-diffusion')),
-      timeout: cdk.Duration.seconds(300),
-      logRetention: logs.RetentionDays.ONE_DAY,
-      environment: {
-        bucket: s3Bucket.bucketName,
-        endpoints: JSON.stringify(endpoints),
-      //  sqsBulkUrl: queueBulk.queueUrl,
-      }
-    });
-  //  lambdaBulkStableDiffusion.addEventSource(new SqsEventSource(queueBulk));
-    s3Bucket.grantReadWrite(lambdaBulkStableDiffusion); // permission for s3
-    lambdaBulkStableDiffusion.role?.attachInlinePolicy( // add sagemaker policy
-      new iam.Policy(this, 'sagemaker-policy-for-bulk', {
-        statements: [SageMakerPolicy],
-      }),
-    );
+
+    // Lambda for bulk-stable-diffusion    
+    let lambdaBulkStableDiffusion:any[] = [];
+    for(let i=0;i<nproc;i++) {
+      lambdaBulkStableDiffusion[i] = new lambda.Function(this, 'lambda-bulk-stable-diffusion'+i, {
+        description: 'lambda for bulk emotion'+i,
+        functionName: 'lambda-bulk-stable-diffusion'+i,
+        handler: 'lambda_function.lambda_handler',
+        runtime: lambda.Runtime.PYTHON_3_9,
+        code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-bulk-stable-diffusion')),
+        timeout: cdk.Duration.seconds(300),
+        logRetention: logs.RetentionDays.ONE_DAY,
+        environment: {
+          bucket: s3Bucket.bucketName,
+          endpoints: endpoints[i],
+          sqsBulkUrl: queue[i].queueUrl,
+        }
+      });
+      lambdaBulkStableDiffusion[i].addEventSource(new SqsEventSource(queue[i]));
+      s3Bucket.grantReadWrite(lambdaBulkStableDiffusion[i]); // permission for s3
+      lambdaBulkStableDiffusion[i].role?.attachInlinePolicy( // add sagemaker policy
+        new iam.Policy(this, 'sagemaker-policy-for-bulk', {
+          statements: [SageMakerPolicy],
+        }),
+      );
+    }
 
     // PutItem
     // SQS for S3 putItem
