@@ -423,20 +423,25 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       description: 'The web url of emotion',
     });
 
-    // SQS - Bulk
-    const queueBulk = new sqs.Queue(this, 'QueueBulk', {
-      visibilityTimeout: cdk.Duration.seconds(310),
-      queueName: "queue-emotion-garden.fifo",
-      fifo: true,
-      contentBasedDeduplication: false,
-      deliveryDelay: cdk.Duration.millis(0),
-      retentionPeriod: cdk.Duration.days(2),
-    });
-    if (debug) {
-      new cdk.CfnOutput(this, 'sqsBulkUrl', {
+    // SQS - Bulk    
+    let queueUrl:string[] = [];
+    let queue:any[] = [];
+    for(let i=0;i<nproc;i++) {
+      queue[i] = new sqs.Queue(this, 'QueueBulk'+i, {
+        visibilityTimeout: cdk.Duration.seconds(310),
+        queueName: 'queue-emotion-garden'+i+'.fifo',
+        fifo: true,
+        contentBasedDeduplication: false,
+        deliveryDelay: cdk.Duration.millis(0),
+        retentionPeriod: cdk.Duration.days(2),
+      });
+
+      queueUrl.push(queue[i].queueUrl);
+
+      /*new cdk.CfnOutput(this, 'sqsBulkUrl', {
         value: queueBulk.queueUrl,
         description: 'The url of the Queue',
-      });
+      }); */
     }
 
     // Lambda - bulk
@@ -448,11 +453,13 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        sqsBulkUrl: queueBulk.queueUrl,
+        sqsBulkUrl: JSON.stringify(queueUrl),
       }
     });
-    queueBulk.grantSendMessages(lambdaBulk);
-    lambdaEmotion
+    for(let i=0;i<nproc;i++) {
+      queue[i].grantSendMessages(lambdaBulk);
+    }
+    
     // permission for api Gateway
     lambdaBulk.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
 
