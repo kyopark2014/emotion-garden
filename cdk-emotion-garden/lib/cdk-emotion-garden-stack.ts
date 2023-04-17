@@ -27,7 +27,7 @@ const endpoints = [
   "emotion-garden-model-6-2023-04-17-05-47-20-553",
   "emotion-garden-model-7-2023-04-17-05-59-51-509",
   "emotion-garden-model-8-2023-04-17-06-10-31-682",
-  "emotion-garden-model-9"
+  "emotion-garden-model-9-2023-04-17-06-19-27-194"
 ]
 const nproc = 10;
 const cloudFrontDomain = "d3ic6ryvcaoqdy.cloudfront.net";
