@@ -24,9 +24,9 @@ const endpoints = [
   "emotion-garden-model-3-2023-04-17-05-16-39-990",
   "emotion-garden-model-4-2023-04-17-05-27-05-906",
   "emotion-garden-model-5-2023-04-17-05-37-59-747",
-  "emotion-garden-model-6",
-  "emotion-garden-model-7",
-  "emotion-garden-model-8",
+  "emotion-garden-model-6-2023-04-17-05-47-20-553",
+  "emotion-garden-model-7-2023-04-17-05-59-51-509",
+  "emotion-garden-model-8-2023-04-17-06-10-31-682",
   "emotion-garden-model-9"
 ]
 const nproc = 10;
