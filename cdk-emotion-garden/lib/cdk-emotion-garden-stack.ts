@@ -511,7 +511,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       lambdaBulkStableDiffusion[i].addEventSource(new SqsEventSource(queue[i]));
       s3Bucket.grantReadWrite(lambdaBulkStableDiffusion[i]); // permission for s3
       lambdaBulkStableDiffusion[i].role?.attachInlinePolicy( // add sagemaker policy
-        new iam.Policy(this, 'sagemaker-policy-for-bulk', {
+        new iam.Policy(this, 'sagemaker-policy-for-bulk'+i, {
           statements: [SageMakerPolicy],
         }),
       );
