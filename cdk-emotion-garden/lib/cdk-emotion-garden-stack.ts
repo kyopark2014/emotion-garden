@@ -18,7 +18,7 @@ import * as personalize from 'aws-cdk-lib/aws-personalize';
 const debug = false;
 const stage = "dev";
 const endpoints = [
-  "emotion-garden-model-0",
+  "jumpstart-example-model-txt2img-stabili-2023-04-17-03-40-40-107",
   "emotion-garden-model-1",
   "emotion-garden-model-2",
   "emotion-garden-model-3",
