@@ -259,7 +259,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         endpoints: JSON.stringify(endpoints),
         //domain: distribution.domainName
         domain: cloudFrontDomain,
-        nproc: String(nproc)
+        nproc: String(1)
       }
     });
 
