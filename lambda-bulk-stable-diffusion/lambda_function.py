@@ -83,7 +83,7 @@ def lambda_handler(event, context):
         text = text + ", "+ prompt['others']
         print("text: ", text)
 
-        endpoint = json.loads(os.environ.get('endpoint'))
+        endpoint = os.environ.get('endpoint')
         print("endpoint: ", endpoint)
         
         mybucket = os.environ.get('bucket')
