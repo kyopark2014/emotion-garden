@@ -454,6 +454,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         sqsBulkUrl: JSON.stringify(queueUrl),
+        nproc: String(nproc)
       }
     });
     for(let i=0;i<nproc;i++) {
@@ -490,7 +491,6 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
 
-
     // Lambda for bulk-stable-diffusion    
     let lambdaBulkStableDiffusion:any[] = [];
     for(let i=0;i<nproc;i++) {
@@ -504,7 +504,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         logRetention: logs.RetentionDays.ONE_DAY,
         environment: {
           bucket: s3Bucket.bucketName,
-          endpoints: endpoints[i],
+          endpoint: endpoints[i],
           sqsBulkUrl: queue[i].queueUrl,
         }
       });
