@@ -21,15 +21,15 @@ const endpoints = [
   "jumpstart-example-model-txt2img-stabili-2023-04-17-03-40-40-107",
   "emotion-garden-model-1-2023-04-17-04-25-16-684",
   "emotion-garden-model-2-2023-04-17-05-03-03-745",
-  "emotion-garden-model-3",
-  "emotion-garden-model-4",
-  "emotion-garden-model-5",
+  "emotion-garden-model-3-2023-04-17-05-16-39-990",
+  "emotion-garden-model-4-2023-04-17-05-27-05-906",
+  "emotion-garden-model-5-2023-04-17-05-37-59-747",
   "emotion-garden-model-6",
   "emotion-garden-model-7",
   "emotion-garden-model-8",
   "emotion-garden-model-9"
 ]
-const nproc = 3;
+const nproc = 10;
 const cloudFrontDomain = "d3ic6ryvcaoqdy.cloudfront.net";
 
 export class CdkEmotionGardenStack extends cdk.Stack {
