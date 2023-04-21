@@ -1010,16 +1010,31 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       }
     });
 
+    // querystring
+    // define template
+    const templateString: string = `#set($inputRoot = $input.path('$'))
+    {
+        "content": "$input.params('content')"
+    }`;
+
+    const requestTemplates = { // path through
+      'application/json': templateString,
+    };
+
     // POST method
     const resourceImagePage = api.root.addResource('image');
     resourceImagePage.addMethod('GET', new apiGateway.LambdaIntegration(lambdaImagePage, {
       passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      requestTemplates: requestTemplates,
       credentialsRole: role,
       integrationResponses: [{
         statusCode: '200',
       }],
       proxy: false,
     }), {
+      requestParameters: {
+        'method.request.querystring.content': true,
+      },
       methodResponses: [
         {
           statusCode: '200',
