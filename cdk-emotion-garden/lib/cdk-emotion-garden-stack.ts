@@ -1030,7 +1030,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       integrationResponses: [{
         statusCode: '200',
       }],
-      proxy: false,
+      proxy: true,
     }), {
       requestParameters: {
         'method.request.querystring.content': true,
