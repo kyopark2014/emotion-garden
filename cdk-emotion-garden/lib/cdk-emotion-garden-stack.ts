@@ -996,6 +996,45 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     interactionDataTable.grantReadWriteData(lambdaGenerateCSV);
     itemDataTable.grantReadWriteData(lambdaGenerateCSV);
     userDataTable.grantReadWriteData(lambdaGenerateCSV); // permission for dynamo
+
+    // Lambda - imagePage
+    const lambdaImagePage = new lambda.Function(this, "lambdaImagePage", {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      functionName: "lambda-imagePage",
+      code: lambda.Code.fromAsset("../lambda-imagePage"),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(10),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        domainName: cloudFrontDomain
+      }
+    });
+
+    // POST method
+    const resourceImagePage = api.root.addResource('image');
+    resourceImagePage.addMethod('GET', new apiGateway.LambdaIntegration(lambdaImagePage, {
+      passthroughBehavior: apiGateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      credentialsRole: role,
+      integrationResponses: [{
+        statusCode: '200',
+      }],
+      proxy: false,
+    }), {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apiGateway.Model.EMPTY_MODEL,
+          },
+        }
+      ]
+    });
+    // cloudfront setting for api gateway of clearIndex
+    distribution.addBehavior("/image", new origins.RestApiOrigin(api), {
+      cachePolicy: cloudFront.CachePolicy.CACHING_DISABLED,
+      allowedMethods: cloudFront.AllowedMethods.ALLOW_ALL,
+      viewerProtocolPolicy: cloudFront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    });
   }
 }
 
