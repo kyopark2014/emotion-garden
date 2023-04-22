@@ -24,6 +24,14 @@
 https://d3ic6ryvcaoqdy.cloudfront.net/emotion
 ```
 
+### gardenfromDB API
+
+emotion과 favorite로 생성한 이미지를 로드하여 사용자에게 보여줍니다. 이미지 생성시에는 image pool에 저장되지만, administrator에 적절한 이미지가 선택이 되면, serving image를 저장하는 bucket으로 파일을 옮깁니다. 이때 S3 putEvent를 catch하여 DynamoDB에 이미지에 대한 정보를 저장하고, 사용자가 처음에 emotion garden에 진입시 해당 이미지를 DynamoDB에서 로딩하여 보여줍니다.  
+
+```java
+https://d3ic6ryvcaoqdy.cloudfront.net/gardenfromDB
+```
+
 ### Garden API
 
 Emotion으로 생성한 이미지를 조회하는 Garden API는 아래와 같습니다. 이미지 조회를 위한 API의 리소스 이름은 /garden 이고, HTTPS POST Method로 요청을 수행합니다. 상세한 정보는 [Garden API](https://github.com/kyopark2014/emotion-garden/blob/main/garden.md)에서 확인합니다.  
@@ -31,6 +39,8 @@ Emotion으로 생성한 이미지를 조회하는 Garden API는 아래와 같습
 ```java
 https://d3ic6ryvcaoqdy.cloudfront.net/garden
 ```
+
+
 
 ### Like API
 
