@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
     console.log('content: ' + contentName);
 
     let url = 'https://'+domainName+'/'+contentName;
-    let html = `<html><body><h2>Emotion Garden: Stable Diffusion</h2><img src=`+url+`><p>`+msg+`</p></body></html>`;
+    let html = `<html><body><h2>AWS Seoul Seummit: Emotion Gardens</h2><img src=`+url+`><p>`+msg+`</p></body></html>`;
     console.log('html: ' + html);
 
     let response = {
