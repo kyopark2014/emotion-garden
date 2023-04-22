@@ -1,6 +1,6 @@
 # 생성된 이미지를 보여주기
 
-## 생성된 이미지를 Display에서 보여지기 위한 이미지 업데이트 
+## 생성된 이미지들을 8개의 Display에 업데이트하는 방법
 
 이미지를 업데이트하기 위하여 Pad의 Client에서는 아래와 같은 URL로 HTTPS POST 방식으로 업데이트하려는 이미지를 JSON으로 전달합니다. 이대 "content-Type" Header는 "application/json"입니다.
 
