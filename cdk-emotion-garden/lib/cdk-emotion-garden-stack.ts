@@ -1055,8 +1055,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     // Lambda - updateDisplay
     const lambdaUpdateDisplay = new lambda.Function(this, "lambdaUpdateDisplay", {
       runtime: lambda.Runtime.NODEJS_16_X,
-      functionName: "lambda-updateDisaply",
-      code: lambda.Code.fromAsset("../lambda-updateDisaply"),
+      functionName: "lambda-updateDisaplay",
+      code: lambda.Code.fromAsset("../lambda-updateDisaplay"),
       handler: "index.handler",
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
