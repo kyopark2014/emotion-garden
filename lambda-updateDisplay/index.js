@@ -37,21 +37,22 @@ exports.handler = async (event, context) => {
     console.log('source: ', landscapeImgs[0]);
     console.log('dest: ', keyLandscape[0]);
 
-    const copyparams = {
-        //CopySource : encodeURI(`${bucketName}/${landscapeImgs[0]}`),
-        //CopySource : encodeURIComponent('/'+landscapeImgs[0]),
-        CopySource: bucketName + '/' + landscapeImgs[0],
-        Bucket : bucketName,
-        Key : "zone1/a.jpg"
-    };
-    console.log('copyparams: ', JSON.stringify(copyparams));
-    await s3.copyObject(copyparams).promise();
-
-
+    for(let i=0;i<8;i++) {
+        if(landscapeImgs[i]) {
+            const copyparams = {
+                CopySource : encodeURI(`${bucketName}/${landscapeImgs[i]}`),
+                Bucket : bucketName,
+                Key :  keyLandscape[i]
+            };
+            console.log('copyparams: ', JSON.stringify(copyparams));
     
+            await s3.copyObject(copyparams).promise();
+        }        
+    }    
+
     let response = {
         statusCode: 200,
-        // body: html
+        body: "sucess"
     };
     console.debug('response: ', JSON.stringify(response));
 
