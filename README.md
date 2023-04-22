@@ -8,7 +8,7 @@
 사용자는 별도의 클라이언트를 통해 API Gateway를 통해 먼저 감정(Emotion)분석을 합니다. Emotion분석은 Rekognition을 이용하며, 이때 Personalize에 User 메타데이터를 등록합니다. 감정 분석시 얻은 사용자 아이디(UserID)를 가지고 Personalize에 현재의 사용자 감정에 맞는 이미지 추천을 요청합니다. 이때 이미지 리스트로된 응답을 받은 후 화면에 3개씩 표시해줍니다. 사용자는 이미지들중에 맘에 드는 이미지를 고를수 있고, 이때 사용자의 interaction은 "/like" API를 통해 Personalize에 전달되어 좀더 나은 추천이 이루어 질 수 있게 됩니다. 
 
 
-![image](https://user-images.githubusercontent.com/52392004/227818063-08f5e5d8-70ca-453d-b9a9-1212837d6b91.png)
+![image](https://user-images.githubusercontent.com/52392004/233786237-7981f65c-5b32-44d4-a82c-7fe6865bb202.png)
 
 <!--
 ![image](https://user-images.githubusercontent.com/52392004/226938546-99d6b50b-90e1-4f66-a1dc-4375fe16b734.png)
