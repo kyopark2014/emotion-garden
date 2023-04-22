@@ -55,6 +55,7 @@ Custom Domain이 없으므로, Cloud9에서 "emotion-garden/cdk-emotion-garden/l
 cdk deploy
 ```
 
+<!--
 ### S3의 퍼미션 추가
 
 [S3 console](https://s3.console.aws.amazon.com/s3/buckets?region=ap-northeast-1&region=ap-northeast-1)로 진입한 후에, 데모에 사용되는 bucket인 "demo-emotion-garden"을 선택합니다. 
@@ -84,3 +85,4 @@ cdk deploy
     ]
 }
 ```
+-->
