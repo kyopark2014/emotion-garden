@@ -1063,6 +1063,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         bucket: s3Bucket.bucketName
       }
     });
+    s3Bucket.grantReadWrite(lambdaUpdateDisplay);
     
     // POST method
     const resourceUpdateDisplay = api.root.addResource('updateDisplay');
