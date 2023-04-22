@@ -2,14 +2,14 @@
 
 ## Interaction DataSet 입력하기
 
-[ambda-like](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-like/index.js)에서 interaction과 관련된 정보를 수집합니다.
+[lambda-like](https://github.com/kyopark2014/emotion-garden/blob/main/lambda-like/index.js)에서 interaction과 관련된 정보를 수집합니다.
 
 ```java
 const personalize = new aws.Personalize();
 const trackingId = process.env.trackingId;
 ```
 
-client가 보낸 like event를 interaction으로 처리하려고 합니다.
+client가 보낸 like event를 interaction으로 처리합니다.
 
 ```java
 const body = JSON.parse(Buffer.from(event["body"], "base64"));
