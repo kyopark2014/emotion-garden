@@ -48,47 +48,6 @@ let blob = new Blob([JSON.stringify(requestObj)], { type: 'application/json' });
 xhr.send(blob);
 ```
 
-API로 호출로 얻은 결과는 아래와 같습니다. 여기서 control에 대한 부분은 아직 구현중입니다.
-
-```java
-{
-   "landscape":[
-      {
-            "url": "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/confused/img_20230321-135258_3v.jpeg",
-            "emotion": "confused",
-            "control": {
-                "first": {
-                    "R": 100,
-                    "G": 100,
-                    "B": 0
-                },
-                "second": {
-                    "R": 100,
-                    "G": 100,
-                    "B": 0
-                }
-            }
-      },
-   ],
-   "portrait":[
-        "url": "https://d3ic6ryvcaoqdy.cloudfront.net/emotions/confused/img_20230321-135258_3v.jpeg",
-        "emotion": "confused",
-        "control": {
-            "first": {
-                "R": 100,
-                "G": 100,
-                "B": 0
-            },
-            "second": {
-                "R": 100,
-                "G": 100,
-                "B": 0
-            }
-        }   
-   ]
-}
-```
-
 ### Postman으로 시험하기
 
 CloudFront를 endpoint로 사용시 주소는 "https://d3ic6ryvcaoqdy.cloudfront.net/garden"이며 POST Method를 이용합니다. 이때 json 입력은 [Body]에서 raw 포맷으로 아래와 같이 입력합니다.
