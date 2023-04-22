@@ -1006,8 +1006,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        domainName: cloudFrontDomain,
-        msg: "저작권에 주의하시기 바랍니다"
+        domainName: cloudFrontDomain
       }
     });
 

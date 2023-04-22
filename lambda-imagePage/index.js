@@ -1,6 +1,6 @@
 const aws = require('aws-sdk');
 const domainName = process.env.domainName;
-const msg = process.env.msg;
+const msg = "This image was created by Stable Diffusion v2-1 base from SageMaker JumpStart for demonstration purposes. This model is available under the CreativeML Open RAIL++-M license: License. This is a text-to-image model from Stability AI and downloaded from HuggingFace. It takes a textual description as input and returns a generated image from the description.";
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
