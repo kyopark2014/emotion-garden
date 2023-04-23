@@ -155,6 +155,7 @@ exports.handler = async (event, context) => {
                 console.log('putUser result: '+JSON.stringify(result));                
             } catch (error) {
                 console.log(error);
+                isCompleted = true;
 
                 response = {
                     statusCode: 500,
@@ -183,6 +184,22 @@ exports.handler = async (event, context) => {
                 }
             });
 
+            // for logging            
+            const osqParams = { // opensearch queue params
+                DelaySeconds: 10,
+                MessageAttributes: {},
+                MessageBody: JSON.stringify(emotionInfo), 
+                QueueUrl: sqsOpenSearchUrl
+            };  
+            console.log('osqParams: '+JSON.stringify(osqParams));
+            try {
+                let sqsResponse = await sqs.sendMessage(osqParams).promise();  
+                // console.log("sqsResponse: "+JSON.stringify(sqsResponse));
+                isCompleted = true;   
+            } catch (err) {
+                console.log(err);
+            }
+
             // delete profile image
             try {
                 let deleteParams = {  
@@ -191,8 +208,6 @@ exports.handler = async (event, context) => {
                 };
 
                 s3.deleteObject(deleteParams).promise();
-
-                isCompleted = true;
             } catch (err) {
                 console.log(err);
             }
