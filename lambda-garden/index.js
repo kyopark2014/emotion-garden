@@ -2,8 +2,8 @@ const aws = require('aws-sdk');
 const domainName = process.env.domainName;
 const personalizeRuntime = new aws.PersonalizeRuntime();
 const campaignArn = process.env.campaignArn
-const dynamo = new aws.DynamoDB.DocumentClient();  // for control
-const tableName = process.env.tableName;
+// const dynamo = new aws.DynamoDB.DocumentClient();  // for control
+// const tableName = process.env.tableName;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));

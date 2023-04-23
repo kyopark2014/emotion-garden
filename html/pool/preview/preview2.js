@@ -289,11 +289,11 @@ function checkFile(url, i) {
 
 var index = 0;
 var item;
-window.onkeyup = (evevt) => {
+window.onkeyup = (event) => {
     var nextIndex;
     if(event.keyCode === 40) nextIndex = (index+1); // Down
     else if(event.keyCode === 38) nextIndex = (index-1); // Up
-    else if(event.keyCode === 109 || event.keyCode === 107) {  // minus || plus
+    else if(event.keyCode === 109 || event.keyCode === 107 || event.keyCode === 90) {  // minus || plus
         var thumb = document.querySelector("div[id='preview"+index+"']>i");
         thumb.click();
         setTimeout(function(t){ item.style.border="10px solid "+ (t.classList.contains("fa-thumbs-down")?"red":"green"); }, 0, thumb);

@@ -598,8 +598,8 @@ export class CdkEmotionGardenStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        tableName: tableName,
-        indexName: indexName,
+        // tableName: tableName,
+        // indexName: indexName,
         domainName: cloudFrontDomain,
         campaignArn: "arn:aws:personalize:ap-northeast-1:868746300942:campaign/emotion-garden-campaign"
       }
@@ -609,7 +609,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
         statements: [PersonalizePolicy],
       }),
     );
-    dataTable.grantReadWriteData(lambdaGarden); // permission for dynamo 
+    // dataTable.grantReadWriteData(lambdaGarden); // permission for dynamo 
 
     // POST method
     const garden = api.root.addResource('garden');
