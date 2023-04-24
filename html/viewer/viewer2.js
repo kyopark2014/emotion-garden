@@ -7,7 +7,7 @@ const clearIndexUrl = cloudfrntUrl + "clearIndex";
 let profileInfo_emotion = document.getElementById('status');
 profileInfo_emotion.innerHTML = `<h3>Ready</h3>`;
 
-let start = 0, nRow = 50;
+let start = 0, nRow = 200;
 let previewUrl = [];
 let previewlist = [];
 let isValid = true;
@@ -171,7 +171,7 @@ form.elements.retrieve.onclick = function () {
 
     let emotionValue;
     if (favorite) {
-        emotionValue = selectedEmotion.value + '/' + favorite;
+        emotionValue = selectedEmotion.value + '/' + favorite.value;
     }
     else {
         emotionValue = selectedEmotion.value;
@@ -285,4 +285,31 @@ function checkFile(url, i) {
 
     xhr.send(blob); */
     xhr.send();
+}
+
+var index = 0;
+var item;
+window.onkeyup = (event) => {
+    var nextIndex;
+    if(event.keyCode === 40) nextIndex = (index+1); // Down
+    else if(event.keyCode === 38) nextIndex = (index-1); // Up
+    else if(event.keyCode === 109 || event.keyCode === 107 || event.keyCode === 90) {  // minus || plus
+        var thumb = document.querySelector("div[id='preview"+index+"']>i");
+        thumb.click();
+        setTimeout(function(t){ item.style.border="10px solid "+ (t.classList.contains("fa-thumbs-down")?"red":"green"); }, 0, thumb);
+        return;
+    }
+    else return;
+
+    if(nextIndex < 0) return;
+
+    var nextThumb = document.querySelector("div[id='preview"+nextIndex+"']>i");
+    var nextItem = document.querySelector("img[id='"+nextIndex+"']");
+    nextItem.style.border = "10px solid "+ (nextThumb.classList.contains("fa-thumbs-down")?"red":"green");
+    if(item) item.style.border = "";
+
+    window.scrollTo(0, (nextItem.offsetTop - 30));
+
+    index = nextIndex;
+    item = nextItem;
 }
