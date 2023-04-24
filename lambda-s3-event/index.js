@@ -3,7 +3,7 @@ const dynamo = new aws.DynamoDB.DocumentClient();
 const sqs = new aws.SQS({apiVersion: '2012-11-05'});
 const tableName = process.env.tableName;
 const sqsUrl = process.env.sqsUrl;
-const itemTableName = process.env.tableName.itemTableName;
+const itemTableName = process.env.itemTableName;
 
 exports.handler = async (event, context) => {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
