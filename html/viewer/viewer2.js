@@ -201,7 +201,7 @@ form.elements.remove.onclick = function () {
     }
 
     // remove dislike files
-    removeFile(dislike);
+    // removeFile(dislike);
 
     for(let i in dislike)  // remove dynamodb index
         clearIndexDynamoDB(dislike[i]);
@@ -210,7 +210,7 @@ form.elements.remove.onclick = function () {
     for (let i in dislike) {
         message += dislike[i] + '\n';
     }
-    alert("dislike로 설정한 이미지가 삭제되었습니다. 삭제된 이미지는 아래와 같습니다.\n" + message);
+    alert("dislike로 설정한 이미지가 DynamoDB에서 삭제되었습니다. 삭제된 이미지는 아래와 같습니다.\n" + message);
 }
 
 function initiatePreview() {
