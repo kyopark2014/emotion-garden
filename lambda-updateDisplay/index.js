@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
     for(let i=1;i<=8;i++) {
         keyPortlate.push(`display/${zoneName}/img${i}v.jpeg`);
     }
-    console.log('key landscape: ', JSON.stringify(keyPortlate));
+    console.log('key portrait: ', JSON.stringify(keyPortlate));
     
     let landscapeImgs = body.landscape;
     for(let i in landscapeImgs) {
@@ -33,9 +33,6 @@ exports.handler = async (event, context) => {
     for(let i in portraitImgs) {
         console.log('portrait: ', portraitImgs[i]);
     }
-
-    console.log('source: ', landscapeImgs[0]);
-    console.log('dest: ', keyLandscape[0]);
 
     for(let i=0;i<8;i++) {
         if(landscapeImgs[i]) {
@@ -49,6 +46,19 @@ exports.handler = async (event, context) => {
             await s3.copyObject(copyparams).promise();
         }        
     }    
+
+    for(let i=0;i<8;i++) {
+        if(portraitImgs[i]) {
+            const copyparams = {
+                CopySource : encodeURI(`${bucketName}/${portraitImgs[i]}`),
+                Bucket : bucketName,
+                Key :  keyPortlate[i]
+            };
+            console.log('copyparams: ', JSON.stringify(copyparams));
+    
+            await s3.copyObject(copyparams).promise();
+        }        
+    }
 
     let response = {
         statusCode: 200,
