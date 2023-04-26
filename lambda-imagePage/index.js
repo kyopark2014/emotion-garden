@@ -13,7 +13,7 @@ exports.handler = async (event, context) => {
     console.log('content: ' + contentName);
 
     let url = `https://${domainName}/${contentName}`;
-    let html = `<html><body><meta charset="UTF-8"><center><h2>AWS Seoul Summit: Emotion Gardens</h2><img src=`+url+`></center><a style-"font-size:1">`+msg1+`</p<a style-"font-size:1>`+msg2+`</p></body></html>`;
+    let html = `<html><body><meta charset="UTF-8"><center><h2>AWS Seoul Summit 2023: My Emotion Gardens</h2><img src=`+url+`></center><a style-"font-size:1">`+msg1+`</p<a style-"font-size:1>`+msg2+`</p></body></html>`;
     console.log('html: ' + html);
 
     let response = {
