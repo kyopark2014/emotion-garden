@@ -44,12 +44,10 @@ exports.handler = async (event, context) => {
         const objKey = dynamoQuery['Items'][i]['ObjKey'];
         const timestamp = dynamoQuery['Items'][i]['Timestamp'];
         const emotion = dynamoQuery['Items'][i]['Emotion'];
-        const control = dynamoQuery['Items'][i]['Control'];
 
         console.log('objKey: ', objKey);
         console.log('timestamp: ', timestamp);
         console.log('emotion: ', emotion);
-        console.log('control: ', JSON.stringify(control));
         
         const url = 'https://'+domainName+'/'+objKey;
         // console.log('url: ', url);
@@ -57,7 +55,6 @@ exports.handler = async (event, context) => {
         const imgProfile = {
             url: url,
             emotion: emotion,
-            control: control
         }
 
         imgInfo.push(imgProfile);
