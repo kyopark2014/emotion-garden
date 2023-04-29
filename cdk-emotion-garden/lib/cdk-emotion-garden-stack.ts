@@ -978,7 +978,7 @@ export class CdkEmotionGardenStack extends cdk.Stack {
     lambdaOpensearch.addEventSource(new SqsEventSource(queueOpenSearch));
 
     // DynamoDB for Personalize
-    const lambdaGenerateCSV = new lambda.Function(this, "lambda-gnerate-csv", {
+    const lambdaGenerateCSV = new lambda.Function(this, "lambda-generate-csv", {
       runtime: lambda.Runtime.NODEJS_16_X,
       functionName: "lambda-generate-csv",
       code: lambda.Code.fromAsset("../lambda-generate-csv"),
