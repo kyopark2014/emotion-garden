@@ -1,4 +1,4 @@
-Personalize 설정
+# Personalize의 S3 Permission 설정
 
 ## IAM Role 생성
 
