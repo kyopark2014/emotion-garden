@@ -1,3 +1,9 @@
+Personalize 설정
+
+## IAM Role 생성
+
+![noname](https://user-images.githubusercontent.com/52392004/235329185-830968fc-a610-4a5d-9f81-135484e866bd.png)
+
 ### S3의 퍼미션 
 
 Personalize에서 S3에 대한 퍼미션을 추가하여야 할 경우에 아래와 같이 수행합니다. CDK 사용시에는 별도로 설정하지 않아도 됩니다.
